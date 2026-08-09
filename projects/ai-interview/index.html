@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 面试辅导智能体 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+
+    /* PAIN POINTS */
+    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+    .pain-cell { padding: 36px; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+    .pain-cell:nth-child(3n) { border-right: none; }
+    .pain-cell:nth-last-child(-n+3) { border-bottom: none; }
+    .pain-icon { font-family: var(--serif); font-size: 2rem; color: var(--border); margin-bottom: 16px; }
+    .pain-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 8px; }
+    .pain-desc { font-size: 0.82rem; color: #706C67; line-height: 1.8; }
+
+    /* PRODUCT */
+    .feature-list { display: flex; flex-direction: column; gap: 0; }
+    .feature { display: grid; grid-template-columns: 240px 1fr; gap: 56px; padding: 32px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .feature:last-child { border-bottom: none; }
+    .feature-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; line-height: 1.3; }
+    .feature-desc { font-size: 0.865rem; color: #635F5A; line-height: 1.9; }
+    .feature-desc strong { color: var(--text); font-weight: 500; }
+
+    /* AI PIPELINE */
+    .pipeline { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--border); margin-top: 0; overflow-x: auto; }
+    .pipe-node { flex: 1; min-width: 160px; padding: 28px 24px; border-right: 1px solid var(--border-light); display: flex; flex-direction: column; gap: 10px; }
+    .pipe-node:last-child { border-right: none; }
+    .pipe-layer { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); }
+    .pipe-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; }
+    .pipe-tech { font-size: 0.75rem; color: var(--muted); }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; align-items: center; justify-content: center; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .gallery-full { grid-column: 1 / -1; }
+    .gallery-full .img-placeholder { aspect-ratio: 21/9; }
+
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .pain-grid { grid-template-columns: 1fr; }
+      .pain-cell { border-right: none !important; }
+      .feature { grid-template-columns: 1fr; gap: 10px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back" data-i18n="back">← 于清程</a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta">AI 产品设计 · 2024 — 2025</p>
+    <h1 class="hero-title" data-i18n="hero_title">AI 面试<br>辅导智能体</h1>
+    <p class="hero-sub" data-i18n="hero_sub">产品经理</p>
+    <div class="hero-tags">
+      <span class="tag">LLM</span>
+      <span class="tag">WebSocket</span>
+      <span class="tag">Prompt Engineering</span>
+      <span class="tag">Tencent STT</span>
+      <span class="tag">Agent Design</span>
+    </div>
+  </div>
+</div>
+
+<!-- PAIN POINTS -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label">用户痛点</p>
+    <div class="pain-grid">
+      <div class="pain-cell">
+        <div class="pain-icon">01</div>
+        <p class="pain-title" data-i18n="p1_t">没有实战练习机会</p>
+        <p class="pain-desc" data-i18n="p1_d">留学生在国内缺乏熟悉目标岗位行业语境的练习伙伴，Mock Interview 约不到，HR 也不会给机会反复试错。</p>
+      </div>
+      <div class="pain-cell">
+        <div class="pain-icon">02</div>
+        <p class="pain-title" data-i18n="p2_t">反馈笼统、难以改进</p>
+        <p class="pain-desc" data-i18n="p2_d">现有 AI 工具要么只纠正语法，要么反馈过于宽泛——"讲得不错"不能帮你提升下次面试的通过率。</p>
+      </div>
+      <div class="pain-cell">
+        <div class="pain-icon">03</div>
+        <p class="pain-title" data-i18n="p3_t">语言与文化双重障碍</p>
+        <p class="pain-desc" data-i18n="p3_d">留学生面临语言转换（中文面试）与职场文化理解的双重挑战，需要针对性训练，而非通用内容。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT DESIGN -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label">产品设计</p>
+    <div class="feature-list">
+      <div class="feature">
+        <div class="feature-name" data-i18n="f1_n">实时语音模拟面试</div>
+        <p class="feature-desc" data-i18n="f1_d">用户开口说话，系统实时转写并分析回答。模拟真实面试节奏，让练习者在接近真实压力的环境下找到最佳表达状态。WebSocket 保持低延迟连接，<strong>腾讯 STT</strong> 处理实时语音识别。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-name" data-i18n="f2_n">结构化维度反馈</div>
+        <p class="feature-desc" data-i18n="f2_d">每次回答结束，系统从<strong>逻辑结构、内容完整度、表达清晰度、亮点与改进点</strong>四个维度给出细化评分。不是"说得不错"——而是"你的 STAR 结构里，Result 部分用数据支撑不足，下次试试加上具体指标"。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-name" data-i18n="f3_n">高频场景针对训练</div>
+        <p class="feature-desc" data-i18n="f3_d">重点覆盖求职过程中出现频率最高的场景：中英文<strong>自我介绍</strong>、技术背景追问、行为面试（STAR）、职业规划类问题。用户可选择岗位方向（产品 / 技术 / 数据），系统调用对应题库与评判标准。</p>
+      </div>
+      <div class="feature">
+        <div class="feature-name" data-i18n="f4_n">Prompt 工程体系</div>
+        <p class="feature-desc" data-i18n="f4_d">设计结构化 Prompt 模板，将"评判者"与"鼓励者"两种角色分离，避免 LLM 过度正向反馈。反馈格式强制输出 JSON，保证前端渲染的一致性与可扩展性。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI PIPELINE -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label">AI 技术链路</p>
+    <div class="pipeline">
+      <div class="pipe-node">
+        <span class="pipe-layer" data-i18n="pipe1_l">输入</span>
+        <span class="pipe-name" data-i18n="pipe1_n">语音输入</span>
+        <span class="pipe-tech">WebSocket 实时流传输</span>
+      </div>
+      <div class="pipe-node">
+        <span class="pipe-layer" data-i18n="pipe2_l">识别</span>
+        <span class="pipe-name" data-i18n="pipe2_n">语音转文字</span>
+        <span class="pipe-tech">腾讯云 STT</span>
+      </div>
+      <div class="pipe-node">
+        <span class="pipe-layer" data-i18n="pipe3_l">理解</span>
+        <span class="pipe-name" data-i18n="pipe3_n">语义分析</span>
+        <span class="pipe-tech">LLM + 结构化 Prompt</span>
+      </div>
+      <div class="pipe-node">
+        <span class="pipe-layer" data-i18n="pipe4_l">评估</span>
+        <span class="pipe-name" data-i18n="pipe4_n">维度打分</span>
+        <span class="pipe-tech">JSON 结构化输出</span>
+      </div>
+      <div class="pipe-node">
+        <span class="pipe-layer" data-i18n="pipe5_l">呈现</span>
+        <span class="pipe-name" data-i18n="pipe5_n">反馈报告</span>
+        <span class="pipe-tech">前端可视化展示</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec4_label">产品截图</p>
+    <div class="gallery">
+      <div class="gallery-full">
+        <div class="img-placeholder">
+          <span data-i18n="ph1">主界面截图待补充</span>
+        </div>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph2">面试模拟页</span>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph3">反馈报告页</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  zh: {
+    back: '← 于清程',
+    hero_meta: 'AI 产品设计 · 2024 — 2025',
+    hero_title: 'AI 面试<br>辅导智能体',
+    hero_sub: '产品经理',
+    sec1_label: '用户痛点',
+    p1_t: '没有实战练习机会', p1_d: '留学生在国内缺乏熟悉目标岗位行业语境的练习伙伴，Mock Interview 约不到，HR 也不会给机会反复试错。',
+    p2_t: '反馈笼统、难以改进', p2_d: '现有 AI 工具要么只纠正语法，要么反馈过于宽泛——"讲得不错"不能帮你提升下次面试的通过率。',
+    p3_t: '语言与文化双重障碍', p3_d: '留学生面临语言转换（中文面试）与职场文化理解的双重挑战，需要针对性训练，而非通用内容。',
+    sec2_label: '产品设计',
+    f1_n: '实时语音模拟面试', f1_d: '用户开口说话，系统实时转写并分析回答。模拟真实面试节奏，让练习者在接近真实压力的环境下找到最佳表达状态。WebSocket 保持低延迟连接，<strong>腾讯 STT</strong> 处理实时语音识别。',
+    f2_n: '结构化维度反馈', f2_d: '每次回答结束，系统从<strong>逻辑结构、内容完整度、表达清晰度、亮点与改进点</strong>四个维度给出细化评分。不是"说得不错"——而是"你的 STAR 结构里，Result 部分用数据支撑不足，下次试试加上具体指标"。',
+    f3_n: '高频场景针对训练', f3_d: '重点覆盖求职过程中出现频率最高的场景：中英文<strong>自我介绍</strong>、技术背景追问、行为面试（STAR）、职业规划类问题。用户可选择岗位方向（产品 / 技术 / 数据），系统调用对应题库与评判标准。',
+    f4_n: 'Prompt 工程体系', f4_d: '设计结构化 Prompt 模板，将"评判者"与"鼓励者"两种角色分离，避免 LLM 过度正向反馈。反馈格式强制输出 JSON，保证前端渲染的一致性与可扩展性。',
+    sec3_label: 'AI 技术链路',
+    pipe1_l: '输入', pipe1_n: '语音输入', pipe2_l: '识别', pipe2_n: '语音转文字',
+    pipe3_l: '理解', pipe3_n: '语义分析', pipe4_l: '评估', pipe4_n: '维度打分',
+    pipe5_l: '呈现', pipe5_n: '反馈报告',
+    sec4_label: '产品截图',
+    ph1: '主界面截图待补充', ph2: '面试模拟页', ph3: '反馈报告页',
+    foot_back: '← 返回主页',
+  },
+  en: {
+    back: '← Qingcheng Yu',
+    hero_meta: 'AI Product Design · 2024 — 2025',
+    hero_title: 'AI Interview<br>Coaching Agent',
+    hero_sub: 'Product Manager',
+    sec1_label: 'User Pain Points',
+    p1_t: 'No realistic practice', p1_d: 'International students lack access to context-aware mock interview partners. HR won\'t offer retry chances, and mock sessions are hard to schedule.',
+    p2_t: 'Vague, unhelpful feedback', p2_d: 'Existing AI tools either only correct grammar or give overly broad feedback — "good answer" doesn\'t improve your pass rate.',
+    p3_t: 'Dual language & culture barrier', p3_d: 'International students face both language switching (Chinese interviews) and workplace culture gaps — generic content doesn\'t help.',
+    sec2_label: 'Product Design',
+    f1_n: 'Real-time voice mock interviews', f1_d: 'Users speak; the system transcribes and analyzes in real time. Simulates genuine interview pacing, helping users find their optimal expression under realistic pressure. WebSocket keeps latency low; <strong>Tencent STT</strong> handles live speech recognition.',
+    f2_n: 'Structured dimensional feedback', f2_d: 'After each answer, the system scores across four dimensions: <strong>logical structure, content completeness, clarity of expression, and strengths/improvements</strong>. Not "good answer" — but "in your STAR structure, the Result section lacks quantitative data — try adding a specific metric next time."',
+    f3_n: 'High-frequency scenario training', f3_d: 'Covers the most common interview scenarios: <strong>self-introduction</strong> (Chinese & English), technical background probes, behavioral interviews (STAR), and career planning questions. Users select job track (PM / Engineering / Data) and the system loads the matching question bank and rubric.',
+    f4_n: 'Prompt engineering system', f4_d: 'Structured prompt templates that separate "evaluator" and "encourager" roles to prevent LLM over-validation. Feedback is forced to structured JSON output — ensuring consistent, extensible frontend rendering.',
+    sec3_label: 'AI Pipeline',
+    pipe1_l: 'Input', pipe1_n: 'Voice Input', pipe2_l: 'Recognition', pipe2_n: 'Speech-to-Text',
+    pipe3_l: 'Understanding', pipe3_n: 'Semantic Analysis', pipe4_l: 'Evaluation', pipe4_n: 'Dimensional Scoring',
+    pipe5_l: 'Output', pipe5_n: 'Feedback Report',
+    sec4_label: 'Screenshots',
+    ph1: 'Main interface to be added', ph2: 'Interview simulation view', ph3: 'Feedback report view',
+    foot_back: '← Back to portfolio',
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>

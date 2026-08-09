@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 驾驶行为检测 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+
+    /* JOURNEY */
+    .journey { display: flex; flex-direction: column; gap: 0; }
+    .step { display: grid; grid-template-columns: 60px 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .step:last-child { border-bottom: none; }
+    .step-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--border); line-height: 1; padding-top: 2px; }
+    .step-title { font-size: 0.92rem; font-weight: 500; margin-bottom: 6px; }
+    .step-desc { font-size: 0.845rem; color: #706C67; line-height: 1.85; }
+
+    /* ARCH */
+    .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); margin-top: 48px; }
+    .arch-cell { background: var(--bg); padding: 32px 36px; }
+    .arch-layer { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
+    .arch-tech { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 10px; }
+    .arch-desc { font-size: 0.82rem; color: #706C67; line-height: 1.75; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .gallery-full { grid-column: 1 / -1; }
+    .gallery-full .img-placeholder { aspect-ratio: 21/9; }
+    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* TWO COL */
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 24px; }
+      .arch-grid { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
+      .step { grid-template-columns: 40px 1fr; gap: 16px; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back" data-i18n="back">← 于清程</a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta">AI 项目 · 2025 · 西悉尼大学</p>
+    <h1 class="hero-title" data-i18n="hero_title">AI 驾驶行为<br>检测系统</h1>
+    <p class="hero-sub" data-i18n="hero_sub">项目经理 & 核心开发</p>
+    <div class="hero-tags">
+      <span class="tag">YOLOv8</span>
+      <span class="tag">OpenCV</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">React</span>
+      <span class="tag">SQLite</span>
+      <span class="tag">Computer Vision</span>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT CONCEPT -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label">产品理念</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head">从视频到洞察——一个完整的 AI 产品闭环</h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1">驾驶行为检测不是一个新概念，但大多数系统只提供原始报警数据，缺乏可操作的分析视角。这个项目从产品角度重新定义了"检测"的边界——从识别单次危险行为，延伸到帮助驾驶员理解自己的<strong>行为模式趋势</strong>。</p>
+        <p data-i18n="sec1_p2">我负责整体产品设计：定义用户旅程的每一个节点，决定哪些检测结果值得呈现、如何呈现，以及如何让非技术用户也能从 AI 分析结果中得到真正有用的改善建议。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USER JOURNEY -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label">用户旅程</p>
+    <div class="journey">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <p class="step-title" data-i18n="j1_t">视频上传</p>
+          <p class="step-desc" data-i18n="j1_d">用户上传行车记录仪视频，支持多格式输入，系统自动预处理并排队分析。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <p class="step-title" data-i18n="j2_t">视角选择</p>
+          <p class="step-desc" data-i18n="j2_d">用户指定摄像头视角（正前方 / 车内 / 后视），系统针对不同视角调用对应的检测模型参数。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <p class="step-title" data-i18n="j3_t">驾驶者筛选</p>
+          <p class="step-desc" data-i18n="j3_d">多人使用场景下，用户绑定特定驾驶者 ID，确保行为数据归属准确、分析结果个人化。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <p class="step-title" data-i18n="j4_t">AI 检测评分</p>
+          <p class="step-desc" data-i18n="j4_d">YOLOv8 + OpenCV 识别分心驾驶、急刹车、超速、压线等行为，输出置信度评分与时间戳标注。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <div>
+          <p class="step-title" data-i18n="j5_t">历史对比看板</p>
+          <p class="step-desc" data-i18n="j5_d">行为频次图表 + 月趋势折线图，让驾驶员清晰看到自己哪些习惯在改善、哪些还在反复。</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">06</div>
+        <div>
+          <p class="step-title" data-i18n="j6_t">个性化改善建议</p>
+          <p class="step-desc" data-i18n="j6_d">基于历史数据生成针对性行为改善建议，而不是泛化的安全提示——让 AI 分析结果真正产生行为改变。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label">技术架构</p>
+    <div class="arch-grid">
+      <div class="arch-cell">
+        <p class="arch-layer" data-i18n="a1_l">检测层</p>
+        <p class="arch-tech">YOLOv8 + OpenCV</p>
+        <p class="arch-desc" data-i18n="a1_d">实时目标检测与行为识别，支持帧级时间戳定位，检测结果附带置信度分级。</p>
+      </div>
+      <div class="arch-cell">
+        <p class="arch-layer" data-i18n="a2_l">后端层</p>
+        <p class="arch-tech">Python · FastAPI</p>
+        <p class="arch-desc" data-i18n="a2_d">异步 API 服务处理视频上传与分析队列，RESTful 接口供前端消费，SQLite 存储行为历史与用户档案。</p>
+      </div>
+      <div class="arch-cell">
+        <p class="arch-layer" data-i18n="a3_l">数据层</p>
+        <p class="arch-tech">SQLite</p>
+        <p class="arch-desc" data-i18n="a3_d">轻量级本地数据库，存储驾驶事件记录、评分历史与趋势数据，支持多驾驶者独立档案。</p>
+      </div>
+      <div class="arch-cell">
+        <p class="arch-layer" data-i18n="a4_l">前端层</p>
+        <p class="arch-tech">React</p>
+        <p class="arch-desc" data-i18n="a4_d">行为频次图表与月趋势分析看板，交互式数据可视化让非技术用户轻松读懂分析报告。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec4_label">产品截图</p>
+    <div class="gallery">
+      <div class="gallery-full">
+        <div class="img-placeholder">
+          <span data-i18n="ph1">主看板 / Dashboard 截图待补充</span>
+        </div>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph2">检测结果页</span>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph3">趋势分析图表</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  zh: {
+    back: '← 于清程',
+    hero_meta: 'AI 项目 · 2025 · 西悉尼大学',
+    hero_title: 'AI 驾驶行为<br>检测系统',
+    hero_sub: '项目经理 & 核心开发',
+    sec1_label: '产品理念',
+    sec1_head: '从视频到洞察——一个完整的 AI 产品闭环',
+    sec1_p1: '驾驶行为检测不是一个新概念，但大多数系统只提供原始报警数据，缺乏可操作的分析视角。这个项目从产品角度重新定义了"检测"的边界——从识别单次危险行为，延伸到帮助驾驶员理解自己的<strong>行为模式趋势</strong>。',
+    sec1_p2: '我负责整体产品设计：定义用户旅程的每一个节点，决定哪些检测结果值得呈现、如何呈现，以及如何让非技术用户也能从 AI 分析结果中得到真正有用的改善建议。',
+    sec2_label: '用户旅程',
+    j1_t: '视频上传', j1_d: '用户上传行车记录仪视频，支持多格式输入，系统自动预处理并排队分析。',
+    j2_t: '视角选择', j2_d: '用户指定摄像头视角（正前方 / 车内 / 后视），系统针对不同视角调用对应的检测模型参数。',
+    j3_t: '驾驶者筛选', j3_d: '多人使用场景下，用户绑定特定驾驶者 ID，确保行为数据归属准确、分析结果个人化。',
+    j4_t: 'AI 检测评分', j4_d: 'YOLOv8 + OpenCV 识别分心驾驶、急刹车、超速、压线等行为，输出置信度评分与时间戳标注。',
+    j5_t: '历史对比看板', j5_d: '行为频次图表 + 月趋势折线图，让驾驶员清晰看到自己哪些习惯在改善、哪些还在反复。',
+    j6_t: '个性化改善建议', j6_d: '基于历史数据生成针对性行为改善建议，让 AI 分析结果真正产生行为改变。',
+    sec3_label: '技术架构',
+    a1_l: '检测层', a1_d: '实时目标检测与行为识别，支持帧级时间戳定位，检测结果附带置信度分级。',
+    a2_l: '后端层', a2_d: '异步 API 服务处理视频上传与分析队列，RESTful 接口供前端消费，SQLite 存储行为历史。',
+    a3_l: '数据层', a3_d: '轻量级本地数据库，存储驾驶事件记录、评分历史与趋势数据，支持多驾驶者独立档案。',
+    a4_l: '前端层', a4_d: '行为频次图表与月趋势分析看板，交互式数据可视化让非技术用户轻松读懂分析报告。',
+    sec4_label: '产品截图',
+    ph1: '主看板 / Dashboard 截图待补充', ph2: '检测结果页', ph3: '趋势分析图表',
+    foot_back: '← 返回主页',
+  },
+  en: {
+    back: '← Qingcheng Yu',
+    hero_meta: 'AI Project · 2025 · Western Sydney University',
+    hero_title: 'AI Driving Behavior<br>Detection System',
+    hero_sub: 'Project Manager & Core Developer',
+    sec1_label: 'Product Concept',
+    sec1_head: 'From video to insight — a complete AI product loop',
+    sec1_p1: 'Driving behavior detection isn\'t a new category, but most systems only surface raw alert data without actionable analysis. This project redefined the scope from a product perspective — shifting from flagging individual dangerous actions to helping drivers understand their <strong>behavioral pattern trends</strong> over time.',
+    sec1_p2: 'I owned the overall product design: defining every node of the user journey, deciding which detection outputs are worth surfacing and how, and making AI analysis results genuinely useful for non-technical drivers.',
+    sec2_label: 'User Journey',
+    j1_t: 'Video Upload', j1_d: 'Users upload dashcam footage in multiple formats. System auto-preprocesses and queues for analysis.',
+    j2_t: 'Angle Selection', j2_d: 'User specifies camera angle (front-facing / in-cabin / rear). System applies corresponding model parameters per angle.',
+    j3_t: 'Driver Selection', j3_d: 'In multi-driver scenarios, users link to a specific driver ID, ensuring accurate attribution and personalized results.',
+    j4_t: 'AI Detection & Scoring', j4_d: 'YOLOv8 + OpenCV detects distracted driving, hard braking, speeding, lane violations — output includes confidence scores and frame-level timestamps.',
+    j5_t: 'Historical Dashboard', j5_d: 'Behavior frequency charts + monthly trend lines show drivers exactly which habits are improving and which keep recurring.',
+    j6_t: 'Personalized Recommendations', j6_d: 'Targeted behavior improvement tips generated from historical patterns — not generic safety warnings, but specific actionable guidance.',
+    sec3_label: 'Technical Architecture',
+    a1_l: 'Detection Layer', a1_d: 'Real-time object detection and behavior classification with frame-level timestamp anchoring and confidence scoring.',
+    a2_l: 'Backend Layer', a2_d: 'Async FastAPI service handles video upload queue and analysis pipeline; RESTful API consumed by frontend; SQLite for behavior history.',
+    a3_l: 'Data Layer', a3_d: 'Lightweight SQLite stores driving event records, scoring history, and trend data with independent profiles per driver.',
+    a4_l: 'Frontend Layer', a4_d: 'React dashboard with interactive behavior frequency charts and monthly trend visualizations — readable by non-technical users.',
+    sec4_label: 'Screenshots',
+    ph1: 'Main dashboard screenshot to be added', ph2: 'Detection results view', ph3: 'Trend analysis charts',
+    foot_back: '← Back to portfolio',
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>

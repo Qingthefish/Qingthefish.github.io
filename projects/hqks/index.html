@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>环球卡社 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-title { font-family: var(--serif); font-size: 1rem; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTENT */
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--border-light); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-label { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); padding-top: 3px; }
+    .tl-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .tl-desc { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 0; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .img-placeholder.tall { aspect-ratio: 4/3; }
+    .gallery-full { grid-column: 1 / -1; }
+    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* FOOTER */
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col, .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
+      .tl-item { grid-template-columns: 1fr; gap: 6px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta">创业 · 2021 — 2023 · 西安</p>
+    <h1 class="hero-title" data-i18n="hero_title">环球卡社</h1>
+    <p class="hero-sub" data-i18n="hero_sub">联合创始人 & 店长</p>
+    <div class="hero-tags">
+      <span class="tag">创业</span>
+      <span class="tag">内容运营</span>
+      <span class="tag">Python</span>
+      <span class="tag">数据驱动</span>
+      <span class="tag">社群运营</span>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">7.9<span style="font-size:1.8rem">万</span></div>
+    <div class="stat-label" data-i18n="s1">抖音账号累计获赞</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1.5<span style="font-size:1.8rem">万</span></div>
+    <div class="stat-label" data-i18n="s2">单条视频最高获赞</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">PSA<span style="font-size:1.2rem"> · </span>BGS</div>
+    <div class="stat-label" data-i18n="s3">国际权威评级机构官方合作</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label">项目背景</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head">把爱好做成生意，把数据变成决策</h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1">球星卡是一个对信息高度敏感的市场——同一张卡，因评级机构、球员近况、赛事热度的不同，价格可以在几天内波动数倍。2021 年，我和合伙人在西安创办环球卡社，从零开始搭建一套数据驱动的选品与定价体系。</p>
+        <p data-i18n="sec1_p2">用 Python 爬取 eBay 拍卖历史、球员数据与赛程信息，将非结构化市场信号转化为可量化的进货参考。这不是一个炫技的技术项目——它的价值在于，让我们在信息不对称的市场里持续做出比竞争对手更好的决策。</p>
+        <p data-i18n="sec1_p3">与 PSA（Professional Sports Authenticator）和 BGS（Beckett Grading Services）建立官方合作关系，成为西北地区少数具备国际品牌背书的球星卡商户，显著提升了客户信任与溢价空间。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT MATRIX -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label">内容运营</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head">三平台内容矩阵，从零增长到万赞</h2>
+      <div class="col-body">
+        <p data-i18n="sec2_p1">独立运营抖音、小红书和微信公众号三条内容线，方向各有侧重：抖音主打球员科普与开包热点，小红书做球卡入门与鉴别指南，公众号输出深度评级与市场分析。</p>
+        <p data-i18n="sec2_p2">自编脚本协调拍摄节奏，控制单条视频制作时间，形成持续输出能力。在球员赛事热点窗口快速跟进，实现流量借势。</p>
+      </div>
+    </div>
+    <div style="margin-top:60px">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="tl1_l">抖音</div>
+          <div>
+            <p class="tl-title" data-i18n="tl1_t">球员科普 + 开包热点</p>
+            <p class="tl-desc" data-i18n="tl1_d">账号累计 7.9 万获赞，单条最高 1.5 万赞。专注球员职业故事与评级科普，赛事热窗口快速跟进。</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="tl2_l">小红书</div>
+          <div>
+            <p class="tl-title" data-i18n="tl2_t">球卡入门 · 鉴别指南</p>
+            <p class="tl-desc" data-i18n="tl2_d">面向新手球迷，系统性输出球星卡购买逻辑、评级流程与防伪鉴别方法，建立内容权威性。</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="tl3_l">微信公众号</div>
+          <div>
+            <p class="tl-title" data-i18n="tl3_t">深度评级 · 市场分析</p>
+            <p class="tl-desc" data-i18n="tl3_d">面向进阶收藏者，定期发布 PSA/BGS 评级指南、市场行情分析与球员价值预测，维系高粘性核心用户。</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="tl4_l">实体社群</div>
+          <div>
+            <p class="tl-title" data-i18n="tl4_t">线下门店 + 粉丝社群</p>
+            <p class="tl-desc" data-i18n="tl4_d">西安线下实体店运营，以门店为核心建立高粘性球迷社群，线上线下双轮驱动口碑增长。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label">图片记录</p>
+    <div class="gallery">
+      <div class="img-placeholder gallery-full tall">
+        <span data-i18n="ph1">门店 / 产品图片待补充</span>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph2">抖音截图</span>
+      </div>
+      <div class="img-placeholder">
+        <span data-i18n="ph3">小红书截图</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  zh: {
+    back: '于清程', hero_meta: '创业 · 2021 — 2023 · 西安',
+    hero_title: '环球卡社', hero_sub: '联合创始人 & 店长',
+    s1: '抖音账号累计获赞', s2: '单条视频最高获赞', s3: '国际权威评级机构官方合作',
+    sec1_label: '项目背景',
+    sec1_head: '把爱好做成生意，把数据变成决策',
+    sec1_p1: '球星卡是一个对信息高度敏感的市场——同一张卡，因评级机构、球员近况、赛事热度的不同，价格可以在几天内波动数倍。2021 年，我和合伙人在西安创办环球卡社，从零开始搭建一套数据驱动的选品与定价体系。',
+    sec1_p2: '用 Python 爬取 eBay 拍卖历史、球员数据与赛程信息，将非结构化市场信号转化为可量化的进货参考。这不是一个炫技的技术项目——它的价值在于，让我们在信息不对称的市场里持续做出比竞争对手更好的决策。',
+    sec1_p3: '与 PSA 和 BGS 建立官方合作关系，成为西北地区少数具备国际品牌背书的球星卡商户，显著提升了客户信任与溢价空间。',
+    sec2_label: '内容运营',
+    sec2_head: '三平台内容矩阵，从零增长到万赞',
+    sec2_p1: '独立运营抖音、小红书和微信公众号三条内容线，方向各有侧重：抖音主打球员科普与开包热点，小红书做球卡入门与鉴别指南，公众号输出深度评级与市场分析。',
+    sec2_p2: '自编脚本协调拍摄节奏，控制单条视频制作时间，形成持续输出能力。在球员赛事热点窗口快速跟进，实现流量借势。',
+    tl1_l: '抖音', tl1_t: '球员科普 + 开包热点',
+    tl1_d: '账号累计 7.9 万获赞，单条最高 1.5 万赞。专注球员职业故事与评级科普，赛事热窗口快速跟进。',
+    tl2_l: '小红书', tl2_t: '球卡入门 · 鉴别指南',
+    tl2_d: '面向新手球迷，系统性输出球星卡购买逻辑、评级流程与防伪鉴别方法，建立内容权威性。',
+    tl3_l: '微信公众号', tl3_t: '深度评级 · 市场分析',
+    tl3_d: '面向进阶收藏者，定期发布 PSA/BGS 评级指南、市场行情分析与球员价值预测。',
+    tl4_l: '实体社群', tl4_t: '线下门店 + 粉丝社群',
+    tl4_d: '西安线下实体店运营，以门店为核心建立高粘性球迷社群，线上线下双轮驱动口碑增长。',
+    sec3_label: '图片记录',
+    ph1: '门店 / 产品图片待补充', ph2: '抖音截图', ph3: '小红书截图',
+    foot_back: '← 返回主页',
+  },
+  en: {
+    back: 'Qingcheng Yu', hero_meta: 'Entrepreneurship · 2021 — 2023 · Xi\'an, China',
+    hero_title: 'Collector Universe Sportscards', hero_sub: 'Co-founder & Manager',
+    s1: 'total Douyin likes', s2: 'single-video peak likes', s3: 'Official partnership with PSA & BGS',
+    sec1_label: 'Background',
+    sec1_head: 'Turning a hobby into a business — with data',
+    sec1_p1: 'The sports card market is highly information-sensitive — the same card can swing several times in value within days based on grading agency, player performance, and game momentum. In 2021, I co-founded Collector Universe Sportscards in Xi\'an, building a data-driven sourcing and pricing system from scratch.',
+    sec1_p2: 'I used Python to scrape eBay auction history, player statistics, and game schedules, converting unstructured market signals into quantifiable sourcing benchmarks. Not a tech showcase — the value was making systematically better buying decisions than competitors in an information-asymmetric market.',
+    sec1_p3: 'Established official partnerships with PSA (Professional Sports Authenticator) and BGS (Beckett Grading Services), becoming one of the few card dealers in Northwest China with international brand backing — significantly improving customer trust and pricing power.',
+    sec2_label: 'Content & Growth',
+    sec2_head: 'Three-platform content matrix, zero to 10K+ likes',
+    sec2_p1: 'Independently operated Douyin, Xiaohongshu, and WeChat Official Account with differentiated angles: Douyin for player profiles and pack openings, Xiaohongshu for beginner guides and authentication tips, WeChat for in-depth grading analysis and market reports.',
+    sec2_p2: 'Wrote custom scripts to coordinate filming schedules and control per-video production time, enabling consistent output. Rapidly capitalized on player and game news windows to ride trending traffic.',
+    tl1_l: 'Douyin', tl1_t: 'Player profiles + Pack openings',
+    tl1_d: '79K total likes; top single video hit 15K likes. Focus on player career stories and grading education, with fast response to sports news cycles.',
+    tl2_l: 'Xiaohongshu', tl2_t: 'Beginner guides · Authentication',
+    tl2_d: 'Systematic beginner content covering card purchasing logic, grading process, and counterfeit detection — building content authority for new collectors.',
+    tl3_l: 'WeChat Official', tl3_t: 'In-depth grading · Market analysis',
+    tl3_d: 'Regular deep-dives on PSA/BGS grading guides, market trend reports, and player value forecasting for advanced collectors.',
+    tl4_l: 'Community', tl4_t: 'Physical store + fan community',
+    tl4_d: 'Operated Xi\'an brick-and-mortar store as community anchor, building a high-retention collector community with online-offline flywheel.',
+    sec3_label: 'Gallery',
+    ph1: 'Store / product photos to be added', ph2: 'Douyin screenshots', ph3: 'Xiaohongshu screenshots',
+    foot_back: '← Back to portfolio',
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>
