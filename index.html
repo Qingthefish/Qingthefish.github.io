@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>于清程 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:           #F8F7F4;
+      --text:         #1A1918;
+      --muted:        #8C8880;
+      --light:        #B8B4AE;
+      --border:       #E0DDD6;
+      --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', 'STSong', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --nav-h: 64px;
+      --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ─── BASE ─── */
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ─── LAYOUT ─── */
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: var(--nav-h);
+      background: rgba(248,247,244,0.90);
+      backdrop-filter: blur(16px) saturate(160%);
+      -webkit-backdrop-filter: blur(16px) saturate(160%);
+      border-bottom: 1px solid var(--border-light);
+    }
+    .nav-inner {
+      height: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      transition: opacity 0.2s;
+    }
+    .nav-logo:hover { opacity: 0.6; }
+    .nav-right { display: flex; align-items: center; gap: 36px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s var(--ease);
+    }
+    .nav-links a:hover { color: var(--text); }
+    #lang-btn {
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      background: none;
+      border: 1px solid var(--border);
+      padding: 5px 14px;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s var(--ease);
+      border-radius: 2px;
+    }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      padding-top: var(--nav-h);
+      display: flex; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-wrap { padding: 100px 0 120px; width: 100%; }
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 32px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 1px;
+      background: var(--border);
+    }
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero-name em {
+      font-style: italic;
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .hero-subtitle {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 48px;
+      line-height: 1.4;
+    }
+    .hero-bio {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.9;
+      margin-bottom: 56px;
+    }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--text);
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.22s var(--ease);
+      border-radius: 2px;
+    }
+    .btn:hover { background: var(--text); color: var(--bg); }
+    .btn-primary { background: var(--text); color: var(--bg); }
+    .btn-primary:hover { background: #3A3835; border-color: #3A3835; }
+
+    /* ─── SECTION SHELL ─── */
+    section { padding: 96px 0; border-bottom: 1px solid var(--border); }
+    .sec-eyebrow {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 64px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-light);
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .sec-eyebrow span { font-weight: 300; }
+
+    /* ─── EXPERIENCE ─── */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 60px;
+      padding: 56px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .exp-item:first-child { padding-top: 0; }
+    .exp-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .exp-left { padding-top: 3px; }
+    .exp-period {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 10px;
+    }
+    .exp-company {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .exp-location {
+      font-size: 0.75rem;
+      color: var(--light);
+    }
+    .exp-role {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-style: italic;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; }
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+    }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li {
+      font-size: 0.875rem;
+      color: #635F5A;
+      line-height: 1.85;
+      padding: 10px 0 10px 22px;
+      position: relative;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .exp-bullets li:last-child { border-bottom: none; padding-bottom: 0; }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--border);
+      font-weight: 300;
+    }
+    .exp-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 28px;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 3px;
+      transition: border-color 0.2s, opacity 0.2s;
+    }
+    .exp-cta:hover { opacity: 0.5; }
+
+    /* ─── PROJECTS ─── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .proj-card {
+      padding: 40px 36px 36px;
+      border: 1px solid var(--border-light);
+      border-left: none;
+      border-top: none;
+      display: flex; flex-direction: column;
+      min-height: 380px;
+      transition: background 0.22s var(--ease);
+    }
+    .proj-card:nth-child(1) { border-left: 1px solid var(--border-light); }
+    .proj-card:hover { background: rgba(255,255,255,0.6); }
+    .proj-num {
+      font-family: var(--serif);
+      font-size: 0.85rem;
+      color: var(--border);
+      margin-bottom: auto;
+    }
+    .proj-name {
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-top: 36px;
+      margin-bottom: 10px;
+    }
+    .proj-sub {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 18px;
+    }
+    .proj-desc {
+      font-size: 0.845rem;
+      color: #706C67;
+      line-height: 1.85;
+      flex: 1;
+    }
+    .proj-footer {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border-light);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .proj-link {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+    .proj-link:hover { color: var(--text); }
+
+    /* ─── RESEARCH ─── */
+    .research-card {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 64px;
+      align-items: start;
+      padding: 56px;
+      border: 1px solid var(--border);
+    }
+    .res-venue {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 18px;
+    }
+    .res-title {
+      font-family: var(--serif);
+      font-size: 1.65rem;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 14px;
+    }
+    .res-authors {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    .res-authors strong { color: var(--text); font-weight: 500; }
+    .res-tldr {
+      font-size: 0.875rem;
+      color: #635F5A;
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    .res-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 24px; }
+    .res-cta { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+
+    /* ─── EDUCATION ─── */
+    .edu-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 60px;
+      padding: 52px 0;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .edu-item:first-child { padding-top: 0; }
+    .edu-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .edu-period {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--light);
+      padding-top: 3px;
+    }
+    .edu-school {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .edu-degree {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .edu-honors { list-style: none; display: flex; flex-direction: column; gap: 0; }
+    .edu-honors li {
+      font-size: 0.835rem;
+      color: #706C67;
+      padding: 8px 0 8px 18px;
+      position: relative;
+      border-bottom: 1px solid var(--border-light);
+      line-height: 1.6;
+    }
+    .edu-honors li:last-child { border-bottom: none; }
+    .edu-honors li::before {
+      content: '◆';
+      position: absolute; left: 0; top: 11px;
+      font-size: 0.4rem;
+      color: var(--border);
+    }
+
+    /* ─── FOOTER ─── */
+    footer { padding: 60px 0 44px; }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 28px;
+    }
+    .footer-name {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .footer-contact { font-size: 0.82rem; color: var(--muted); line-height: 2; }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; justify-content: flex-start; padding-top: 4px; }
+    .footer-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-bottom {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.7rem;
+      color: var(--light);
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 840px) {
+      .container { padding: 0 28px; }
+      .nav-links { display: none; }
+      .exp-item,
+      .edu-item,
+      .research-card { grid-template-columns: 1fr; gap: 20px; }
+      .proj-grid { grid-template-columns: 1fr; }
+      .proj-card { border-left: 1px solid var(--border-light) !important; border-top: 1px solid var(--border-light); }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-links { align-items: flex-start; }
+      .res-cta { align-items: flex-start; flex-direction: row; }
+      .hero-name { font-size: clamp(3rem, 14vw, 6rem); }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 20px; }
+      section { padding: 72px 0; }
+      .exp-item, .edu-item { padding: 40px 0; }
+    }
+
+    /* ─── MISC ─── */
+    ::selection { background: var(--text); color: var(--bg); }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo" data-i18n="nav_name">于清程</a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#experience" data-i18n="nav_exp">经历</a></li>
+        <li><a href="#projects"   data-i18n="nav_proj">项目</a></li>
+        <li><a href="#research"   data-i18n="nav_res">学术</a></li>
+        <li><a href="#education"  data-i18n="nav_edu">教育</a></li>
+      </ul>
+      <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-wrap">
+      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Agent 产品经理 · 北京</p>
+      <h1 class="hero-name" data-i18n="hero_name">于清程<em>.</em></h1>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">构建有意义的 AI 产品</p>
+      <p class="hero-bio" data-i18n="hero_bio">
+        香港科技大学人工智能硕士在读。曾在小红书担任中台产品经理，负责 AI 编程助手、值班智能体与开发机治理等产品方向。横跨产品设计、技术落地与创业实践——相信最好的 AI 产品，是让技术真正消失在用户的工作流里。
+      </p>
+      <div class="hero-actions">
+        <a href="mailto:fishboypek@qq.com" class="btn btn-primary" data-i18n="hero_cta1">联系我</a>
+        <a href="https://github.com/Qingthefish" class="btn" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EXPERIENCE ══════════ -->
+<section id="experience">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span data-i18n="exp_eyebrow">精选经历</span>
+      <span>Selected Experience</span>
+    </div>
+
+    <!-- 小红书 -->
+    <div class="exp-item">
+      <div class="exp-left">
+        <p class="exp-period" data-i18n="xhs_period">2026.05 — 2026.08</p>
+        <p class="exp-company" data-i18n="xhs_co">小红书</p>
+        <p class="exp-location" data-i18n="xhs_loc">北京 · 中台技术部</p>
+      </div>
+      <div>
+        <p class="exp-role" data-i18n="xhs_role">中台产品经理（实习）</p>
+        <div class="exp-tags">
+          <span class="tag">AI Agent</span>
+          <span class="tag">Developer Tools</span>
+          <span class="tag">PRD</span>
+          <span class="tag">Prompt Engineering</span>
+          <span class="tag">效果评估</span>
+        </div>
+        <ul class="exp-bullets">
+          <li data-i18n="xhs_b1">负责 <strong>QS Next</strong> 系列 AI 编程助手的产品迭代：制定 Prompt 规范体系、主导交互优化，完成全量上线后用户行为分析，持续提升任务完成率与用户留存。</li>
+          <li data-i18n="xhs_b2">独立设计 <strong>QS 值班智能体</strong>效果评估体系：建立工单二维分类方案，追踪 AI 介入前后的关键指标变化，输出周度效果分析报告，支撑双月 OKR 制定。</li>
+          <li data-i18n="xhs_b3">主导<strong>开发机碎卡治理</strong>产品方向：系统调研阿里云 PAI-DSW、腾讯云 TI-ONE、火山引擎 MLP 等主流 ML 平台，输出竞品分析与 QS Code 新形态 PRD 并推动落地。</li>
+          <li data-i18n="xhs_b4">参与 <strong>Red AI 整合</strong>方向：调研 Langfuse、PAI 对话式 Agent、Agentic PAI 定时任务等前沿形态，完成 8 月全平台三款 AI 产品用户行为分析报告。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 黑客松 -->
+    <div class="exp-item">
+      <div class="exp-left">
+        <p class="exp-period" data-i18n="hack_period">2026.07</p>
+        <p class="exp-company" data-i18n="hack_co">红书人物志</p>
+        <p class="exp-location" data-i18n="hack_loc">小红书内部黑客松</p>
+      </div>
+      <div>
+        <p class="exp-role" data-i18n="hack_role">个人参赛 · 独立完成</p>
+        <div class="exp-tags">
+          <span class="tag">React</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">LLM</span>
+          <span class="tag">Product Design</span>
+        </div>
+        <ul class="exp-bullets">
+          <li data-i18n="hack_b1">独自完成产品概念、交互设计、前后端全栈开发，历时约 3 天实现完整 Demo，Demo Day 现场完整跑通三账号联动演示。</li>
+          <li data-i18n="hack_b2">核心产品逻辑：用户正常发笔记 → AI 提取人物候选 → 作者确认 → 故事进入关系空间 → 被写到的人逐篇决定是否展示；构建了双方同意的人物关系图谱。</li>
+          <li data-i18n="hack_b3">技术实现：React + TypeScript 状态机模拟三账号联动；Python FastAPI 接入真实 LLM，实现笔记人物提取与节点记忆问答两项 AI 能力。</li>
+        </ul>
+        <a href="https://github.com/Qingthefish/rednote-person-graph" class="exp-cta" target="_blank" rel="noopener" data-i18n="hack_cta">查看 GitHub 代码 →</a>
+      </div>
+    </div>
+
+    <!-- 环球卡社 -->
+    <div class="exp-item">
+      <div class="exp-left">
+        <p class="exp-period" data-i18n="card_period">2021.08 — 2023.07</p>
+        <p class="exp-company" data-i18n="card_co">环球卡社</p>
+        <p class="exp-location" data-i18n="card_loc">西安 · 联合创始人</p>
+      </div>
+      <div>
+        <p class="exp-role" data-i18n="card_role">联合创始人 & 店长</p>
+        <div class="exp-tags">
+          <span class="tag">创业</span>
+          <span class="tag">Python</span>
+          <span class="tag">内容运营</span>
+          <span class="tag">用户社群</span>
+        </div>
+        <ul class="exp-bullets">
+          <li data-i18n="card_b1">用 Python 爬取 eBay、球员与赛事数据，搭建数据驱动的选品定价系统，支撑差异化进货决策。</li>
+          <li data-i18n="card_b2">主导公众号、小红书、抖音内容运营，自编脚本协调拍摄，制作科普与热点短视频；抖音账号累计 7.9 万获赞，单条视频最高 1.5 万赞。</li>
+          <li data-i18n="card_b3">与 PSA、BGS 等国际权威评级机构建立官方合作关系，提升品牌专业形象；负责实体店运营与高粘性粉丝社群建设。</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section id="projects">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span data-i18n="proj_eyebrow">AI 项目</span>
+      <span>AI Projects</span>
+    </div>
+    <div class="proj-grid">
+
+      <!-- 驾驶检测 -->
+      <div class="proj-card">
+        <span class="proj-num">01</span>
+        <p class="proj-name" data-i18n="p1_name">AI 驾驶行为<br>检测系统</p>
+        <p class="proj-sub" data-i18n="p1_sub">2025 · 项目经理 & 核心开发</p>
+        <p class="proj-desc" data-i18n="p1_desc">
+          端到端 AI 产品闭环：设计视频上传 → 视角选择 → 驾驶者筛选 → 检测评分 → 历史对比 → 行为建议的完整流程。使用 YOLOv8 与 OpenCV 构建检测管线，FastAPI + SQLite + React 实现行为频次图表与月趋势分析看板。
+        </p>
+        <div class="proj-footer">
+          <div class="proj-tags">
+            <span class="tag">YOLOv8</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">React</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 面试辅导 -->
+      <div class="proj-card">
+        <span class="proj-num">02</span>
+        <p class="proj-name" data-i18n="p2_name">AI 面试<br>辅导智能体</p>
+        <p class="proj-sub" data-i18n="p2_sub">2024 — 2025 · 产品经理</p>
+        <p class="proj-desc" data-i18n="p2_desc">
+          面向留学生求职场景的 AI 面试教练。围绕自我介绍与技术追问等高频问题，设计实时模拟 + 结构化反馈的产品流程；规划 WebSocket + 腾讯 STT + LLM 的 AI 链路，设计结构化 Prompt 反馈机制。
+        </p>
+        <div class="proj-footer">
+          <div class="proj-tags">
+            <span class="tag">LLM</span>
+            <span class="tag">WebSocket</span>
+            <span class="tag">Prompt Eng.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 红书人物志 -->
+      <div class="proj-card">
+        <span class="proj-num">03</span>
+        <p class="proj-name" data-i18n="p3_name">红书人物志<br>Hackathon</p>
+        <p class="proj-sub" data-i18n="p3_sub">2026.07 · 小红书内部黑客松</p>
+        <p class="proj-desc" data-i18n="p3_desc">
+          让小红书笔记里的人，用双方都同意的方式重新连接。AI 从笔记中提取人物候选，经作者确认后构建授权关系图谱。独立完成产品设计 + 全栈实现，3 天内跑通完整 Demo。
+        </p>
+        <div class="proj-footer">
+          <div class="proj-tags">
+            <span class="tag">React</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">LLM</span>
+          </div>
+          <a href="https://github.com/Qingthefish/rednote-person-graph" class="proj-link" target="_blank" rel="noopener" data-i18n="p3_link">GitHub →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ RESEARCH ══════════ -->
+<section id="research">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span data-i18n="res_eyebrow">学术研究</span>
+      <span>Research</span>
+    </div>
+    <div class="research-card">
+      <div>
+        <p class="res-venue" data-i18n="res_venue">AAAI 2027 · Conference Submission</p>
+        <p class="res-title" data-i18n="res_title">SGWAM: A Scene-Graph-Augmented World-Action Model for End-to-End Autonomous Driving</p>
+        <p class="res-authors" data-i18n="res_authors">Boyi Sun, Houxin He, Ruiqi Liu, Huan Long, <strong>Qingcheng Yu</strong>, Yuhang Liu, Renrui Zhang</p>
+        <p class="res-tldr" data-i18n="res_tldr">
+          现有自动驾驶世界模型通常以像素或隐变量表示场景，难以显式建模交通参与者之间的规划相关交互。SGWAM 提出以场景图（Scene Graph）为核心的世界建模与动作选择框架，通过关系监督的世界状态连接未来预测与轨迹评分，在 NAVSIM v1 上取得 <strong>92.6 PDMS</strong>，NAVSIM v2 上取得 <strong>90.3 EPDMS</strong>。
+        </p>
+        <div class="res-tags">
+          <span class="tag">Autonomous Driving</span>
+          <span class="tag">Scene Graph</span>
+          <span class="tag">World Model</span>
+          <span class="tag">NAVSIM</span>
+          <span class="tag">Graph Transformer</span>
+        </div>
+      </div>
+      <div class="res-cta">
+        <a href="https://openreview.net/forum?id=xShxCo0Qda" class="btn" target="_blank" rel="noopener" data-i18n="res_cta">OpenReview ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ EDUCATION ══════════ -->
+<section id="education">
+  <div class="container">
+    <div class="sec-eyebrow">
+      <span data-i18n="edu_eyebrow">教育背景</span>
+      <span>Education</span>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-period" data-i18n="edu1_period">2026 — 2027</div>
+      <div>
+        <p class="edu-school" data-i18n="edu1_school">香港科技大学</p>
+        <p class="edu-degree" data-i18n="edu1_degree">人工智能 理学硕士（在读，预计 2027 年 8 月毕业）</p>
+      </div>
+    </div>
+
+    <div class="edu-item">
+      <div class="edu-period" data-i18n="edu2_period">2024 — 2026</div>
+      <div>
+        <p class="edu-school" data-i18n="edu2_school">西悉尼大学</p>
+        <p class="edu-degree" data-i18n="edu2_degree">计算机科学 理学学士（优等 · Distinction）</p>
+        <ul class="edu-honors">
+          <li data-i18n="edu2_h1">GPA 6.636 / 7.0</li>
+          <li data-i18n="edu2_h2">2026 Dean's Medal for Outstanding Scholarship — 全校前 1%，颁予学业卓越毕业生</li>
+          <li data-i18n="edu2_h3">2024 Dean's Merit List</li>
+          <li data-i18n="edu2_h4">分布式系统 97 · 专业实践 96 · 系统编程 92 · 数据库设计 89</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-name" data-i18n="foot_name">于清程</p>
+        <div class="footer-contact">
+          <p>fishboypek@qq.com</p>
+          <p>+86 185 0017 1197</p>
+          <p data-i18n="foot_avail">可实习 · 随时到岗 · 北京</p>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Qingthefish" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://openreview.net/forum?id=xShxCo0Qda" target="_blank" rel="noopener" data-i18n="foot_paper">AAAI 2027 论文</a>
+        <a href="mailto:fishboypek@qq.com" data-i18n="foot_email">邮件联系</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Qingcheng Yu</span>
+      <span data-i18n="foot_built">由 Claude 协助构建</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ I18N ══════════ -->
+<script>
+const T = {
+  zh: {
+    nav_name:      '于清程',
+    nav_exp:       '经历',
+    nav_proj:      '项目',
+    nav_res:       '学术',
+    nav_edu:       '教育',
+    hero_eyebrow:  'Agent 产品经理 · 北京',
+    hero_name:     '于清程<em>.</em>',
+    hero_subtitle: '构建有意义的 AI 产品',
+    hero_bio:      '香港科技大学人工智能硕士在读。曾在小红书担任中台产品经理，负责 AI 编程助手、值班智能体与开发机治理等产品方向。横跨产品设计、技术落地与创业实践——相信最好的 AI 产品，是让技术真正消失在用户的工作流里。',
+    hero_cta1:     '联系我',
+    exp_eyebrow:   '精选经历',
+    xhs_period:    '2026.05 — 2026.08',
+    xhs_co:        '小红书',
+    xhs_loc:       '北京 · 中台技术部',
+    xhs_role:      '中台产品经理（实习）',
+    xhs_b1:        '负责 <strong>QS Next</strong> 系列 AI 编程助手的产品迭代：制定 Prompt 规范体系、主导交互优化，完成全量上线后用户行为分析，持续提升任务完成率与用户留存。',
+    xhs_b2:        '独立设计 <strong>QS 值班智能体</strong>效果评估体系：建立工单二维分类方案，追踪 AI 介入前后关键指标变化，输出周度效果分析报告，支撑双月 OKR 制定。',
+    xhs_b3:        '主导<strong>开发机碎卡治理</strong>产品方向：系统调研阿里云 PAI-DSW、腾讯云 TI-ONE、火山引擎 MLP 等主流 ML 平台，输出竞品分析与 QS Code 新形态 PRD 并推动落地。',
+    xhs_b4:        '参与 <strong>Red AI 整合</strong>方向：调研 Langfuse、PAI 对话式 Agent、Agentic PAI 定时任务等前沿形态，完成 8 月全平台三款 AI 产品用户行为分析报告。',
+    hack_period:   '2026.07',
+    hack_co:       '红书人物志',
+    hack_loc:      '小红书内部黑客松',
+    hack_role:     '个人参赛 · 独立完成',
+    hack_b1:       '独自完成产品概念、交互设计、前后端全栈开发，历时约 3 天实现完整 Demo，Demo Day 现场完整跑通三账号联动演示。',
+    hack_b2:       '核心产品逻辑：用户正常发笔记 → AI 提取人物候选 → 作者确认 → 故事进入关系空间 → 被写到的人逐篇决定是否展示；构建双方同意的人物关系图谱。',
+    hack_b3:       'React + TypeScript 状态机模拟三账号联动；Python FastAPI 接入真实 LLM，实现笔记人物提取与节点记忆问答两项 AI 能力。',
+    hack_cta:      '查看 GitHub 代码 →',
+    card_period:   '2021.08 — 2023.07',
+    card_co:       '环球卡社',
+    card_loc:      '西安 · 联合创始人',
+    card_role:     '联合创始人 & 店长',
+    card_b1:       '用 Python 爬取 eBay、球员与赛事数据，搭建数据驱动的选品定价系统，支撑差异化进货决策。',
+    card_b2:       '主导公众号、小红书、抖音内容运营，自编脚本协调拍摄，制作科普与热点短视频；抖音账号累计 7.9 万获赞，单条视频最高 1.5 万赞。',
+    card_b3:       '与 PSA、BGS 等国际权威评级机构建立官方合作关系，提升品牌专业形象；负责实体店运营与高粘性粉丝社群建设。',
+    proj_eyebrow:  'AI 项目',
+    p1_name:       'AI 驾驶行为<br>检测系统',
+    p1_sub:        '2025 · 项目经理 & 核心开发',
+    p1_desc:       '端到端 AI 产品闭环：设计视频上传 → 视角选择 → 驾驶者筛选 → 检测评分 → 历史对比 → 建议的完整流程。使用 YOLOv8 与 OpenCV 构建检测管线，FastAPI + SQLite + React 实现行为频次图表与月趋势分析看板。',
+    p2_name:       'AI 面试<br>辅导智能体',
+    p2_sub:        '2024 — 2025 · 产品经理',
+    p2_desc:       '面向留学生求职场景的 AI 面试教练。围绕自我介绍与技术追问等高频问题，设计实时模拟 + 结构化反馈的产品流程；规划 WebSocket + 腾讯 STT + LLM 的 AI 链路，设计结构化 Prompt 反馈机制。',
+    p3_name:       '红书人物志<br>Hackathon',
+    p3_sub:        '2026.07 · 小红书内部黑客松',
+    p3_desc:       '让小红书笔记里的人，用双方都同意的方式重新连接。AI 从笔记中提取人物候选，经作者确认后构建授权关系图谱。独立完成产品设计 + 全栈实现，3 天内跑通完整 Demo。',
+    p3_link:       'GitHub →',
+    res_eyebrow:   '学术研究',
+    res_venue:     'AAAI 2027 · Conference Submission',
+    res_title:     'SGWAM: A Scene-Graph-Augmented World-Action Model for End-to-End Autonomous Driving',
+    res_authors:   'Boyi Sun, Houxin He, Ruiqi Liu, Huan Long, <strong>Qingcheng Yu</strong>, Yuhang Liu, Renrui Zhang',
+    res_tldr:      '现有自动驾驶世界模型通常以像素或隐变量表示场景，难以显式建模交通参与者之间的规划相关交互。SGWAM 提出以场景图（Scene Graph）为核心的世界建模与动作选择框架，通过关系监督的世界状态连接未来预测与轨迹评分，在 NAVSIM v1 上取得 <strong>92.6 PDMS</strong>，在 NAVSIM v2 上取得 <strong>90.3 EPDMS</strong>。',
+    res_cta:       'OpenReview ↗',
+    edu_eyebrow:   '教育背景',
+    edu1_period:   '2026 — 2027',
+    edu1_school:   '香港科技大学',
+    edu1_degree:   '人工智能 理学硕士（在读，预计 2027 年 8 月毕业）',
+    edu2_period:   '2024 — 2026',
+    edu2_school:   '西悉尼大学',
+    edu2_degree:   '计算机科学 理学学士（优等 · Distinction）',
+    edu2_h1:       'GPA 6.636 / 7.0',
+    edu2_h2:       '2026 Dean\'s Medal for Outstanding Scholarship — 全校前 1%',
+    edu2_h3:       '2024 Dean\'s Merit List',
+    edu2_h4:       '分布式系统 97 · 专业实践 96 · 系统编程 92 · 数据库设计 89',
+    foot_name:     '于清程',
+    foot_avail:    '可实习 · 随时到岗 · 北京',
+    foot_paper:    'AAAI 2027 论文',
+    foot_email:    '邮件联系',
+    foot_built:    '由 Claude 协助构建',
+  },
+  en: {
+    nav_name:      'Qingcheng Yu',
+    nav_exp:       'Experience',
+    nav_proj:      'Projects',
+    nav_res:       'Research',
+    nav_edu:       'Education',
+    hero_eyebrow:  'Agentic Product Manager · Beijing',
+    hero_name:     'Qingcheng Yu<em>.</em>',
+    hero_subtitle: 'Building meaningful AI products',
+    hero_bio:      'MSc Artificial Intelligence candidate at HKUST (2027). Former Platform PM at Xiaohongshu (RED), responsible for AI coding assistants, intelligent agents, and developer infrastructure. Spanning product design, technical execution, and entrepreneurship — the best AI products make technology invisible inside the user\'s workflow.',
+    hero_cta1:     'Get in touch',
+    exp_eyebrow:   'Selected Experience',
+    xhs_period:    'May 2026 — Aug 2026',
+    xhs_co:        'Xiaohongshu (RED)',
+    xhs_loc:       'Beijing · Platform Engineering',
+    xhs_role:      'Platform Product Manager (Intern)',
+    xhs_b1:        'Led product iteration of the <strong>QS Next</strong> AI coding assistant: defined prompt standards, drove interaction optimization, and completed post-launch user behavior analysis to improve task completion rate and retention.',
+    xhs_b2:        'Independently designed the <strong>QS On-call Agent</strong> evaluation framework: built a 2D ticket classification system, tracked pre/post AI-intervention metrics, and delivered weekly effect reports to support bi-monthly OKR planning.',
+    xhs_b3:        'Owned the <strong>developer machine resource governance</strong> initiative: conducted competitive research across Alibaba PAI-DSW, Tencent TI-ONE, and Volcengine MLP; produced QS Code new-form PRD and drove implementation.',
+    xhs_b4:        'Contributed to the <strong>Red AI integration</strong> direction: researched Langfuse, PAI Conversational Agent, and Agentic PAI task scheduling; delivered August cross-platform user behavior analysis across three AI products.',
+    hack_period:   'Jul 2026',
+    hack_co:       'Rednote Person Graph',
+    hack_loc:      'Xiaohongshu Internal Hackathon',
+    hack_role:     'Solo Participant · End-to-End',
+    hack_b1:       'Independently designed the product concept, interaction flow, and built the full stack in ~3 days; fully demoed the product live at Demo Day with a 3-account simulation.',
+    hack_b2:       'Core product logic: users publish notes normally → AI extracts person candidates → author confirms → stories enter a relationship space → mentioned persons decide note-by-note whether to display. Built a mutual-consent person graph.',
+    hack_b3:       'React + TypeScript state machine simulating 3-account interactions; Python FastAPI with real LLM for person extraction and node memory Q&A.',
+    hack_cta:      'View on GitHub →',
+    card_period:   'Aug 2021 — Jul 2023',
+    card_co:       'Collector Universe Sportscards',
+    card_loc:      'Xi\'an · Co-founder',
+    card_role:     'Co-founder & Manager',
+    card_b1:       'Built a data-driven selection and pricing system using Python to scrape eBay, player stats, and market data — informing differentiated inventory decisions.',
+    card_b2:       'Owned content across WeChat, Xiaohongshu, and Douyin; wrote scripts and coordinated production. Grew to 79K Douyin likes; top single video hit 15K likes.',
+    card_b3:       'Established official partnerships with PSA and BGS international grading agencies; managed physical retail and built a high-retention collector community.',
+    proj_eyebrow:  'AI Projects',
+    p1_name:       'AI Driving Behavior<br>Detection System',
+    p1_sub:        '2025 · Project Manager & Core Developer',
+    p1_desc:       'End-to-end AI product loop: video upload → angle selection → driver screening → detection scoring → trend analysis → recommendations. Built YOLOv8 + OpenCV pipeline; FastAPI + SQLite + React dashboard with behavior frequency charts and monthly trends.',
+    p2_name:       'AI Interview<br>Coaching Agent',
+    p2_sub:        '2024 — 2025 · Product Manager',
+    p2_desc:       'AI interview coach for international students seeking jobs. Designed real-time simulation + structured feedback flow for self-introductions and technical Q&A; architected WebSocket + Tencent STT + LLM pipeline with structured prompt engineering.',
+    p3_name:       'Rednote Person Graph<br>Hackathon',
+    p3_sub:        'Jul 2026 · Xiaohongshu Internal Hackathon',
+    p3_desc:       'Reconnecting people inside Rednote notes — with mutual consent. AI extracts person candidates from posts; after author confirmation, stories build an authorized relationship graph. Solo-built full stack in 3 days, fully demoed at Demo Day.',
+    p3_link:       'GitHub →',
+    res_eyebrow:   'Research',
+    res_venue:     'AAAI 2027 · Conference Submission',
+    res_title:     'SGWAM: A Scene-Graph-Augmented World-Action Model for End-to-End Autonomous Driving',
+    res_authors:   'Boyi Sun, Houxin He, Ruiqi Liu, Huan Long, <strong>Qingcheng Yu</strong>, Yuhang Liu, Renrui Zhang',
+    res_tldr:      'Existing driving world models represent scenes with pixels or latent features, making explicit modeling of planning-relevant interactions difficult. SGWAM uses scene graphs as relational world states to connect future prediction with trajectory scoring — achieving <strong>92.6 PDMS on NAVSIM v1</strong> and <strong>90.3 EPDMS on NAVSIM v2</strong>.',
+    res_cta:       'OpenReview ↗',
+    edu_eyebrow:   'Education',
+    edu1_period:   '2026 — 2027',
+    edu1_school:   'Hong Kong Univ. of Science & Technology',
+    edu1_degree:   'MSc Artificial Intelligence (Expected Aug 2027)',
+    edu2_period:   '2024 — 2026',
+    edu2_school:   'Western Sydney University',
+    edu2_degree:   'Bachelor of Computer Science with Distinction',
+    edu2_h1:       'GPA 6.636 / 7.0',
+    edu2_h2:       '2026 Dean\'s Medal for Outstanding Scholarship — Top 1% of graduates',
+    edu2_h3:       '2024 Dean\'s Merit List',
+    edu2_h4:       'Distributed Systems 97 · Professional Experience 96 · Systems Programming 92 · Database Design 89',
+    foot_name:     'Qingcheng Yu',
+    foot_avail:    'Available for internship · Immediate start · Beijing',
+    foot_paper:    'AAAI 2027 Paper',
+    foot_email:    'Email',
+    foot_built:    'Built with Claude',
+  }
+};
+
+let lang = 'zh';
+
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+
+function toggleLang() {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  applyLang(lang);
+}
+
+applyLang('zh');
+</script>
+</body>
+</html>
