@@ -453,6 +453,8 @@
       .container { padding: 0 20px; }
       section { padding: 72px 0; }
       .exp-item, .edu-item { padding: 40px 0; }
+      /* 定位语比原来那句长，小屏上收一档避免占三行 */
+      .hero-subtitle { font-size: 1.18rem; line-height: 1.5; }
     }
 
     /* ─── MISC ─── */
@@ -753,6 +755,231 @@
 </footer>
 
 <!-- ══════════ I18N ══════════ -->
+<!-- ══════════════════ AI 问答组件 ══════════════════ -->
+<!-- 插入位置：index.html 的 </body> 之前                    -->
+<!-- 后端：Cloudflare Pages Function，见 秋招/cloudflare/pages-api/ -->
+
+<style>
+  #ai-fab{
+    position:fixed; right:24px; bottom:24px; z-index:900;
+    display:flex; align-items:center; gap:9px;
+    padding:13px 20px; cursor:pointer;
+    background:var(--text); color:var(--bg);
+    border:none; border-radius:40px;
+    font-family:var(--sans); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase;
+    box-shadow:0 4px 20px rgba(26,25,24,.16);
+    transition:transform .22s var(--ease), opacity .22s var(--ease);
+  }
+  #ai-fab:hover{ transform:translateY(-2px); }
+  #ai-fab.hidden{ opacity:0; pointer-events:none; transform:translateY(8px); }
+  #ai-fab .dot{ width:6px; height:6px; border-radius:50%; background:#8FD6A0; flex:none; }
+
+  #ai-panel{
+    position:fixed; right:24px; bottom:24px; z-index:901;
+    width:392px; max-height:min(620px, calc(100vh - 48px));
+    display:none; flex-direction:column;
+    background:var(--bg); border:1px solid var(--border); border-radius:6px;
+    box-shadow:0 12px 48px rgba(26,25,24,.18);
+    overflow:hidden;
+  }
+  #ai-panel.open{ display:flex; }
+
+  .ai-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 18px; border-bottom:1px solid var(--border-light); flex:none;
+  }
+  .ai-head h4{ font-family:var(--serif); font-size:1.05rem; font-weight:400; }
+  .ai-head p{ font-size:.66rem; color:var(--light); letter-spacing:.04em; margin-top:2px; }
+  .ai-close{
+    background:none; border:none; cursor:pointer; color:var(--muted);
+    font-size:1.3rem; line-height:1; padding:2px 4px; transition:color .2s;
+  }
+  .ai-close:hover{ color:var(--text); }
+
+  .ai-body{ flex:1; overflow-y:auto; padding:18px; }
+  .ai-msg{ margin-bottom:16px; font-size:.84rem; line-height:1.85; }
+  .ai-msg:last-child{ margin-bottom:0; }
+  .ai-msg.me{ text-align:right; }
+  .ai-msg.me span{
+    display:inline-block; max-width:84%; text-align:left;
+    background:var(--text); color:var(--bg);
+    padding:9px 14px; border-radius:14px 14px 3px 14px;
+  }
+  .ai-msg.bot span{
+    display:inline-block; max-width:92%;
+    background:#FFF; border:1px solid var(--border-light);
+    color:#3A3835; padding:11px 14px; border-radius:14px 14px 14px 3px;
+    white-space:pre-wrap;
+  }
+  .ai-msg.err span{ background:#FFF6F5; border-color:#F0D5D2; color:#9A4B42; }
+
+  .ai-chips{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .ai-chip{
+    font-size:.7rem; padding:6px 11px; cursor:pointer;
+    background:none; border:1px solid var(--border); border-radius:20px;
+    color:var(--muted); font-family:var(--sans); transition:all .18s;
+  }
+  .ai-chip:hover{ background:var(--text); color:var(--bg); border-color:var(--text); }
+
+  .ai-foot{ padding:12px 14px; border-top:1px solid var(--border-light); flex:none; }
+  .ai-input-row{ display:flex; gap:8px; align-items:flex-end; }
+  #ai-input{
+    flex:1; resize:none; max-height:88px;
+    font-family:var(--sans); font-size:.82rem; line-height:1.6; color:var(--text);
+    background:#FFF; border:1px solid var(--border); border-radius:4px;
+    padding:9px 11px; outline:none; transition:border-color .2s;
+  }
+  #ai-input:focus{ border-color:var(--muted); }
+  #ai-send{
+    flex:none; padding:9px 16px; cursor:pointer;
+    background:var(--text); color:var(--bg); border:none; border-radius:4px;
+    font-family:var(--sans); font-size:.72rem; letter-spacing:.06em;
+    transition:opacity .2s;
+  }
+  #ai-send:disabled{ opacity:.4; cursor:not-allowed; }
+  .ai-note{ font-size:.62rem; color:var(--light); margin-top:8px; line-height:1.5; }
+
+  .ai-typing span{ display:inline-block; animation:aiblink 1.3s infinite; }
+  .ai-typing span:nth-child(2){ animation-delay:.18s; }
+  .ai-typing span:nth-child(3){ animation-delay:.36s; }
+  @keyframes aiblink{ 0%,60%,100%{opacity:.25} 30%{opacity:1} }
+
+  /* 手机端：铺满，避免小屏挤成一团 */
+  @media (max-width:520px){
+    #ai-fab{ right:16px; bottom:16px; padding:12px 17px; }
+    #ai-panel{
+      right:0; left:0; bottom:0; width:auto;
+      max-height:82vh; border-radius:10px 10px 0 0; border-bottom:none;
+    }
+  }
+</style>
+
+<button id="ai-fab" onclick="aiToggle()" aria-label="Ask about me">
+  <span class="dot"></span><span data-i18n="ai_fab">问问我的 AI</span>
+</button>
+
+<div id="ai-panel" role="dialog" aria-modal="false">
+  <div class="ai-head">
+    <div>
+      <h4 data-i18n="ai_title">关于于清程</h4>
+      <p data-i18n="ai_sub">基于他的公开资料回答 · 不确定就会说不知道</p>
+    </div>
+    <button class="ai-close" onclick="aiToggle()" aria-label="Close">×</button>
+  </div>
+  <div class="ai-body" id="ai-body"></div>
+  <div class="ai-foot">
+    <div class="ai-input-row">
+      <textarea id="ai-input" rows="1" data-i18n-ph="ai_ph" placeholder="问点什么…"></textarea>
+      <button id="ai-send" onclick="aiSend()" data-i18n="ai_send">发送</button>
+    </div>
+    <p class="ai-note" data-i18n="ai_note">回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ⚠️ 部署后把这里改成你的 Pages 项目地址
+  const AI_ENDPOINT = 'https://qingcheng-api.pages.dev/api/chat';
+
+  const CHIPS = {
+    zh: ['他黑客松拿了什么成绩？', '他创业做了什么？', '他技术能力到什么程度？', '他在找什么岗位？'],
+    en: ['What did he achieve at the hackathon?', 'Tell me about his startup.',
+         'How technical is he really?', 'What role is he looking for?'],
+  };
+  const TXT = {
+    zh: { greet: '你好。我可以介绍于清程的经历、项目和求职意向 —— 想了解哪方面？',
+          thinking: '思考中', neterr: '网络没连上，稍后再试，或直接邮件：fishboypek@qq.com' },
+    en: { greet: "Hi. I can walk you through Qingcheng's background, projects and what he's looking for. Where would you like to start?",
+          thinking: 'Thinking', neterr: 'Network issue — please retry, or email fishboypek@qq.com' },
+  };
+
+  let started = false, busy = false;
+  const $ = (id) => document.getElementById(id);
+  const cur = () => (document.documentElement.lang === 'en' ? 'en' : 'zh');
+
+  function add(who, text) {
+    const d = document.createElement('div');
+    d.className = 'ai-msg ' + who;
+    const s = document.createElement('span');
+    s.textContent = text;
+    d.appendChild(s);
+    $('ai-body').appendChild(d);
+    $('ai-body').scrollTop = $('ai-body').scrollHeight;
+    return d;
+  }
+
+  function chips() {
+    const wrap = document.createElement('div');
+    wrap.className = 'ai-chips';
+    CHIPS[cur()].forEach((q) => {
+      const b = document.createElement('button');
+      b.className = 'ai-chip';
+      b.textContent = q;
+      b.onclick = () => { $('ai-input').value = q; window.aiSend(); wrap.remove(); };
+      wrap.appendChild(b);
+    });
+    $('ai-body').appendChild(wrap);
+  }
+
+  window.aiToggle = function () {
+    const p = $('ai-panel');
+    const open = p.classList.toggle('open');
+    $('ai-fab').classList.toggle('hidden', open);
+    if (open && !started) { started = true; add('bot', TXT[cur()].greet); chips(); }
+    if (open) setTimeout(() => $('ai-input').focus(), 120);
+  };
+
+  window.aiSend = async function () {
+    if (busy) return;
+    const box = $('ai-input');
+    const q = box.value.trim();
+    if (!q) return;
+
+    box.value = ''; box.style.height = 'auto';
+    add('me', q);
+    busy = true; $('ai-send').disabled = true;
+
+    const t = add('bot', '');
+    t.querySelector('span').innerHTML =
+      TXT[cur()].thinking + ' <span class="ai-typing"><span>·</span><span>·</span><span>·</span></span>';
+
+    try {
+      const r = await fetch(AI_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: q }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (r.ok && data.answer) {
+        t.querySelector('span').textContent = data.answer;
+      } else {
+        t.className = 'ai-msg err';
+        t.querySelector('span').textContent = data.error || TXT[cur()].neterr;
+      }
+    } catch {
+      t.className = 'ai-msg err';
+      t.querySelector('span').textContent = TXT[cur()].neterr;
+    } finally {
+      busy = false; $('ai-send').disabled = false;
+      $('ai-body').scrollTop = $('ai-body').scrollHeight;
+    }
+  };
+
+  // 输入框自适应高度 + 回车发送（Shift+Enter 换行）
+  document.addEventListener('DOMContentLoaded', function () {
+    const box = $('ai-input');
+    if (!box) return;
+    box.addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 88) + 'px';
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); window.aiSend(); }
+    });
+  });
+})();
+</script>
+
 <script>
 const T = {
   zh: {
@@ -833,6 +1060,12 @@ const T = {
     tag_startup:   '创业',
     tag_content:   '内容运营',
     tag_community: '用户社群',
+    ai_fab:        '问问我的 AI',
+    ai_title:      '关于于清程',
+    ai_sub:        '基于他的公开资料回答 · 不确定就会说不知道',
+    ai_ph:         '问点什么…',
+    ai_send:       '发送',
+    ai_note:       '回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com',
     foot_name:     '于清程',
     foot_avail:    '2027.8 毕业 · 求 2027 届校招全职 · 寒假可实习',
     foot_paper:    'AAAI 2027 论文',
@@ -917,6 +1150,12 @@ const T = {
     tag_startup:   'Entrepreneurship',
     tag_content:   'Content Ops',
     tag_community: 'Community',
+    ai_fab:        'Ask my AI',
+    ai_title:      'About Qingcheng',
+    ai_sub:        'Answers from his public material · says so when unsure',
+    ai_ph:         'Ask me anything…',
+    ai_send:       'Send',
+    ai_note:       'Generated by an LLM and may be imperfect. For anything important, email fishboypek@qq.com',
     foot_name:     'Qingcheng Yu',
     foot_avail:    'Graduating Aug 2027 · Seeking new-grad full-time · Winter internship available',
     foot_paper:    'AAAI 2027 Paper',
@@ -931,6 +1170,11 @@ function applyLang(l) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const v = T[l][el.dataset.i18n];
     if (v !== undefined) el.innerHTML = v;
+  });
+  // placeholder 是属性不是内容，得单独处理
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = T[l][el.dataset.i18nPh];
+    if (v !== undefined) el.placeholder = v;
   });
   document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
   document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
