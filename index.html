@@ -474,9 +474,9 @@
 <section id="hero">
   <div class="container">
     <div class="hero-wrap">
-      <p class="hero-eyebrow" data-i18n="hero_eyebrow">Agent 产品经理 · 北京</p>
+      <p class="hero-eyebrow" data-i18n="hero_eyebrow">大厂中台产品经理 · 港科大 AI 硕士在读</p>
       <h1 class="hero-name" data-i18n="hero_name">于清程<em>.</em></h1>
-      <p class="hero-subtitle" data-i18n="hero_subtitle">构建有意义的 AI 产品</p>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">不只写 PRD —— 我自己把 AI 产品交付上线</p>
       <p class="hero-bio" data-i18n="hero_bio">
         香港科技大学人工智能硕士在读。曾在小红书担任中台产品经理，负责 AI 编程助手、值班智能体与开发机治理等产品方向。横跨产品设计、技术落地与创业实践——相信最好的 AI 产品，是让技术真正消失在用户的工作流里。
       </p>
@@ -510,7 +510,7 @@
           <span class="tag">Developer Tools</span>
           <span class="tag">PRD</span>
           <span class="tag">Prompt Engineering</span>
-          <span class="tag">效果评估</span>
+          <span class="tag" data-i18n="tag_eval">效果评估</span>
         </div>
         <ul class="exp-bullets">
           <li data-i18n="xhs_b1">负责 <strong>QS Next</strong> 系列 AI 编程助手的产品迭代：制定 Prompt 规范体系、主导交互优化，完成全量上线后用户行为分析，持续提升任务完成率与用户留存。</li>
@@ -556,10 +556,10 @@
       <div>
         <p class="exp-role" data-i18n="card_role">联合创始人 & 店长</p>
         <div class="exp-tags">
-          <span class="tag">创业</span>
+          <span class="tag" data-i18n="tag_startup">创业</span>
           <span class="tag">Python</span>
-          <span class="tag">内容运营</span>
-          <span class="tag">用户社群</span>
+          <span class="tag" data-i18n="tag_content">内容运营</span>
+          <span class="tag" data-i18n="tag_community">用户社群</span>
         </div>
         <ul class="exp-bullets">
           <li data-i18n="card_b1">用 Python 爬取 eBay、球员与赛事数据，搭建数据驱动的选品定价系统，支撑差异化进货决策。</li>
@@ -712,8 +712,7 @@
         <p class="footer-name" data-i18n="foot_name">于清程</p>
         <div class="footer-contact">
           <p>fishboypek@qq.com</p>
-          <p>+86 185 0017 1197</p>
-          <p data-i18n="foot_avail">可实习 · 随时到岗 · 北京</p>
+          <p data-i18n="foot_avail">2027.8 毕业 · 求 2027 届校招全职 · 寒假可实习</p>
         </div>
       </div>
       <div class="footer-links">
@@ -738,9 +737,9 @@ const T = {
     nav_proj:      '项目',
     nav_res:       '学术',
     nav_edu:       '教育',
-    hero_eyebrow:  'Agent 产品经理 · 北京',
+    hero_eyebrow:  '大厂中台产品经理 · 港科大 AI 硕士在读',
     hero_name:     '于清程<em>.</em>',
-    hero_subtitle: '构建有意义的 AI 产品',
+    hero_subtitle: '不只写 PRD —— 我自己把 AI 产品交付上线',
     hero_bio:      '香港科技大学人工智能硕士在读。曾在小红书担任中台产品经理，负责 AI 编程助手、值班智能体与开发机治理等产品方向。横跨产品设计、技术落地与创业实践——相信最好的 AI 产品，是让技术真正消失在用户的工作流里。',
     hero_cta1:     '联系我',
     exp_eyebrow:   '精选经历',
@@ -798,8 +797,12 @@ const T = {
     edu2_h2:       '2026 Dean\'s Medal for Outstanding Scholarship — 全校前 1%',
     edu2_h3:       '2024 Dean\'s Merit List',
     edu2_h4:       '分布式系统 97 · 专业实践 96 · 系统编程 92 · 数据库设计 89',
+    tag_eval:      '效果评估',
+    tag_startup:   '创业',
+    tag_content:   '内容运营',
+    tag_community: '用户社群',
     foot_name:     '于清程',
-    foot_avail:    '可实习 · 随时到岗 · 北京',
+    foot_avail:    '2027.8 毕业 · 求 2027 届校招全职 · 寒假可实习',
     foot_paper:    'AAAI 2027 论文',
     foot_email:    '邮件联系',
     foot_built:    '由 Claude 协助构建',
@@ -810,9 +813,9 @@ const T = {
     nav_proj:      'Projects',
     nav_res:       'Research',
     nav_edu:       'Education',
-    hero_eyebrow:  'Agentic Product Manager · Beijing',
+    hero_eyebrow:  'Platform PM · MSc AI Candidate, HKUST',
     hero_name:     'Qingcheng Yu<em>.</em>',
-    hero_subtitle: 'Building meaningful AI products',
+    hero_subtitle: 'I don\'t just write specs — I ship AI products.',
     hero_bio:      'MSc Artificial Intelligence candidate at HKUST (2027). Former Platform PM at Xiaohongshu (RED), responsible for AI coding assistants, intelligent agents, and developer infrastructure. Spanning product design, technical execution, and entrepreneurship — the best AI products make technology invisible inside the user\'s workflow.',
     hero_cta1:     'Get in touch',
     exp_eyebrow:   'Selected Experience',
@@ -870,8 +873,12 @@ const T = {
     edu2_h2:       '2026 Dean\'s Medal for Outstanding Scholarship — Top 1% of graduates',
     edu2_h3:       '2024 Dean\'s Merit List',
     edu2_h4:       'Distributed Systems 97 · Professional Experience 96 · Systems Programming 92 · Database Design 89',
+    tag_eval:      'Evaluation',
+    tag_startup:   'Entrepreneurship',
+    tag_content:   'Content Ops',
+    tag_community: 'Community',
     foot_name:     'Qingcheng Yu',
-    foot_avail:    'Available for internship · Immediate start · Beijing',
+    foot_avail:    'Graduating Aug 2027 · Seeking new-grad full-time · Winter internship available',
     foot_paper:    'AAAI 2027 Paper',
     foot_email:    'Email',
     foot_built:    'Built with Claude',
