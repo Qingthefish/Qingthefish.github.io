@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中台产品经理 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-title { font-family: var(--serif); font-size: 1rem; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTENT */
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--border-light); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-label { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); padding-top: 3px; }
+    .tl-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .tl-desc { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 0; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .img-placeholder.tall { aspect-ratio: 4/3; }
+    .gallery-full { grid-column: 1 / -1; }
+    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* FOOTER */
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col, .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
+      .tl-item { grid-template-columns: 1fr; gap: 6px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta"></p>
+    <h1 class="hero-title" data-i18n="hero_title"></h1>
+    <p class="hero-sub" data-i18n="hero_sub"></p>
+    <div class="hero-tags"><span class="tag">AI Agent</span>
+      <span class="tag">Developer Tools</span>
+      <span class="tag">PRD</span>
+      <span class="tag">Prompt Engineering</span>
+      <span class="tag" data-i18n="tag4">效果评估</span></div>
+  </div>
+</div>
+
+<div class="stats">  <div class="stat">
+    <div class="stat-num">4</div>
+    <div class="stat-label" data-i18n="s1"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">3</div>
+    <div class="stat-label" data-i18n="s2"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1</div>
+    <div class="stat-label" data-i18n="s3"></div>
+  </div></div>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1"></p>
+        <p data-i18n="sec1_p2"></p>
+        <p data-i18n="sec1_p3"></p>
+      </div>
+    </div>
+    <div style="margin-top:60px">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s1tl1_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s1tl1_t"></p>
+            <p class="tl-desc" data-i18n="s1tl1_d"></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s1tl2_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s1tl2_t"></p>
+            <p class="tl-desc" data-i18n="s1tl2_d"></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s1tl3_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s1tl3_t"></p>
+            <p class="tl-desc" data-i18n="s1tl3_d"></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s1tl4_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s1tl4_t"></p>
+            <p class="tl-desc" data-i18n="s1tl4_d"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec2_p1"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  "zh": {
+    "back": "于清程",
+    "foot_back": "← 返回主页",
+    "tag4": "效果评估",
+    "s1": "并行负责的产品方向",
+    "s2": "系统调研的主流 ML 平台竞品",
+    "s3": "从 0 搭建的智能体效果评估体系",
+    "sec1_label": "我在做什么",
+    "sec1_head": "给工程师做 AI 产品，和给消费者做完全是两件事",
+    "sec1_p1": "中台产品的用户是公司内部的工程师。他们不会因为界面好看就用你的东西——他们只关心一件事：这个工具有没有真的让我少干活。所以这里的产品判断标准非常硬，几乎没有靠叙事糊弄过去的空间。",
+    "sec1_p2": "我在这里同时推进四个方向：AI 编程助手的产品迭代、值班智能体的效果评估体系、开发机资源治理、以及多个 AI 产品的整合调研。",
+    "sec1_p3": "<em>说明：以下内容为脱敏描述。具体业务数据、内部产品代号与未公开的规划不在此披露。</em>",
+    "s1tl1_l": "方向一",
+    "s1tl1_t": "AI 编程助手 · 产品迭代",
+    "s1tl1_d": "制定 Prompt 规范体系、主导交互优化，并在全量上线后完成用户行为分析，围绕任务完成率与留存持续迭代。",
+    "s1tl2_l": "方向二",
+    "s1tl2_t": "值班智能体 · 效果评估体系",
+    "s1tl2_d": "独立从 0 设计评估方案：建立工单二维分类，追踪 AI 介入前后的关键指标变化，输出周度分析报告并支撑双月 OKR 制定。<strong>这是四个方向里我最有话讲的一个——因为「怎么衡量一个 Agent 做得好不好」目前还没有标准答案。</strong>",
+    "s1tl3_l": "方向三",
+    "s1tl3_t": "开发机资源治理",
+    "s1tl3_d": "系统调研阿里云 PAI-DSW、腾讯云 TI-ONE、火山引擎 MLP 等主流 ML 平台，输出竞品分析与新产品形态 PRD 并推动落地。",
+    "s1tl4_l": "方向四",
+    "s1tl4_t": "AI 产品整合调研",
+    "s1tl4_d": "调研 Langfuse、对话式 Agent、Agentic 定时任务等前沿形态，完成跨平台三款 AI 产品的用户行为分析报告。",
+    "sec2_label": "待补充",
+    "sec2_head": "这段的完整复盘还在整理",
+    "sec2_p1": "【占位 · 待替换】这里将补充：我怎么判断需求优先级、怎么和研发协作、怎么衡量中台产品的价值，以及做错过什么。",
+    "hero_meta": "实习 · 2026.05 — 2026.08 · 北京",
+    "hero_title": "中台产品经理",
+    "hero_sub": "在大厂中台做面向工程师的 AI 产品"
+  },
+  "en": {
+    "back": "Qingcheng Yu",
+    "foot_back": "← Back to portfolio",
+    "tag4": "Evaluation",
+    "s1": "parallel product tracks owned",
+    "s2": "major ML platforms benchmarked",
+    "s3": "agent evaluation framework built from scratch",
+    "sec1_label": "What I do",
+    "sec1_head": "Building AI for engineers is a different job from building it for consumers",
+    "sec1_p1": "A platform team's users are the company's own engineers. They won't adopt something because it looks nice — they care about exactly one thing: did this actually save me work. The bar for product judgement here is unusually hard and there is almost no room to paper over a weak idea with a story.",
+    "sec1_p2": "I ran four tracks in parallel: iterating on an AI coding assistant, building an evaluation framework for an on-call agent, developer-machine resource governance, and consolidation research across several AI products.",
+    "sec1_p3": "<em>Note: the following is a redacted account. Specific business metrics, internal product code names and unreleased plans are deliberately omitted.</em>",
+    "s1tl1_l": "Track 1",
+    "s1tl1_t": "AI coding assistant · product iteration",
+    "s1tl1_d": "Defined the prompt standards framework, led interaction redesign, and ran post-launch behavioural analysis, iterating around task completion rate and retention.",
+    "s1tl2_l": "Track 2",
+    "s1tl2_t": "On-call agent · evaluation framework",
+    "s1tl2_d": "Designed the evaluation approach from scratch: a two-dimensional ticket taxonomy, tracking metric shifts before and after AI intervention, feeding weekly reports into bi-monthly OKR planning. <strong>This is the track I have the most to say about — there is still no standard answer to how you measure whether an agent is any good.</strong>",
+    "s1tl3_l": "Track 3",
+    "s1tl3_t": "Developer-machine resource governance",
+    "s1tl3_d": "Benchmarked Alibaba PAI-DSW, Tencent TI-ONE and Volcengine MLP; produced the competitive analysis and a PRD for a new product form, and drove it to implementation.",
+    "s1tl4_l": "Track 4",
+    "s1tl4_t": "AI product consolidation research",
+    "s1tl4_d": "Researched Langfuse, conversational agents and agentic task scheduling; delivered a cross-platform behavioural analysis covering three AI products.",
+    "sec2_label": "To be expanded",
+    "sec2_head": "A fuller account is still being written",
+    "sec2_p1": "[Placeholder] To be added: how I prioritise, how I work with engineering, how I measure the value of platform products — and what I got wrong.",
+    "hero_meta": "Internship · May – Aug 2026 · Beijing",
+    "hero_title": "Platform Product Manager",
+    "hero_sub": "Building AI products for engineers, on a platform team"
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>

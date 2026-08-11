@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>教育背景 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-title { font-family: var(--serif); font-size: 1rem; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTENT */
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--border-light); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-label { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); padding-top: 3px; }
+    .tl-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .tl-desc { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 0; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .img-placeholder.tall { aspect-ratio: 4/3; }
+    .gallery-full { grid-column: 1 / -1; }
+    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* FOOTER */
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col, .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
+      .tl-item { grid-template-columns: 1fr; gap: 6px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta"></p>
+    <h1 class="hero-title" data-i18n="hero_title"></h1>
+    <p class="hero-sub" data-i18n="hero_sub"></p>
+    <div class="hero-tags"><span class="tag" data-i18n="tag0">港科大 AI 硕士</span>
+      <span class="tag">Dean's Medal</span>
+      <span class="tag">GPA 6.636 / 7.0</span>
+      <span class="tag">IELTS 7.5</span></div>
+  </div>
+</div>
+
+<div class="stats">  <div class="stat">
+    <div class="stat-num">前 1%</div>
+    <div class="stat-label" data-i18n="s1"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">6.636</div>
+    <div class="stat-label" data-i18n="s2"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">97</div>
+    <div class="stat-label" data-i18n="s3"></div>
+  </div></div>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1"></p>
+        <p data-i18n="sec1_p2"></p>
+        <p data-i18n="sec1_p3"></p>
+        <p data-i18n="sec1_p4"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head"></h2>
+      <div class="col-body">
+
+      </div>
+    </div>
+    <div style="margin-top:60px">
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s2tl1_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s2tl1_t"></p>
+            <p class="tl-desc" data-i18n="s2tl1_d"></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s2tl2_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s2tl2_t"></p>
+            <p class="tl-desc" data-i18n="s2tl2_d"></p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-label" data-i18n="s2tl3_l"></div>
+          <div>
+            <p class="tl-title" data-i18n="s2tl3_t"></p>
+            <p class="tl-desc" data-i18n="s2tl3_d"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1"></p>
+      </div>
+    </div>
+    <div class="gallery" style="margin-top:48px">
+      <div class="img-placeholder gallery-full tall"><span data-i18n="s3ph1"></span></div>
+      <div class="img-placeholder"><span data-i18n="s3ph2"></span></div>
+      <div class="img-placeholder"><span data-i18n="s3ph3"></span></div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  "zh": {
+    "back": "于清程",
+    "foot_back": "← 返回主页",
+    "tag0": "港科大 AI 硕士",
+    "s1": "Dean's Medal 院长奖章 · 授予学业卓越的毕业生",
+    "s2": "本科 GPA（满分 7.0）",
+    "s3": "分布式系统课程成绩（High Distinction）",
+    "sec1_label": "这条路",
+    "sec1_head": "中断，然后自己把它接回来",
+    "sec1_p1": "2018 年我在澳大利亚国立大学读计算机科学。2020 年前后家里经济断供，学业被迫中止。",
+    "sec1_p2": "接下来两年我没有回学校，而是和合伙人在西安全职创办了球星卡生意——不是间隔年，是真的在挣学费。两年后攒够了钱，我重新申请入学，在西悉尼大学读完了计算机科学本科。",
+    "sec1_p3": "<strong>毕业时拿到 Dean's Medal —— 授予该届前 1% 的毕业生。</strong>2026 年 9 月，我进入香港科技大学攻读人工智能硕士。",
+    "sec1_p4": "这段经历我不打算美化成励志故事。它只说明一件事：<strong>我知道一件事做不成是什么感觉，也知道怎么把它重新做成。</strong>",
+    "sec2_label": "学历",
+    "sec2_head": "三段，跨三个国家",
+    "s2tl1_l": "2026 — 2027",
+    "s2tl1_t": "香港科技大学 · 人工智能 理学硕士",
+    "s2tl1_d": "在读，预计 2027 年 8 月毕业。方向聚焦大模型应用与 Agent 系统。",
+    "s2tl2_l": "2024 — 2026",
+    "s2tl2_t": "西悉尼大学 · 计算机科学 理学学士（Distinction）",
+    "s2tl2_d": "GPA 6.636 / 7.0；2026 年 Dean's Medal（前 1% 毕业生）；2024 年 Dean's Merit List。分布式系统 97、专业实践 96、系统编程 92、数据库设计 89。",
+    "s2tl3_l": "2018 — 2019",
+    "s2tl3_t": "澳大利亚国立大学 · 计算机科学",
+    "s2tl3_d": "因家庭经济原因中断学业。此后全职创业两年自筹学费，之后重返校园完成本科。",
+    "sec3_label": "证明材料",
+    "sec3_head": "奖状与成绩单",
+    "sec3_p1": "【占位 · 待补充真实图片】此处将放置 Dean's Medal 院长奖章证书、成绩单与在读证明的扫描件。",
+    "s3ph1": "Dean's Medal 奖章证书（待补充）",
+    "s3ph2": "成绩单（待补充）",
+    "s3ph3": "港科大录取 / 在读证明（待补充）",
+    "hero_meta": "教育背景 · 2018 — 2027",
+    "hero_title": "教育背景",
+    "hero_sub": "三段学历，一条自己挣出来的路"
+  },
+  "en": {
+    "back": "Qingcheng Yu",
+    "foot_back": "← Back to portfolio",
+    "tag0": "MSc AI, HKUST",
+    "s1": "Dean's Medal — awarded to the top 1% of graduates",
+    "s2": "Undergraduate GPA, out of 7.0",
+    "s3": "Distributed Systems — highest course mark",
+    "sec1_label": "The path",
+    "sec1_head": "It broke. I put it back together myself.",
+    "sec1_p1": "I started Computer Science at the Australian National University in 2018. Around 2020 my family could no longer fund it, and I had to stop.",
+    "sec1_p2": "For the next two years I didn't go back to school. I co-founded a sports trading card business in Xi'an and ran it full-time — not a gap year, I was earning tuition. Two years later I had enough saved, reapplied, and finished my Computer Science degree at Western Sydney University.",
+    "sec1_p3": "<strong>I graduated with the Dean's Medal, awarded to the top 1% of the graduating class.</strong> In September 2026 I began an MSc in Artificial Intelligence at HKUST.",
+    "sec1_p4": "I'm not going to dress this up as an inspirational story. It only demonstrates one thing: <strong>I know what it feels like for something to fall apart, and I know how to rebuild it.</strong>",
+    "sec2_label": "Degrees",
+    "sec2_head": "Three degrees, three countries",
+    "s2tl1_l": "2026 — 2027",
+    "s2tl1_t": "HKUST · MSc, Artificial Intelligence",
+    "s2tl1_d": "In progress, expected August 2027. Focused on LLM applications and agent systems.",
+    "s2tl2_l": "2024 — 2026",
+    "s2tl2_t": "Western Sydney University · BSc Computer Science (Distinction)",
+    "s2tl2_d": "GPA 6.636 / 7.0. Dean's Medal 2026 (top 1% of graduates); Dean's Merit List 2024. Distributed Systems 97, Professional Experience 96, Systems Programming 92, Database Design 89.",
+    "s2tl3_l": "2018 — 2019",
+    "s2tl3_t": "The Australian National University · Computer Science",
+    "s2tl3_d": "Interrupted when family funding ended. Ran a business full-time for two years to self-fund tuition, then returned to complete the degree.",
+    "sec3_label": "Credentials",
+    "sec3_head": "Awards and transcripts",
+    "sec3_p1": "[Placeholder — real images pending] Scans of the Dean's Medal certificate, academic transcript, and enrolment confirmation will go here.",
+    "s3ph1": "Dean's Medal certificate (pending)",
+    "s3ph2": "Academic transcript (pending)",
+    "s3ph3": "HKUST offer / enrolment (pending)",
+    "hero_meta": "Education · 2018 — 2027",
+    "hero_title": "Education",
+    "hero_sub": "Three degrees — and a path I paid for myself"
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>

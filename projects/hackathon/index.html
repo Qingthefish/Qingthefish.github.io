@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>红书人物志 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    .nav-title { font-family: var(--serif); font-size: 1rem; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTENT */
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--border-light); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-label { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); padding-top: 3px; }
+    .tl-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
+    .tl-desc { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 0; }
+    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
+    .img-placeholder.tall { aspect-ratio: 4/3; }
+    .gallery-full { grid-column: 1 / -1; }
+    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* FOOTER */
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col, .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
+      .tl-item { grid-template-columns: 1fr; gap: 6px; }
+      .gallery { grid-template-columns: 1fr; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta"></p>
+    <h1 class="hero-title" data-i18n="hero_title"></h1>
+    <p class="hero-sub" data-i18n="hero_sub"></p>
+    <div class="hero-tags"><span class="tag">React</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">FastAPI</span>
+      <span class="tag">LLM</span>
+      <span class="tag">Product Design</span></div>
+  </div>
+</div>
+
+<div class="stats">  <div class="stat">
+    <div class="stat-num">36<span style='font-size:1.8rem'>h</span></div>
+    <div class="stat-label" data-i18n="s1"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">819</div>
+    <div class="stat-label" data-i18n="s2"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">前 200</div>
+    <div class="stat-label" data-i18n="s3"></div>
+  </div></div>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1"></p>
+        <p data-i18n="sec1_p2"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec2_p1"></p>
+        <p data-i18n="sec2_p2"></p>
+        <p data-i18n="sec2_p3"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1"></p>
+        <p data-i18n="sec3_p2"></p>
+        <p data-i18n="sec3_p3"></p>
+      </div>
+    </div>
+    <div class="gallery" style="margin-top:48px">
+      <div class="img-placeholder gallery-full tall"><span data-i18n="s3ph1"></span></div>
+      <div class="img-placeholder"><span data-i18n="s3ph2"></span></div>
+      <div class="img-placeholder"><span data-i18n="s3ph3"></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec4_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec4_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec4_p1"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  "zh": {
+    "back": "于清程",
+    "foot_back": "← 返回主页",
+    "s1": "封闭赛时长，一个人从概念做到上线",
+    "s2": "参赛人数（小红书首届全员黑客松）",
+    "s3": "入选 Demo Day（Top 24%）",
+    "sec1_label": "产品概念",
+    "sec1_head": "用笔记找到故事里的人",
+    "sec1_p1": "社交平台上有大量真实的生活故事，每篇笔记背后都站着「爸爸」「高中同学」「室友」这样的现实人物。这个产品探索一个问题：<strong>如果把这些故事里的人，用双方都同意的方式连接起来，会长出什么？</strong>",
+    "sec1_p2": "完整链路是：作者正常发笔记 → AI 识别可能涉及的人物候选 → 作者确认 → 故事挂载到人物节点 → 被写到的人逐篇决定是否在自己节点展示。人物节点随着不同人的新故事持续生长。",
+    "sec2_label": "核心设计",
+    "sec2_head": "那道确权闸门",
+    "sec2_p1": "整个产品最关键的一步，是 <strong>AI 抽出人物之后不直接建图，而是必须由作者本人确认。</strong>",
+    "sec2_p2": "这看起来只是多了一次点击，实际上一道闸门同时解决了三个完全不同的问题：<strong>隐私授权</strong>（自动把真人拉进关系网就是隐私事故）、<strong>模型幻觉</strong>（AI 编造的人名过不了人工确认）、<strong>同名消歧</strong>（「阿嬷」和「奶奶」是不是同一个人，作者一眼就知道）。",
+    "sec2_p3": "系统还支持「部分授权」的中间态——已交接、剩余篇数——而不是只有全有或全无。<strong>做产品最花时间的从来不是主流程，是这些边界情况。</strong>",
+    "sec3_label": "技术实现",
+    "sec3_head": "一个人的全栈",
+    "sec3_p1": "前端 React + TypeScript，用状态机模拟三个账号的联动——作者、被提及者、旁观者三端共享同一份状态，一端操作另外两端实时响应。后端 Python FastAPI，接入真实大模型实现两项 AI 能力：笔记人物抽取（强制 JSON schema 输出）与节点记忆问答（硬性约束不得扮演本人、不得编造、必须给出引用来源）。",
+    "sec3_p2": "迭代至 v1.0.48 并部署上线，配套完整的产品规格文档、验收清单和排错手册。<strong>代码已开源。</strong>",
+    "sec3_p3": "<a href=\"https://github.com/Qingthefish/rednote-person-graph\" target=\"_blank\" rel=\"noopener\" style=\"border-bottom:1px solid var(--border)\">查看 GitHub 代码 →</a>",
+    "s3ph1": "易拉宝主视觉（待放入）",
+    "s3ph2": "产品界面截图（待补充）",
+    "s3ph3": "Demo Day 现场（待补充）",
+    "sec4_label": "待补充",
+    "sec4_head": "开发心路历程还在整理",
+    "sec4_p1": "【占位 · 待替换】这里将补充：36 小时里的关键取舍、踩过的坑、200 进 10 没能入围之后的复盘。",
+    "hero_meta": "黑客松 · 2026.07 · 36 小时封闭赛",
+    "hero_title": "红书人物志",
+    "hero_sub": "个人参赛 · 产品设计与全栈开发全部独立完成"
+  },
+  "en": {
+    "back": "Qingcheng Yu",
+    "foot_back": "← Back to portfolio",
+    "s1": "closed-door sprint — concept to production, solo",
+    "s2": "entrants in Xiaohongshu's first company-wide hackathon",
+    "s3": "selected for Demo Day (top 24%)",
+    "sec1_label": "The idea",
+    "sec1_head": "Finding the people inside the stories",
+    "sec1_p1": "Social platforms are full of real life stories, and behind each post stand real people — a father, a high-school classmate, a roommate. This product explores one question: <strong>what grows if you connect those people, in a way both sides have agreed to?</strong>",
+    "sec1_p2": "The full loop: the author posts normally → an LLM proposes person candidates → the author confirms → the story attaches to a person node → the person mentioned decides, story by story, whether it shows on their node. Nodes keep growing as different people add stories.",
+    "sec2_label": "The core decision",
+    "sec2_head": "The consent gate",
+    "sec2_p1": "The single most important step is that <strong>after the model extracts people, nothing is written to the graph until the author confirms it.</strong>",
+    "sec2_p2": "It looks like one extra click. In practice that one gate resolves three unrelated problems at once: <strong>privacy authorization</strong> (auto-building a graph of real people is a privacy incident waiting to happen), <strong>model hallucination</strong> (an invented name never survives human confirmation), and <strong>identity disambiguation</strong> (whether two nicknames refer to the same person is obvious to the author and hard for a model).",
+    "sec2_p3": "The system also supports a partial-authorization middle state — handed over, remaining count — rather than all-or-nothing. <strong>The happy path is never what takes the time; these edge cases are.</strong>",
+    "sec3_label": "Implementation",
+    "sec3_head": "A one-person full stack",
+    "sec3_p1": "React + TypeScript on the front end, with a state machine simulating three linked accounts — author, mentioned person, observer — sharing one state so an action on one updates the other two live. Python FastAPI on the back, with two genuine LLM-backed capabilities: person extraction with an enforced JSON schema, and grounded node Q&A with hard constraints against impersonation and fabrication, requiring explicit citations.",
+    "sec3_p2": "Shipped to production at v1.0.48, with a complete product spec, acceptance checklist and troubleshooting guide. <strong>The code is open source.</strong>",
+    "sec3_p3": "<a href=\"https://github.com/Qingthefish/rednote-person-graph\" target=\"_blank\" rel=\"noopener\" style=\"border-bottom:1px solid var(--border)\">View the source on GitHub →</a>",
+    "s3ph1": "Event banner (pending)",
+    "s3ph2": "Product screenshots (pending)",
+    "s3ph3": "Demo Day photos (pending)",
+    "sec4_label": "To be expanded",
+    "sec4_head": "The build diary is still being written",
+    "sec4_p1": "[Placeholder] To be added: the trade-offs made inside those 36 hours, what went wrong, and my own post-mortem on not making the final ten.",
+    "hero_meta": "Hackathon · Jul 2026 · 36-hour closed-door sprint",
+    "hero_title": "Rednote Person Graph",
+    "hero_sub": "Solo entrant · product design and full stack, end to end"
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+}
+function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
+applyLang('zh');
+</script>
+</body>
+</html>
