@@ -949,12 +949,29 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: q }),
       });
-      const data = await r.json().catch(() => ({}));
-      if (r.ok && data.answer) {
-        t.querySelector('span').textContent = data.answer;
-      } else {
+
+      // 出错时后端返回 JSON（含 error 字段）；成功时返回纯文本流
+      const ctype = r.headers.get('Content-Type') || '';
+      if (!r.ok || ctype.includes('application/json')) {
+        const data = await r.json().catch(() => ({}));
         t.className = 'ai-msg err';
         t.querySelector('span').textContent = data.error || TXT[cur()].neterr;
+      } else {
+        // 流式：逐字追加，第一个字到了就清空"思考中"
+        const reader = r.body.getReader();
+        const decoder = new TextDecoder();
+        let acc = '';
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          acc += decoder.decode(value, { stream: true });
+          t.querySelector('span').textContent = acc;
+          $('ai-body').scrollTop = $('ai-body').scrollHeight;
+        }
+        if (!acc.trim()) {
+          t.className = 'ai-msg err';
+          t.querySelector('span').textContent = TXT[cur()].neterr;
+        }
       }
     } catch {
       t.className = 'ai-msg err';
