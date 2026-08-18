@@ -3,88 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>红书人物志 · Qingcheng Yu</title>
+  <title>红书人物志 · 黑客松 · Qingcheng Yu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
-      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
-      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --bg: #F8F7F4; --panel: #FFFDFA; --text: #1A1918; --muted: #6E6A63;
+      --light: #B8B4AE; --border: #E0DCD4; --border-light: #EAE7E0;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', Georgia, serif;
       --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--text); color: var(--bg); }
+    :focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
     .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
 
-    /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 56px; background: rgba(248,247,244,0.88); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); border-bottom: 1px solid var(--border-light); }
     .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
-    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .nav-back:hover { color: var(--text); }
-    .nav-title { font-family: var(--serif); font-size: 1rem; }
-    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 7px 15px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 4px; }
     #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     /* HERO */
-    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
-    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
-    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
-    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero { padding: 140px 0 60px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 26px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 5.6rem); font-weight: 300; line-height: 1.05; margin-bottom: 18px; letter-spacing: -0.01em; }
+    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: normal; color: var(--muted); margin-bottom: 30px; }
+    html[lang="en"] .hero-sub { font-style: italic; }
     .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+    .tag { font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
 
     /* STATS */
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
-    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat { padding: 44px 40px; border-right: 1px solid var(--border-light); }
     .stat:last-child { border-right: none; }
-    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-num { font-family: var(--serif); font-size: 3rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
     .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
 
-    /* CONTENT */
-    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
-    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
-    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
-    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
-    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    /* SECTIONS */
+    section { padding: 76px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 42px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.85rem; font-weight: 400; line-height: 1.28; }
+    .col-body { font-size: 0.9rem; color: #4E4A45; line-height: 1.95; }
     .col-body p + p { margin-top: 16px; }
     .col-body strong { color: var(--text); font-weight: 500; }
 
-    /* TIMELINE */
-    .timeline { display: flex; flex-direction: column; gap: 0; }
-    .tl-item { display: grid; grid-template-columns: 120px 1fr; gap: 40px; padding: 28px 0; border-bottom: 1px solid var(--border-light); }
-    .tl-item:last-child { border-bottom: none; }
-    .tl-label { font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--light); padding-top: 3px; }
-    .tl-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 6px; }
-    .tl-desc { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+    /* PULL QUOTE */
+    .pull { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.4; color: var(--text); text-align: center; padding: 8px 0; max-width: 22ch; margin: 0 auto; }
+    .pull .by { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--light); margin-top: 20px; }
+
+    /* THREE-IN-ONE */
+    .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+    .trio-item { padding: 22px 20px; background: var(--panel); border: 1px solid var(--border-light); border-radius: 8px; }
+    .trio-item h4 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: 8px; }
+    .trio-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+
+    /* POWER TABLE */
+    .ptable { width: 100%; border-collapse: collapse; margin-top: 12px; }
+    .ptable td { padding: 15px 16px; border-bottom: 1px solid var(--border-light); font-size: 0.875rem; vertical-align: top; }
+    .ptable tr:last-child td { border-bottom: none; }
+    .ptable td:first-child { color: #4E4A45; width: 62%; }
+    .ptable td:last-child { font-family: var(--serif); font-size: 1.05rem; color: var(--text); font-weight: 500; text-align: right; }
+
+    /* CALLOUT */
+    .callout { border-left: 2px solid var(--text); padding: 4px 0 4px 24px; margin-top: 8px; }
+    .callout .big { font-family: var(--serif); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin-bottom: 12px; }
+    .callout p { font-size: 0.875rem; color: #4E4A45; line-height: 1.9; }
+
+    /* HONEST TAGS */
+    .rm { display: inline-block; font-size: 0.62rem; letter-spacing: 0.05em; padding: 1px 7px; border-radius: 3px; vertical-align: middle; }
+    .rm.real { background: #E8F0E9; color: #3C6B49; }
+    .rm.mock { background: #F0ECE4; color: #8A6D3B; }
 
     /* GALLERY */
-    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 0; }
-    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
-    .img-placeholder.tall { aspect-ratio: 4/3; }
-    .gallery-full { grid-column: 1 / -1; }
-    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 6px; border: 1px solid var(--border-light); }
+    .g-tall { grid-row: span 2; aspect-ratio: 3/4; }
+    .g-small { aspect-ratio: 4/3; }
+    .g-cap { font-size: 0.68rem; color: var(--light); margin-top: 8px; letter-spacing: 0.04em; }
+
+    /* DEMO CTA */
+    .demo-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 12px 22px; background: var(--text); color: var(--bg); border-radius: 4px; font-size: 0.8rem; letter-spacing: 0.04em; transition: opacity .2s, transform .2s; }
+    .demo-cta:hover { transform: translateY(-2px); }
 
     /* FOOTER */
-    .page-footer { padding: 56px 0; }
+    .page-footer { padding: 52px 0; }
     .footer-inner { display: flex; align-items: center; justify-content: space-between; }
-    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .footer-back:hover { color: var(--text); }
     .footer-copy { font-size: 0.7rem; color: var(--light); }
 
+    /* PAGE-LOAD REVEAL */
+    .reveal { opacity: 0; transform: translateY(14px); animation: rise 0.7s var(--ease) forwards; }
+    .hero .reveal:nth-child(1) { animation-delay: .05s; }
+    .hero .reveal:nth-child(2) { animation-delay: .13s; }
+    .hero .reveal:nth-child(3) { animation-delay: .21s; }
+    .hero .reveal:nth-child(4) { animation-delay: .29s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
     @media (max-width: 840px) {
       .container { padding: 0 24px; }
-      .two-col, .stats { grid-template-columns: 1fr; }
-      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
-      .tl-item { grid-template-columns: 1fr; gap: 6px; }
+      .two-col { grid-template-columns: 1fr; gap: 22px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 32px 0; }
+      .trio { grid-template-columns: 1fr; }
       .gallery { grid-template-columns: 1fr; }
+      .g-tall { grid-row: auto; aspect-ratio: 3/4; }
+      .ptable td:last-child { font-size: 0.95rem; }
     }
-    ::selection { background: var(--text); color: var(--bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -92,90 +129,155 @@
 <nav>
   <div class="container nav-inner">
     <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
-    <button id="lang-btn" onclick="toggleLang()">EN</button>
+    <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
 
+<!-- HERO -->
 <div class="hero">
   <div class="container">
-    <p class="hero-meta" data-i18n="hero_meta"></p>
-    <h1 class="hero-title" data-i18n="hero_title"></h1>
-    <p class="hero-sub" data-i18n="hero_sub"></p>
-    <div class="hero-tags"><span class="tag">React</span>
-      <span class="tag">TypeScript</span>
+    <p class="hero-meta reveal" data-i18n="hero_meta">小红书首届全员黑客松 · 2026.07 · 36 小时封闭赛</p>
+    <h1 class="hero-title reveal" data-i18n="hero_title">红书人物志</h1>
+    <p class="hero-sub reveal" data-i18n="hero_sub">个人参赛 · 产品设计与全栈开发全部独立完成</p>
+    <div class="hero-tags reveal">
+      <span class="tag" data-i18n="tag_pd">产品设计</span>
+      <span class="tag">User Journey</span>
+      <span class="tag">React</span>
       <span class="tag">FastAPI</span>
       <span class="tag">LLM</span>
-      <span class="tag">Product Design</span></div>
+    </div>
   </div>
 </div>
 
-<div class="stats">  <div class="stat">
-    <div class="stat-num">36<span style='font-size:1.8rem'>h</span></div>
-    <div class="stat-label" data-i18n="s1"></div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">819</div>
-    <div class="stat-label" data-i18n="s2"></div>
-  </div>
-  <div class="stat">
-    <div class="stat-num">前 200</div>
-    <div class="stat-label" data-i18n="s3"></div>
-  </div></div>
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num">36h</div><div class="stat-label" data-i18n="s1">封闭赛，一个人从概念做到上线</div></div>
+  <div class="stat"><div class="stat-num">819</div><div class="stat-label" data-i18n="s2">人参赛（小红书首届全员黑客松）</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s3n">前 200</div><div class="stat-label" data-i18n="s3">入选线下 Demo Day（约前 25%）</div></div>
+</div>
 
+<!-- 产品概念 -->
+<section>
+  <div class="container two-col">
+    <h2 class="col-head" data-i18n="c1_head">用笔记，找到故事里的人</h2>
+    <div class="col-body">
+      <p data-i18n="c1_p1">小红书上早有大量写身边人的内容——「阿嬷的情书」、室友的故事、家庭回忆。但故事里被写到的那个人，没有一个结构化的归属入口。<strong>笔记会往下沉，人不该跟着一起沉。</strong></p>
+      <p data-i18n="c1_p2">一句话定义：<strong>用户继续像原来一样写笔记；AI 在原文之外提出可能涉及的现实人物，作者确认后，才把故事整理进关系空间。</strong></p>
+      <p data-i18n="c1_p3">差异化只有一句：不是先建关系网再往里填内容，而是<strong>从你已发布的真实笔记里，反向长出关系图谱</strong>。验证方法很硬——把 AI 撤掉，节点和关系边还在，还会随新故事增值。这是数据结构层的东西，不是一个 AI 玩具。</p>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec1_label"></p>
+    <p class="pull" data-i18n="pq1">「你出现在了 @小雨 的一段重要回忆里。」<span class="by" data-i18n="pq1_by">被写到时收到的通知 · 全场情绪最高点</span></p>
+  </div>
+</section>
+
+<!-- 核心判断:确权闸门 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="c2_label">核心产品判断</p>
     <div class="two-col">
-      <h2 class="col-head" data-i18n="sec1_head"></h2>
+      <h2 class="col-head" data-i18n="c2_head">那道确权闸门</h2>
       <div class="col-body">
-        <p data-i18n="sec1_p1"></p>
-        <p data-i18n="sec1_p2"></p>
+        <p data-i18n="c2_p1"><strong>AI 只提候选，确认前零副作用；作者的确认，是把「AI 的建议」转成「事实」的唯一开关。</strong>AI 抽出人物后不直接建图、不发通知——必须作者本人先确认「这篇写到了谁、映射哪个节点」。</p>
+        <p data-i18n="c2_p2">为什么必须有这道门？因为<strong>「被写到」不等于「被定义」</strong>。没有它，AI 就能替用户决定「这篇写到了谁」并自动建档、发通知——这就从「我记录我和你的关系」滑向了「我借 AI 之手定义了你」。这是我给产品划的伦理红线。</p>
+      </div>
+    </div>
+    <div class="trio">
+      <div class="trio-item"><h4 data-i18n="g1_h">隐私授权</h4><p data-i18n="g1_p">确认前不建节点、不推送。否则 A 写室友 B 的私密回忆被自动挂到 B 名下、还推给了 B——直接击穿原笔记的可见范围。</p></div>
+      <div class="trio-item"><h4 data-i18n="g2_h">模型幻觉</h4><p data-i18n="g2_p">AI 可能把一句修辞里的「隔壁老王」当真人。原始输出必须过服务端校验 + 作者确认，才能变成业务事实，杜绝幽灵节点。</p></div>
+      <div class="trio-item"><h4 data-i18n="g3_h">同名消歧</h4><p data-i18n="g3_p">一篇里两个「小明」是不是同一人？作者一眼就知道，AI 不知道。合并错了，关系图谱就错、通知也发给错的人。</p></div>
+    </div>
+    <div class="col-body" style="margin-top:26px">
+      <p data-i18n="c2_p3"><strong>一个机制，同时兜住三件本来要分开处理的事。</strong>我还留了「部分授权」的中间态——不是「同意 / 拒绝」二选一，而是「接受本次 / 拒绝本次 / 长期自动接受 / 不再接收」四层。原则写死进产品：<strong>自动接受省掉的是重复审核，不是知情权。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 权力分配表 + 逝者红线 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="c3_label">判断的本质：一张权力分配表</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="c3_head">谁，有权定义谁</h2>
+      <div class="col-body">
+        <p data-i18n="c3_p1">回头看，确权闸门本质不是技术机制，是一套<strong>「谁有权定义谁」的权力分配方案</strong>——三道彼此独立的同意门，任何一道不通过都不产生副作用。</p>
+        <table class="ptable">
+          <tr><td data-i18n="pt1">定义「这篇笔记写到了谁」</td><td data-i18n="pt1r">作者</td></tr>
+          <tr><td data-i18n="pt2">定义「这个节点是不是我」</td><td data-i18n="pt2r">本人</td></tr>
+          <tr><td data-i18n="pt3">定义「这篇故事能否展示」</td><td data-i18n="pt3r">本人 · 逐篇</td></tr>
+          <tr><td data-i18n="pt4">定义「原笔记写什么」</td><td data-i18n="pt4r">只有作者</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:40px">
+      <p class="big" data-i18n="dead_q">「TA 无法亲自授权。」</p>
+      <p data-i18n="dead_p"><strong>一条我主动放弃的伦理红线：</strong>逝者节点强制关闭 AI 对话。在黑客松里「让 AI 复活逝者」极容易拿情感分，全场很多人做，我刻意不做——因为产品的核心契约是「本人拥有最终决定权」，而逝者无法行使这个权利。AI 只能总结已授权的故事，绝不能模拟其人格、包装成「本人复活」。</p>
+    </div>
+  </div>
+</section>
+
+<!-- user journey 哲学 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="c4_label">产品哲学 · User Journey</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="c4_head">不改变用户既有的习惯</h2>
+      <div class="col-body">
+        <p data-i18n="c4_p1">这条哲学是我所有细节判断的总开关，落在三处：<strong>① 发布不阻塞</strong>——新笔记先正常发出去，再弹一个可忽略的轻提示，AI 分析失败也不回滚发布；<strong>② 三端保持小红书原有的视觉与语言</strong>——被提及者收到的是「孩子写了关于你的故事」这种情感语言，不是冷冰冰的系统通知；<strong>③ 确认后才推</strong>——不是「AI 一识别到就推」，是「作者说『对，是这个人』之后才推」。</p>
+        <p data-i18n="c4_p2">最大的一个「更炫但会打断习惯」的方案被我否掉了：<strong>「AI 装成人格跟你说话」</strong>。全场超 1/3 的人做这个方向，我刻意反着走——因为它同时打断两个习惯：破坏「笔记属于作者」的契约，也破坏信任（被写的人根本分不清那到底是不是本人的意思）。我把 AI 死死限定成「帮你读这个空间里<strong>已获授权</strong>的共同记忆」，而不是「替这个人活过一次」。</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 如何落地 + 诚实边界 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec2_label"></p>
+    <p class="sec-label" data-i18n="c5_label">如何落地（以及诚实的边界）</p>
     <div class="two-col">
-      <h2 class="col-head" data-i18n="sec2_head"></h2>
+      <h2 class="col-head" data-i18n="c5_head">36 小时，一个人的全栈</h2>
       <div class="col-body">
-        <p data-i18n="sec2_p1"></p>
-        <p data-i18n="sec2_p2"></p>
-        <p data-i18n="sec2_p3"></p>
+        <p data-i18n="c5_p1">前端 React + TypeScript，用一套状态机模拟作者 / 被提及者 / 旁观者三端联动；后端 Python FastAPI 接<strong>真实大模型</strong>做两项能力——人物抽取（强制 JSON schema、失败明确报错、绝不用假数据冒充成功）与节点记忆问答（硬约束：不扮演本人、无依据就说不知道、引用必须真实）。一路迭代到 v1.0.48。</p>
+        <p data-i18n="c5_p2">我坚持诚实区分「真做的」和「为 Demo 演示的」：<span class="rm real" data-i18n="rm_real">真跑通</span> AI 识别真调模型、三道门逻辑全部真实可点；<span class="rm mock" data-i18n="rm_mock">演示态</span> 三端联动是单机状态机模拟、数据不落库。<strong>对评委我从不说「闭环了」，只说「完整交互原型，核心 AI 是真的」。</strong>赛后我又花半天把它从公司内网脱敏迁到 Cloudflare，就为了让你现在能点开链接直接体验。</p>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 复盘沉淀 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec3_label"></p>
+    <p class="sec-label" data-i18n="c6_label">复盘与沉淀</p>
     <div class="two-col">
-      <h2 class="col-head" data-i18n="sec3_head"></h2>
+      <h2 class="col-head" data-i18n="c6_head">我从没进前 10 里学到的</h2>
       <div class="col-body">
-        <p data-i18n="sec3_p1"></p>
-        <p data-i18n="sec3_p2"></p>
-        <p data-i18n="sec3_p3"></p>
+        <p data-i18n="c6_p1">评委说「很有落地价值」，有工程师专门来找我讨论落地细节——方向和差异化是被认可的。没进前 10，复盘下来最大的收获不是名次，是三个认知：<strong>产品逻辑 ≠ 产品完整性</strong>（完整性 = 逻辑 + 视觉 + 情绪 + 现场表达，缺一块别人就只看到你缺的那块）；<strong>做 demo 是讲一个故事，不是做一个产品</strong>（边界要收到小到评委 3 分钟能听完）；产品人的核心竞争力不是「想得全」，是「讲得清」。</p>
+        <p data-i18n="c6_p2">最能带走的一条方法论：确权闸门那套<strong>「AI 提建议 → 人做决定 → 拒绝无损原文」</strong>的三段式，可以迁移到一大类「AI 生成/建议 + 人确认」的场景——AI 辅助写作的引用确认、AI 辅助设计的素材确认、AI 辅助编程的代码确认。比「红书人物志」这个具体产品更值得带走。</p>
       </div>
-    </div>
-    <div class="gallery" style="margin-top:48px">
-      <div class="img-placeholder gallery-full tall"><span data-i18n="s3ph1"></span></div>
-      <div class="img-placeholder"><span data-i18n="s3ph2"></span></div>
-      <div class="img-placeholder"><span data-i18n="s3ph3"></span></div>
     </div>
   </div>
 </section>
 
+<!-- GALLERY + DEMO -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec4_label"></p>
-    <div class="two-col">
-      <h2 class="col-head" data-i18n="sec4_head"></h2>
-      <div class="col-body">
-        <p data-i18n="sec4_p1"></p>
-      </div>
+    <p class="sec-label" data-i18n="g_label">现场 · 物料 · 产品</p>
+    <div class="gallery">
+      <div class="g-tall"><img src="img/banner.jpg" alt="易拉宝主视觉" loading="lazy" /></div>
+      <div class="g-small"><img src="img/photo.jpg" alt="Demo Day 现场参赛" loading="lazy" /></div>
+      <div class="g-small"><img src="img/product1.jpg" alt="产品界面" loading="lazy" /></div>
+    </div>
+    <div class="gallery" style="grid-template-columns:1fr 1fr;margin-top:12px">
+      <div class="g-small"><img src="img/product2.jpg" alt="产品界面" loading="lazy" /></div>
+      <div class="g-small"><img src="img/product3.jpg" alt="产品界面" loading="lazy" /></div>
+    </div>
+    <p class="g-cap" data-i18n="g_cap">易拉宝主视觉「你想把谁，写进来？」· Demo Day 现场 · 产品界面</p>
+    <div style="margin-top:32px">
+      <a href="https://rednote-person-graph.pages.dev/" target="_blank" rel="noopener" class="demo-cta" data-i18n="demo_btn">▶ 在线体验产品 →</a>
     </div>
   </div>
 </section>
@@ -191,78 +293,111 @@
 
 <script>
 const T = {
-  "zh": {
-    "back": "于清程",
-    "foot_back": "← 返回主页",
-    "s1": "封闭赛时长，一个人从概念做到上线",
-    "s2": "参赛人数（小红书首届全员黑客松）",
-    "s3": "入选 200 人线下 Demo Day（前 25%）",
-    "sec1_label": "产品概念",
-    "sec1_head": "用笔记找到故事里的人",
-    "sec1_p1": "社交平台上有大量真实的生活故事，每篇笔记背后都站着「爸爸」「高中同学」「室友」这样的现实人物。这个产品探索一个问题：<strong>如果把这些故事里的人，用双方都同意的方式连接起来，会长出什么？</strong>",
-    "sec1_p2": "完整链路是：作者正常发笔记 → AI 识别可能涉及的人物候选 → 作者确认 → 故事挂载到人物节点 → 被写到的人逐篇决定是否在自己节点展示。人物节点随着不同人的新故事持续生长。",
-    "sec2_label": "核心设计",
-    "sec2_head": "那道确权闸门",
-    "sec2_p1": "整个产品最关键的一步，是 <strong>AI 抽出人物之后不直接建图，而是必须由作者本人确认。</strong>",
-    "sec2_p2": "这看起来只是多了一次点击，实际上一道闸门同时解决了三个完全不同的问题：<strong>隐私授权</strong>（自动把真人拉进关系网就是隐私事故）、<strong>模型幻觉</strong>（AI 编造的人名过不了人工确认）、<strong>同名消歧</strong>（「阿嬷」和「奶奶」是不是同一个人，作者一眼就知道）。",
-    "sec2_p3": "系统还支持「部分授权」的中间态——已交接、剩余篇数——而不是只有全有或全无。<strong>做产品最花时间的从来不是主流程，是这些边界情况。</strong>",
-    "sec3_label": "技术实现",
-    "sec3_head": "一个人的全栈",
-    "sec3_p1": "前端 React + TypeScript，用状态机模拟三个账号的联动——作者、被提及者、旁观者三端共享同一份状态，一端操作另外两端实时响应。后端 Python FastAPI，接入真实大模型实现两项 AI 能力：笔记人物抽取（强制 JSON schema 输出）与节点记忆问答（硬性约束不得扮演本人、不得编造、必须给出引用来源）。",
-    "sec3_p2": "迭代至 v1.0.48 并部署上线，配套完整的产品规格文档、验收清单和排错手册。",
-    "sec3_p3": "<a href=\"https://rednote-person-graph.pages.dev/\" target=\"_blank\" rel=\"noopener\" style=\"display:inline-block;padding:8px 18px;background:var(--text);color:var(--bg);border-radius:2px\">▶ 在线体验产品 →</a>",
-    "s3ph1": "易拉宝主视觉（待放入）",
-    "s3ph2": "产品界面截图（待补充）",
-    "s3ph3": "Demo Day 现场（待补充）",
-    "sec4_label": "待补充",
-    "sec4_head": "开发心路历程还在整理",
-    "sec4_p1": "完整的开发复盘——36 小时里的关键取舍、踩过的坑、以及对结果的反思——整理中，稍后补上。",
-    "hero_meta": "黑客松 · 2026.07 · 36 小时封闭赛",
-    "hero_title": "红书人物志",
-    "hero_sub": "个人参赛 · 产品设计与全栈开发全部独立完成"
+  zh: {
+    back: '于清程', foot_back: '← 返回主页',
+    hero_meta: '小红书首届全员黑客松 · 2026.07 · 36 小时封闭赛',
+    hero_title: '红书人物志',
+    hero_sub: '个人参赛 · 产品设计与全栈开发全部独立完成',
+    tag_pd: '产品设计',
+    s1: '封闭赛，一个人从概念做到上线', s2: '人参赛（小红书首届全员黑客松）', s3n: '前 200', s3: '入选线下 Demo Day（约前 25%）',
+    c1_head: '用笔记，找到故事里的人',
+    c1_p1: '小红书上早有大量写身边人的内容——「阿嬷的情书」、室友的故事、家庭回忆。但故事里被写到的那个人，没有一个结构化的归属入口。<strong>笔记会往下沉，人不该跟着一起沉。</strong>',
+    c1_p2: '一句话定义：<strong>用户继续像原来一样写笔记；AI 在原文之外提出可能涉及的现实人物，作者确认后，才把故事整理进关系空间。</strong>',
+    c1_p3: '差异化只有一句：不是先建关系网再往里填内容，而是<strong>从你已发布的真实笔记里，反向长出关系图谱</strong>。验证方法很硬——把 AI 撤掉，节点和关系边还在，还会随新故事增值。这是数据结构层的东西，不是一个 AI 玩具。',
+    pq1: '「你出现在了 @小雨 的一段重要回忆里。」<span class="by">被写到时收到的通知 · 全场情绪最高点</span>',
+    pq1_by: '被写到时收到的通知 · 全场情绪最高点',
+    c2_label: '核心产品判断',
+    c2_head: '那道确权闸门',
+    c2_p1: '<strong>AI 只提候选，确认前零副作用；作者的确认，是把「AI 的建议」转成「事实」的唯一开关。</strong>AI 抽出人物后不直接建图、不发通知——必须作者本人先确认「这篇写到了谁、映射哪个节点」。',
+    c2_p2: '为什么必须有这道门？因为<strong>「被写到」不等于「被定义」</strong>。没有它，AI 就能替用户决定「这篇写到了谁」并自动建档、发通知——这就从「我记录我和你的关系」滑向了「我借 AI 之手定义了你」。这是我给产品划的伦理红线。',
+    g1_h: '隐私授权', g1_p: '确认前不建节点、不推送。否则 A 写室友 B 的私密回忆被自动挂到 B 名下、还推给了 B——直接击穿原笔记的可见范围。',
+    g2_h: '模型幻觉', g2_p: 'AI 可能把一句修辞里的「隔壁老王」当真人。原始输出必须过服务端校验 + 作者确认，才能变成业务事实，杜绝幽灵节点。',
+    g3_h: '同名消歧', g3_p: '一篇里两个「小明」是不是同一人？作者一眼就知道，AI 不知道。合并错了，关系图谱就错、通知也发给错的人。',
+    c2_p3: '<strong>一个机制，同时兜住三件本来要分开处理的事。</strong>我还留了「部分授权」的中间态——不是「同意 / 拒绝」二选一，而是「接受本次 / 拒绝本次 / 长期自动接受 / 不再接收」四层。原则写死进产品：<strong>自动接受省掉的是重复审核，不是知情权。</strong>',
+    c3_label: '判断的本质：一张权力分配表',
+    c3_head: '谁，有权定义谁',
+    c3_p1: '回头看，确权闸门本质不是技术机制，是一套<strong>「谁有权定义谁」的权力分配方案</strong>——三道彼此独立的同意门，任何一道不通过都不产生副作用。',
+    pt1: '定义「这篇笔记写到了谁」', pt1r: '作者',
+    pt2: '定义「这个节点是不是我」', pt2r: '本人',
+    pt3: '定义「这篇故事能否展示」', pt3r: '本人 · 逐篇',
+    pt4: '定义「原笔记写什么」', pt4r: '只有作者',
+    dead_q: '「TA 无法亲自授权。」',
+    dead_p: '<strong>一条我主动放弃的伦理红线：</strong>逝者节点强制关闭 AI 对话。在黑客松里「让 AI 复活逝者」极容易拿情感分，全场很多人做，我刻意不做——因为产品的核心契约是「本人拥有最终决定权」，而逝者无法行使这个权利。AI 只能总结已授权的故事，绝不能模拟其人格、包装成「本人复活」。',
+    c4_label: '产品哲学 · User Journey',
+    c4_head: '不改变用户既有的习惯',
+    c4_p1: '这条哲学是我所有细节判断的总开关，落在三处：<strong>① 发布不阻塞</strong>——新笔记先正常发出去，再弹一个可忽略的轻提示，AI 分析失败也不回滚发布；<strong>② 三端保持小红书原有的视觉与语言</strong>——被提及者收到的是「孩子写了关于你的故事」这种情感语言，不是冷冰冰的系统通知；<strong>③ 确认后才推</strong>——不是「AI 一识别到就推」，是「作者说『对，是这个人』之后才推」。',
+    c4_p2: '最大的一个「更炫但会打断习惯」的方案被我否掉了：<strong>「AI 装成人格跟你说话」</strong>。全场超 1/3 的人做这个方向，我刻意反着走——因为它同时打断两个习惯：破坏「笔记属于作者」的契约，也破坏信任（被写的人根本分不清那到底是不是本人的意思）。我把 AI 死死限定成「帮你读这个空间里<strong>已获授权</strong>的共同记忆」，而不是「替这个人活过一次」。',
+    c5_label: '如何落地（以及诚实的边界）',
+    c5_head: '36 小时，一个人的全栈',
+    c5_p1: '前端 React + TypeScript，用一套状态机模拟作者 / 被提及者 / 旁观者三端联动；后端 Python FastAPI 接<strong>真实大模型</strong>做两项能力——人物抽取（强制 JSON schema、失败明确报错、绝不用假数据冒充成功）与节点记忆问答（硬约束：不扮演本人、无依据就说不知道、引用必须真实）。一路迭代到 v1.0.48。',
+    c5_p2: '我坚持诚实区分「真做的」和「为 Demo 演示的」：<span class="rm real">真跑通</span> AI 识别真调模型、三道门逻辑全部真实可点；<span class="rm mock">演示态</span> 三端联动是单机状态机模拟、数据不落库。<strong>对评委我从不说「闭环了」，只说「完整交互原型，核心 AI 是真的」。</strong>赛后我又花半天把它从公司内网脱敏迁到 Cloudflare，就为了让你现在能点开链接直接体验。',
+    rm_real: '真跑通', rm_mock: '演示态',
+    c6_label: '复盘与沉淀',
+    c6_head: '我从没进前 10 里学到的',
+    c6_p1: '评委说「很有落地价值」，有工程师专门来找我讨论落地细节——方向和差异化是被认可的。没进前 10，复盘下来最大的收获不是名次，是三个认知：<strong>产品逻辑 ≠ 产品完整性</strong>（完整性 = 逻辑 + 视觉 + 情绪 + 现场表达，缺一块别人就只看到你缺的那块）；<strong>做 demo 是讲一个故事，不是做一个产品</strong>（边界要收到小到评委 3 分钟能听完）；产品人的核心竞争力不是「想得全」，是「讲得清」。',
+    c6_p2: '最能带走的一条方法论：确权闸门那套<strong>「AI 提建议 → 人做决定 → 拒绝无损原文」</strong>的三段式，可以迁移到一大类「AI 生成/建议 + 人确认」的场景——AI 辅助写作的引用确认、AI 辅助设计的素材确认、AI 辅助编程的代码确认。比「红书人物志」这个具体产品更值得带走。',
+    g_label: '现场 · 物料 · 产品',
+    g_cap: '易拉宝主视觉「你想把谁，写进来？」· Demo Day 现场 · 产品界面',
+    demo_btn: '▶ 在线体验产品 →',
   },
-  "en": {
-    "back": "Qingcheng Yu",
-    "foot_back": "← Back to portfolio",
-    "s1": "closed-door sprint — concept to production, solo",
-    "s2": "entrants in Xiaohongshu's first company-wide hackathon",
-    "s3": "advanced to the on-site Demo Day (top 25%)",
-    "sec1_label": "The idea",
-    "sec1_head": "Finding the people inside the stories",
-    "sec1_p1": "Social platforms are full of real life stories, and behind each post stand real people — a father, a high-school classmate, a roommate. This product explores one question: <strong>what grows if you connect those people, in a way both sides have agreed to?</strong>",
-    "sec1_p2": "The full loop: the author posts normally → an LLM proposes person candidates → the author confirms → the story attaches to a person node → the person mentioned decides, story by story, whether it shows on their node. Nodes keep growing as different people add stories.",
-    "sec2_label": "The core decision",
-    "sec2_head": "The consent gate",
-    "sec2_p1": "The single most important step is that <strong>after the model extracts people, nothing is written to the graph until the author confirms it.</strong>",
-    "sec2_p2": "It looks like one extra click. In practice that one gate resolves three unrelated problems at once: <strong>privacy authorization</strong> (auto-building a graph of real people is a privacy incident waiting to happen), <strong>model hallucination</strong> (an invented name never survives human confirmation), and <strong>identity disambiguation</strong> (whether two nicknames refer to the same person is obvious to the author and hard for a model).",
-    "sec2_p3": "The system also supports a partial-authorization middle state — handed over, remaining count — rather than all-or-nothing. <strong>The happy path is never what takes the time; these edge cases are.</strong>",
-    "sec3_label": "Implementation",
-    "sec3_head": "A one-person full stack",
-    "sec3_p1": "React + TypeScript on the front end, with a state machine simulating three linked accounts — author, mentioned person, observer — sharing one state so an action on one updates the other two live. Python FastAPI on the back, with two genuine LLM-backed capabilities: person extraction with an enforced JSON schema, and grounded node Q&A with hard constraints against impersonation and fabrication, requiring explicit citations.",
-    "sec3_p2": "Shipped to production at v1.0.48, with a complete product spec, acceptance checklist and troubleshooting guide.",
-    "sec3_p3": "<a href=\"https://rednote-person-graph.pages.dev/\" target=\"_blank\" rel=\"noopener\" style=\"display:inline-block;padding:8px 18px;background:var(--text);color:var(--bg);border-radius:2px\">▶ Try it live →</a>",
-    "s3ph1": "Event banner (pending)",
-    "s3ph2": "Product screenshots (pending)",
-    "s3ph3": "Demo Day photos (pending)",
-    "sec4_label": "To be expanded",
-    "sec4_head": "The build diary is still being written",
-    "sec4_p1": "A fuller build retrospective — the trade-offs inside those 36 hours, what went wrong, and my own reflection on the result — is being written.",
-    "hero_meta": "Hackathon · Jul 2026 · 36-hour closed-door sprint",
-    "hero_title": "Rednote Person Graph",
-    "hero_sub": "Solo entrant · product design and full stack, end to end"
+  en: {
+    back: 'Qingcheng Yu', foot_back: '← Back to portfolio',
+    hero_meta: "Xiaohongshu's First Company-Wide Hackathon · Jul 2026 · 36-hour sprint",
+    hero_title: 'Rednote Person Graph',
+    hero_sub: 'Solo entrant · product design and full stack, end to end',
+    tag_pd: 'Product Design',
+    s1: 'closed-door sprint — concept to production, solo', s2: "entrants in Xiaohongshu's first company-wide hackathon", s3n: 'Top 200', s3: 'advanced to the on-site Demo Day (top ~25%)',
+    c1_head: 'Finding the people inside the stories',
+    c1_p1: "Xiaohongshu is full of posts about real people — a grandmother's letters, a roommate's story, family memories. But the person written about has no structured place to belong to. <strong>A post sinks down the feed; the person shouldn't sink with it.</strong>",
+    c1_p2: 'One-line definition: <strong>users keep writing posts exactly as before; the AI proposes real people the post might involve, and only after the author confirms does the story get organized into a relationship space.</strong>',
+    c1_p3: "The differentiation, in one line: not build-a-network-then-fill-it, but <strong>grow a relationship graph in reverse, out of the real posts you've already published</strong>. The hard test: remove the AI, and the nodes and edges still stand — and keep growing with new stories. This lives at the data-structure layer, not as an AI toy.",
+    pq1: '"You appeared in one of @Xiaoyu\'s important memories."<span class="by">The notification a mentioned person receives · the room\'s emotional peak</span>',
+    pq1_by: "The notification a mentioned person receives · the room's emotional peak",
+    c2_label: 'Core product judgment',
+    c2_head: 'The consent gate',
+    c2_p1: '<strong>The AI only proposes candidates — zero side effects before confirmation; the author\'s confirmation is the single switch that turns an AI suggestion into a fact.</strong> After extraction, nothing is written to the graph and no one is notified until the author confirms who the post is about and which node it maps to.',
+    c2_p2: 'Why must this gate exist? Because <strong>being written about is not the same as being defined</strong>. Without it, the AI decides who a post is about and auto-files + notifies them — sliding from "I record our relationship" to "I define you, through the AI." That was my ethical red line for the product.',
+    g1_h: 'Privacy consent', g1_p: 'No node, no push before confirmation. Otherwise A\'s private memory of roommate B is auto-attached to B and pushed to B — breaking the original post\'s visibility scope.',
+    g2_h: 'Model hallucination', g2_p: 'The AI might treat a figure of speech as a real person. Raw output must pass server-side validation + author confirmation before it becomes a business fact — no ghost nodes.',
+    g3_h: 'Name disambiguation', g3_p: 'Are the two "Mings" in one post the same person? The author knows instantly; the AI doesn\'t. Merge them wrong and the graph is wrong, and notifications reach the wrong person.',
+    c2_p3: '<strong>One mechanism handles three problems that would otherwise each need their own solution.</strong> I also kept a "partial authorization" middle state — not a binary accept/reject, but four levels: accept this one / reject this one / long-term auto-accept / stop receiving. The principle is baked into the product: <strong>auto-accept removes repeated review, never the right to know.</strong>',
+    c3_label: 'The essence: a table of who defines whom',
+    c3_head: 'Who gets to define whom',
+    c3_p1: 'In hindsight, the consent gate isn\'t a technical mechanism — it\'s a <strong>distribution of the power to define</strong>. Three independent consent gates; failing any one produces no side effect.',
+    pt1: 'Who a post is about', pt1r: 'The author',
+    pt2: 'Whether a node is me', pt2r: 'The person',
+    pt3: 'Whether a story may show', pt3r: 'The person · per story',
+    pt4: 'What the original post says', pt4r: 'Author only',
+    dead_q: '"They cannot authorize this themselves."',
+    dead_p: '<strong>An ethical line I chose to give up:</strong> nodes for the deceased have AI chat force-disabled. "Reviving the dead with AI" is an easy way to win emotional points at a hackathon — many did it; I deliberately didn\'t. The product\'s core contract is "the person holds final say," and the deceased cannot exercise that right. The AI may only summarize authorized stories — never imitate their voice or dress itself up as "them, revived."',
+    c4_label: 'Product philosophy · User Journey',
+    c4_head: "Don't change the user's existing habits",
+    c4_p1: 'This philosophy is the master switch behind every detail, landing in three places: <strong>① Publishing never blocks</strong> — a new post goes out normally first, then a dismissible hint appears; AI failure never rolls back the publish. <strong>② The three screens keep Xiaohongshu\'s own visual language</strong> — a mentioned person gets "your child wrote a story about you," warm, not a cold system alert. <strong>③ Push only after confirmation</strong> — not "push the moment AI detects," but "push after the author says \'yes, it\'s them.\'"',
+    c4_p2: 'The flashiest habit-breaking option I rejected: <strong>"an AI that talks in someone\'s persona."</strong> Over a third of the field went this way; I deliberately went the other. It breaks two habits at once — the contract that "a post belongs to its author," and trust (the person written about can\'t tell whether it\'s really them talking). I confined the AI to "help you read the <strong>authorized</strong> shared memories in this space," never "live this person\'s life for them."',
+    c5_label: 'How it was built (and the honest boundaries)',
+    c5_head: 'A one-person full stack in 36 hours',
+    c5_p1: 'React + TypeScript on the front, one state machine simulating three linked roles (author / mentioned person / observer); Python FastAPI on the back calling a <strong>real LLM</strong> for two capabilities — person extraction (enforced JSON schema, explicit failure, never faking success with canned data) and node-memory Q&A (hard constraints: no impersonation, "I don\'t know" without grounds, citations must be real). Iterated to v1.0.48.',
+    c5_p2: 'I keep an honest line between real and demo: <span class="rm real">real</span> the AI extraction truly calls the model, all three gates are truly clickable; <span class="rm mock">demo</span> the three-way linkage is a single-machine state machine, data isn\'t persisted. <strong>I never told judges it was "end-to-end" — only "a complete interactive prototype whose core AI is real."</strong> After the contest I spent half a day migrating it off the internal platform onto Cloudflare, just so you can open the link and try it now.',
+    rm_real: 'real', rm_mock: 'demo',
+    c6_label: 'Retrospective',
+    c6_head: 'What not making the top 10 taught me',
+    c6_p1: 'Judges called it "genuinely deployable"; engineers came to discuss implementation details — the direction and differentiation were validated. Not making the top 10, the real takeaway isn\'t the ranking, it\'s three realizations: <strong>product logic ≠ product completeness</strong> (completeness = logic + visuals + emotion + live delivery; miss one and that\'s all people see); <strong>a demo tells one story, it doesn\'t build a product</strong> (shrink the scope until a judge can follow it in 3 minutes); a product person\'s edge isn\'t "thinking of everything," it\'s "making it clear."',
+    c6_p2: 'The most portable methodology: the consent gate\'s <strong>"AI suggests → human decides → rejection leaves the original untouched"</strong> pattern transfers to a whole class of "AI generates/suggests + human confirms" scenarios — citation confirmation in AI writing, asset confirmation in AI design, code confirmation in AI coding. Worth more than this one product.',
+    g_label: 'On-site · Materials · Product',
+    g_cap: 'Event banner "Who would you write in?" · Demo Day · product screens',
+    demo_btn: '▶ Try it live →',
   }
 };
 let lang = 'zh';
+try { const s = localStorage.getItem('site_lang'); if (s === 'en' || s === 'zh') lang = s; } catch (e) {}
 function applyLang(l) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const v = T[l][el.dataset.i18n];
-    if (v !== undefined) el.innerHTML = v;
-  });
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = T[l][el.dataset.i18n]; if (v !== undefined) el.innerHTML = v; });
   document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
   document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+  try { localStorage.setItem('site_lang', l); } catch (e) {}
 }
-function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
-applyLang('zh');
+function toggleLang() { lang = (document.documentElement.lang === 'en' ? 'zh' : 'en'); applyLang(lang); }
+applyLang(lang);
 </script>
 </body>
 </html>
