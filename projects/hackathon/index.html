@@ -82,12 +82,17 @@
     .rm.real { background: #E8F0E9; color: #3C6B49; }
     .rm.mock { background: #F0ECE4; color: #8A6D3B; }
 
-    /* GALLERY */
-    .gallery { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
-    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 6px; border: 1px solid var(--border-light); }
-    .g-tall { grid-row: span 2; aspect-ratio: 3/4; }
-    .g-small { aspect-ratio: 4/3; }
-    .g-cap { font-size: 0.68rem; color: var(--light); margin-top: 8px; letter-spacing: 0.04em; }
+    /* ARTIFACT BAND (poster + maker, on a gallery "mat") */
+    .artifact { background: var(--panel); border: 1px solid var(--border-light); border-radius: 12px; padding: 30px; display: grid; grid-template-columns: 0.74fr 1fr; gap: 26px; align-items: stretch; }
+    .artifact .poster { display: flex; align-items: center; justify-content: center; }
+    .artifact .poster img { max-width: 100%; max-height: 560px; width: auto; height: auto; display: block; border-radius: 6px; border: 1px solid var(--border-light); }
+    .artifact .person img { width: 100%; height: 560px; object-fit: cover; object-position: center 18%; display: block; border-radius: 6px; border: 1px solid var(--border-light); }
+    .artifact-cap { font-size: 0.68rem; color: var(--light); margin-top: 14px; letter-spacing: 0.04em; text-align: center; }
+
+    /* INLINE FIGURE (product screenshot as evidence beside the argument) */
+    figure.fig { margin: 36px 0 0; }
+    figure.fig img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border-light); background: var(--panel); }
+    figure.fig figcaption { font-size: 0.75rem; color: var(--muted); line-height: 1.65; margin-top: 14px; padding-left: 14px; border-left: 2px solid var(--border); }
 
     /* DEMO CTA */
     .demo-cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 8px; padding: 12px 22px; background: var(--text); color: var(--bg); border-radius: 4px; font-size: 0.8rem; letter-spacing: 0.04em; transition: opacity .2s, transform .2s; }
@@ -114,8 +119,9 @@
       .stats { grid-template-columns: 1fr; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 32px 0; }
       .trio { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: 1fr; }
-      .g-tall { grid-row: auto; aspect-ratio: 3/4; }
+      .artifact { grid-template-columns: 1fr; gap: 18px; padding: 16px; }
+      .artifact .poster img { max-height: 72vh; }
+      .artifact .person img { height: auto; }
       .ptable td:last-child { font-size: 0.95rem; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -156,6 +162,17 @@
   <div class="stat"><div class="stat-num" data-i18n="s3n">前 200</div><div class="stat-label" data-i18n="s3">入选线下 Demo Day（约前 25%）</div></div>
 </div>
 
+<!-- ARTIFACT: 易拉宝 + 参赛者 -->
+<section style="padding-top:60px;padding-bottom:60px">
+  <div class="container">
+    <div class="artifact">
+      <div class="poster"><img src="img/banner.jpg" alt="易拉宝主视觉「你想把谁，写进来？」" loading="lazy" /></div>
+      <div class="person"><img src="img/photo.jpg" alt="Demo Day 现场，独自参赛" loading="lazy" /></div>
+    </div>
+    <p class="artifact-cap" data-i18n="art_cap">易拉宝主视觉「你想把谁，写进来？」· 外滩老市府大楼 Demo Day 现场，独自参赛</p>
+  </div>
+</section>
+
 <!-- 产品概念 -->
 <section>
   <div class="container two-col">
@@ -194,6 +211,10 @@
     <div class="col-body" style="margin-top:26px">
       <p data-i18n="c2_p3"><strong>一个机制，同时兜住三件本来要分开处理的事。</strong>我还留了「部分授权」的中间态——不是「同意 / 拒绝」二选一，而是「接受本次 / 拒绝本次 / 长期自动接受 / 不再接收」四层。原则写死进产品：<strong>自动接受省掉的是重复审核，不是知情权。</strong></p>
     </div>
+    <figure class="fig">
+      <img src="img/product1.jpg" alt="消息通知与故事同意门界面" loading="lazy" />
+      <figcaption data-i18n="fig1_cap">手机 1 收到通知 → 手机 2 的 STORY CONSENT 同意门：作者点「确认」之前，AI 的候选不入图、不推送。</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -213,6 +234,10 @@
         </table>
       </div>
     </div>
+    <figure class="fig">
+      <img src="img/product2.jpg" alt="认领人物节点与共同记忆见证界面" loading="lazy" />
+      <figcaption data-i18n="fig2_cap">认领人物节点 · 共同记忆见证确认——三道彼此独立的同意门，任何一道不通过都不产生副作用。</figcaption>
+    </figure>
     <div class="callout" style="margin-top:40px">
       <p class="big" data-i18n="dead_q">「TA 无法亲自授权。」</p>
       <p data-i18n="dead_p"><strong>一条我主动放弃的伦理红线：</strong>逝者节点强制关闭 AI 对话。在黑客松里「让 AI 复活逝者」极容易拿情感分，全场很多人做，我刻意不做——因为产品的核心契约是「本人拥有最终决定权」，而逝者无法行使这个权利。AI 只能总结已授权的故事，绝不能模拟其人格、包装成「本人复活」。</p>
@@ -245,6 +270,10 @@
         <p data-i18n="c5_p2">我坚持诚实区分「真做的」和「为 Demo 演示的」：<span class="rm real" data-i18n="rm_real">真跑通</span> AI 识别真调模型、三道门逻辑全部真实可点；<span class="rm mock" data-i18n="rm_mock">演示态</span> 三端联动是单机状态机模拟、数据不落库。<strong>对评委我从不说「闭环了」，只说「完整交互原型，核心 AI 是真的」。</strong>赛后我又花半天把它从公司内网脱敏迁到 Cloudflare，就为了让你现在能点开链接直接体验。</p>
       </div>
     </div>
+    <figure class="fig">
+      <img src="img/product3.jpg" alt="节点记忆问答与三端联动界面" loading="lazy" />
+      <figcaption data-i18n="fig3_cap">节点记忆问答（真调模型）· 三端同屏联动（单机状态机模拟）——真做的和演示态，界面上分得清清楚楚。</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -262,23 +291,11 @@
   </div>
 </section>
 
-<!-- GALLERY + DEMO -->
-<section>
+<!-- DEMO CTA -->
+<section style="text-align:center">
   <div class="container">
-    <p class="sec-label" data-i18n="g_label">现场 · 物料 · 产品</p>
-    <div class="gallery">
-      <div class="g-tall"><img src="img/banner.jpg" alt="易拉宝主视觉" loading="lazy" /></div>
-      <div class="g-small"><img src="img/photo.jpg" alt="Demo Day 现场参赛" loading="lazy" /></div>
-      <div class="g-small"><img src="img/product1.jpg" alt="产品界面" loading="lazy" /></div>
-    </div>
-    <div class="gallery" style="grid-template-columns:1fr 1fr;margin-top:12px">
-      <div class="g-small"><img src="img/product2.jpg" alt="产品界面" loading="lazy" /></div>
-      <div class="g-small"><img src="img/product3.jpg" alt="产品界面" loading="lazy" /></div>
-    </div>
-    <p class="g-cap" data-i18n="g_cap">易拉宝主视觉「你想把谁，写进来？」· Demo Day 现场 · 产品界面</p>
-    <div style="margin-top:32px">
-      <a href="https://rednote-person-graph.pages.dev/" target="_blank" rel="noopener" class="demo-cta" data-i18n="demo_btn">▶ 在线体验产品 →</a>
-    </div>
+    <p class="sec-label" style="border:none;padding:0;margin-bottom:20px" data-i18n="demo_label">脱敏迁到 Cloudflare · 现在就能点开体验</p>
+    <a href="https://rednote-person-graph.pages.dev/" target="_blank" rel="noopener" class="demo-cta" data-i18n="demo_btn">▶ 在线体验产品 →</a>
   </div>
 </section>
 
@@ -336,8 +353,11 @@ const T = {
     c6_head: '我从没进前 10 里学到的',
     c6_p1: '评委说「很有落地价值」，有工程师专门来找我讨论落地细节——方向和差异化是被认可的。没进前 10，复盘下来最大的收获不是名次，是三个认知：<strong>产品逻辑 ≠ 产品完整性</strong>（完整性 = 逻辑 + 视觉 + 情绪 + 现场表达，缺一块别人就只看到你缺的那块）；<strong>做 demo 是讲一个故事，不是做一个产品</strong>（边界要收到小到评委 3 分钟能听完）；产品人的核心竞争力不是「想得全」，是「讲得清」。',
     c6_p2: '最能带走的一条方法论：确权闸门那套<strong>「AI 提建议 → 人做决定 → 拒绝无损原文」</strong>的三段式，可以迁移到一大类「AI 生成/建议 + 人确认」的场景——AI 辅助写作的引用确认、AI 辅助设计的素材确认、AI 辅助编程的代码确认。比「红书人物志」这个具体产品更值得带走。',
-    g_label: '现场 · 物料 · 产品',
-    g_cap: '易拉宝主视觉「你想把谁，写进来？」· Demo Day 现场 · 产品界面',
+    art_cap: '易拉宝主视觉「你想把谁，写进来？」· 外滩老市府大楼 Demo Day 现场，独自参赛',
+    fig1_cap: '手机 1 收到通知 → 手机 2 的 STORY CONSENT 同意门：作者点「确认」之前，AI 的候选不入图、不推送。',
+    fig2_cap: '认领人物节点 · 共同记忆见证确认——三道彼此独立的同意门，任何一道不通过都不产生副作用。',
+    fig3_cap: '节点记忆问答（真调模型）· 三端同屏联动（单机状态机模拟）——真做的和演示态，界面上分得清清楚楚。',
+    demo_label: '脱敏迁到 Cloudflare · 现在就能点开体验',
     demo_btn: '▶ 在线体验产品 →',
   },
   en: {
@@ -383,8 +403,11 @@ const T = {
     c6_head: 'What not making the top 10 taught me',
     c6_p1: 'Judges called it "genuinely deployable"; engineers came to discuss implementation details — the direction and differentiation were validated. Not making the top 10, the real takeaway isn\'t the ranking, it\'s three realizations: <strong>product logic ≠ product completeness</strong> (completeness = logic + visuals + emotion + live delivery; miss one and that\'s all people see); <strong>a demo tells one story, it doesn\'t build a product</strong> (shrink the scope until a judge can follow it in 3 minutes); a product person\'s edge isn\'t "thinking of everything," it\'s "making it clear."',
     c6_p2: 'The most portable methodology: the consent gate\'s <strong>"AI suggests → human decides → rejection leaves the original untouched"</strong> pattern transfers to a whole class of "AI generates/suggests + human confirms" scenarios — citation confirmation in AI writing, asset confirmation in AI design, code confirmation in AI coding. Worth more than this one product.',
-    g_label: 'On-site · Materials · Product',
-    g_cap: 'Event banner "Who would you write in?" · Demo Day · product screens',
+    art_cap: 'Event banner "Who would you write in?" · Demo Day at the former Bund City Hall — entered solo',
+    fig1_cap: 'Phone 1 gets the notification → Phone 2\'s STORY CONSENT gate: before the author taps "confirm," the AI candidate is not graphed, not pushed.',
+    fig2_cap: 'Claim a person node · shared-memory witness confirmation — three independent consent gates; failing any one produces no side effect.',
+    fig3_cap: 'Node memory Q&A (real model calls) · three screens in sync (single-machine state machine) — what\'s real and what\'s demo, told apart right on screen.',
+    demo_label: 'De-identified onto Cloudflare · open it and try it now',
     demo_btn: '▶ Try it live →',
   }
 };
