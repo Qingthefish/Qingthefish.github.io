@@ -6,219 +6,358 @@
   <title>AI 驾驶行为检测 · Qingcheng Yu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
-      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
-      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --bg: #F8F7F4; --panel: #FFFDFA; --text: #1A1918; --muted: #6E6A63;
+      --light: #B8B4AE; --border: #E0DCD4; --border-light: #EAE7E0;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', Georgia, serif;
       --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--text); color: var(--bg); }
+    :focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
     .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 56px; background: rgba(248,247,244,0.88); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); border-bottom: 1px solid var(--border-light); }
     .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
-    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .nav-back:hover { color: var(--text); }
-    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 7px 15px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 4px; }
     #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
-    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
-    .hero-title { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
-    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    /* HERO */
+    .hero { padding: 140px 0 60px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 26px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 6.5vw, 5.4rem); font-weight: 300; line-height: 1.06; margin-bottom: 18px; letter-spacing: -0.01em; }
+    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: normal; color: var(--muted); margin-bottom: 30px; }
+    html[lang="en"] .hero-sub { font-style: italic; }
     .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+    .tag { font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
 
-    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
-    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 44px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 2.7rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
 
-    /* JOURNEY */
-    .journey { display: flex; flex-direction: column; gap: 0; }
-    .step { display: grid; grid-template-columns: 60px 1fr; gap: 32px; padding: 28px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
-    .step:last-child { border-bottom: none; }
-    .step-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--border); line-height: 1; padding-top: 2px; }
-    .step-title { font-size: 0.92rem; font-weight: 500; margin-bottom: 6px; }
-    .step-desc { font-size: 0.845rem; color: #706C67; line-height: 1.85; }
-
-    /* ARCH */
-    .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); margin-top: 48px; }
-    .arch-cell { background: var(--bg); padding: 32px 36px; }
-    .arch-layer { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
-    .arch-tech { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 10px; }
-    .arch-desc { font-size: 0.82rem; color: #706C67; line-height: 1.75; }
-
-    /* GALLERY */
-    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
-    .gallery-full { grid-column: 1 / -1; }
-    .gallery-full .img-placeholder { aspect-ratio: 21/9; }
-    img.proj-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-    /* TWO COL */
-    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
-    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
-    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    /* SECTIONS */
+    section { padding: 76px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 42px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.85rem; font-weight: 400; line-height: 1.28; }
+    .col-body { font-size: 0.9rem; color: #4E4A45; line-height: 1.95; }
     .col-body p + p { margin-top: 16px; }
     .col-body strong { color: var(--text); font-weight: 500; }
 
-    .page-footer { padding: 56px 0; }
+    /* PULL QUOTE */
+    .pull { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.4; color: var(--text); text-align: center; padding: 8px 0; max-width: 24ch; margin: 0 auto; }
+    .pull .by { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--light); margin-top: 20px; }
+
+    /* JOURNEY */
+    .journey { display: flex; flex-direction: column; gap: 0; margin-top: 8px; }
+    .step { display: grid; grid-template-columns: 60px 1fr; gap: 32px; padding: 26px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .step:last-child { border-bottom: none; }
+    .step-num { font-family: var(--serif); font-size: 2rem; font-weight: 300; color: var(--border); line-height: 1; padding-top: 2px; }
+    .step-title { font-size: 0.92rem; font-weight: 500; margin-bottom: 6px; }
+    .step-desc { font-size: 0.855rem; color: #4E4A45; line-height: 1.85; }
+    .step-desc strong { color: var(--text); font-weight: 500; }
+
+    /* THREE-IN-ONE */
+    .trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 26px; }
+    .trio-item { padding: 22px 20px; background: var(--panel); border: 1px solid var(--border-light); border-radius: 8px; }
+    .trio-item h4 { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; margin-bottom: 8px; }
+    .trio-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .trio-item strong { color: var(--text); font-weight: 500; }
+
+    /* CALLOUT */
+    .callout { border-left: 2px solid var(--text); padding: 4px 0 4px 24px; margin-top: 40px; }
+    .callout .big { font-family: var(--serif); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin-bottom: 12px; }
+    .callout p { font-size: 0.875rem; color: #4E4A45; line-height: 1.9; }
+    .callout strong { color: var(--text); font-weight: 500; }
+
+    /* ARCH GRID */
+    .arch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .arch-cell { background: var(--bg); padding: 32px 36px; }
+    .arch-layer { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
+    .arch-tech { font-family: var(--serif); font-size: 1.3rem; font-weight: 400; margin-bottom: 10px; }
+    .arch-desc { font-size: 0.82rem; color: #4E4A45; line-height: 1.78; }
+    .arch-desc strong { color: var(--text); font-weight: 500; }
+
+    /* HONEST TAGS */
+    .rm { display: inline-block; font-size: 0.62rem; letter-spacing: 0.05em; padding: 1px 7px; border-radius: 3px; vertical-align: middle; }
+    .rm.real { background: #E8F0E9; color: #3C6B49; }
+    .rm.mock { background: #F0ECE4; color: #8A6D3B; }
+
+    /* INLINE FIGURE */
+    figure.fig { margin: 40px 0 0; }
+    figure.fig img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border-light); background: var(--panel); }
+    figure.fig figcaption { font-size: 0.75rem; color: var(--muted); line-height: 1.65; margin-top: 14px; padding-left: 14px; border-left: 2px solid var(--border); }
+    .fig-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    .fig-pair figure.fig { margin: 0; }
+
+    /* FOOTER */
+    .page-footer { padding: 52px 0; }
     .footer-inner { display: flex; align-items: center; justify-content: space-between; }
-    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .footer-back:hover { color: var(--text); }
     .footer-copy { font-size: 0.7rem; color: var(--light); }
 
+    /* PAGE-LOAD REVEAL */
+    .reveal { opacity: 0; transform: translateY(14px); animation: rise 0.7s var(--ease) forwards; }
+    .hero .reveal:nth-child(1) { animation-delay: .05s; }
+    .hero .reveal:nth-child(2) { animation-delay: .13s; }
+    .hero .reveal:nth-child(3) { animation-delay: .21s; }
+    .hero .reveal:nth-child(4) { animation-delay: .29s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
     @media (max-width: 840px) {
       .container { padding: 0 24px; }
-      .two-col { grid-template-columns: 1fr; gap: 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 22px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 32px 0; }
+      .trio { grid-template-columns: 1fr; }
       .arch-grid { grid-template-columns: 1fr; }
-      .gallery { grid-template-columns: 1fr; }
+      .fig-pair { grid-template-columns: 1fr; gap: 32px; }
       .step { grid-template-columns: 40px 1fr; gap: 16px; }
     }
-    ::selection { background: var(--text); color: var(--bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back" data-i18n="back">← 于清程</a>
-    <button id="lang-btn" onclick="toggleLang()">EN</button>
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
   <div class="container">
-    <p class="hero-meta" data-i18n="hero_meta">AI 项目 · 2025 · 与悉尼本地 startup 合作 MVP</p>
-    <h1 class="hero-title" data-i18n="hero_title">AI 驾驶行为<br>检测系统</h1>
-    <p class="hero-sub" data-i18n="hero_sub">项目经理 & 核心开发</p>
-    <div class="hero-tags">
+    <p class="hero-meta reveal" data-i18n="hero_meta">AI 项目 · 2025 · 与悉尼一家 startup 合作的一期 MVP</p>
+    <h1 class="hero-title reveal" data-i18n="hero_title">AI 驾驶行为<br>检测系统</h1>
+    <p class="hero-sub reveal" data-i18n="hero_sub">产品设计 + AI 辅助全栈 · 独立交付</p>
+    <div class="hero-tags reveal">
+      <span class="tag" data-i18n="tag_pd">产品设计</span>
       <span class="tag">YOLOv8</span>
       <span class="tag">OpenCV</span>
       <span class="tag">FastAPI</span>
       <span class="tag">React</span>
       <span class="tag">SQLite</span>
-      <span class="tag">Computer Vision</span>
     </div>
   </div>
 </div>
 
-<!-- PRODUCT CONCEPT -->
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num" data-i18n="s1n">4 个月</div><div class="stat-label" data-i18n="s1">一个人从立项到客户演示，独立交付 MVP 闭环</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s2n">3 视角</div><div class="stat-label" data-i18n="s2">车内 / 前向 / 路边——各一条针对性检测管线</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s3n">580 行</div><div class="stat-label" data-i18n="s3">真实 YOLOv8 + 规则推理检测管线（本地权重 MPS 实测）</div></div>
+</div>
+
+<!-- 产品判断 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec1_label">产品理念</p>
+    <p class="sec-label" data-i18n="sec1_label">产品判断</p>
     <div class="two-col">
-      <h2 class="col-head" data-i18n="sec1_head">从视频到洞察——一个完整的 AI 产品闭环</h2>
+      <h2 class="col-head" data-i18n="sec1_head">把一段段行车视频，变成可解释的驾驶评分</h2>
       <div class="col-body">
-        <p data-i18n="sec1_p1">驾驶行为检测不是一个新概念，但大多数系统只提供原始报警数据，缺乏可操作的分析视角。这个项目从产品角度重新定义了"检测"的边界——从识别单次危险行为，延伸到帮助驾驶员理解自己的<strong>行为模式趋势</strong>。</p>
-        <p data-i18n="sec1_p2">这是与悉尼本地一家 startup 合作的 MVP：我负责整体产品设计，并以 AI 辅助编程独立完成前后端全栈落地（YOLOv8 / OpenCV 检测管线、FastAPI 后端、SQLite、React 看板）——定义用户旅程的每个节点，决定哪些检测结果值得呈现、如何呈现，让非技术用户也能从 AI 分析中得到真正有用的改善建议。</p>
+        <p data-i18n="sec1_p1">目标客户——保险、车队监管、政府部门——不缺数据，缺的是把视频变成「可解释评分」的<strong>中间层</strong>。这个产品的判断不是去判「这个人今天有没有违规」，而是持续观察驾驶习惯，形成<strong>长期风险画像</strong>。</p>
+        <p data-i18n="sec1_p2">为什么是「上传视频」这个形态，而不是行车记录仪实时流或 OBD 硬件？因为第一阶段客户的真实工作流是<strong>事后审阅</strong>——出险了、季度复盘了，才把视频调出来看。实时流要解决设备接入、带宽、隐私合规，那是后面阶段的事；OBD 硬件完全出了软件公司的能力圈。上传式 MVP 是四个月内唯一能跑通、又直接对准客户既有工作流的形态。</p>
       </div>
     </div>
+    <figure class="fig">
+      <img src="img/d1_dashboard.png" alt="主看板：司机聚合、评分趋势与排名" loading="lazy" />
+      <figcaption data-i18n="fig1_cap">主看板：按司机聚合行为频次、最近评分与司机排名——「长期风险画像」这个产品判断的落点。</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- USER JOURNEY -->
+<!-- 产品闭环 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec2_label">用户旅程</p>
-    <div class="journey">
-      <div class="step">
-        <div class="step-num">01</div>
-        <div>
-          <p class="step-title" data-i18n="j1_t">视频上传</p>
-          <p class="step-desc" data-i18n="j1_d">用户上传行车记录仪视频，支持多格式输入，系统自动预处理并排队分析。</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">02</div>
-        <div>
-          <p class="step-title" data-i18n="j2_t">视角选择</p>
-          <p class="step-desc" data-i18n="j2_d">用户指定摄像头视角（正前方 / 车内 / 后视），系统针对不同视角调用对应的检测模型参数。</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">03</div>
-        <div>
-          <p class="step-title" data-i18n="j3_t">驾驶者筛选</p>
-          <p class="step-desc" data-i18n="j3_d">多人使用场景下，用户绑定特定驾驶者 ID，确保行为数据归属准确、分析结果个人化。</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">04</div>
-        <div>
-          <p class="step-title" data-i18n="j4_t">AI 检测评分</p>
-          <p class="step-desc" data-i18n="j4_d">YOLOv8 + OpenCV 识别分心驾驶、急刹车、超速、压线等行为，输出置信度评分与时间戳标注。</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">05</div>
-        <div>
-          <p class="step-title" data-i18n="j5_t">历史对比看板</p>
-          <p class="step-desc" data-i18n="j5_d">行为频次图表 + 月趋势折线图，让驾驶员清晰看到自己哪些习惯在改善、哪些还在反复。</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">06</div>
-        <div>
-          <p class="step-title" data-i18n="j6_t">个性化改善建议</p>
-          <p class="step-desc" data-i18n="j6_d">基于历史数据生成针对性行为改善建议，而不是泛化的安全提示——让 AI 分析结果真正产生行为改变。</p>
+    <p class="sec-label" data-i18n="sec2_label">产品闭环 · 六步</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head">每一步，都对应一个用户假设</h2>
+      <div class="col-body">
+        <div class="journey">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div><p class="step-title" data-i18n="j1_t">视频上传</p><p class="step-desc" data-i18n="j1_d">上传一段 MP4，后台以异步任务跑检测，前端每 2 秒轮询一次 status 取进度——上传不阻塞。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div><p class="step-title" data-i18n="j2_t">视角选择</p><p class="step-desc" data-i18n="j2_d">上传时声明视角（车内 / 前向 / 路边）。这是整个产品的<strong>技术枢纽</strong>——不同视角能看到的行为完全不同，让用户声明视角，等于让用户帮我做了「路由到哪条检测管线」的决策。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div><p class="step-title" data-i18n="j3_t">驾驶者筛选</p><p class="step-desc" data-i18n="j3_d">目标客户管的是「一批司机」而不是「一个司机」。数据模型从第一天就是 users→drivers→videos 三层，「按司机出报告」是系统的<strong>原生能力</strong>，不是事后拼凑。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div><p class="step-title" data-i18n="j4_t">AI 检测评分</p><p class="step-desc" data-i18n="j4_d">YOLOv8 真跑、导出带检测框视频；规则层判定违规——手机在手、双手离开方向盘、红绿灯 HSV + 光流、跟车 bbox 面积比——落成 100 分制评分。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">05</div>
+            <div><p class="step-title" data-i18n="j5_t">历史对比</p><p class="step-desc" data-i18n="j5_d">按时间范围（3 个月 / 6 个月 / 1 年）过滤，看某司机的行为频次和评分怎么变——单次检测只是功能，趋势才是洞察。</p></div>
+          </div>
+          <div class="step">
+            <div class="step-num">06</div>
+            <div><p class="step-title" data-i18n="j6_t">个性化建议</p><p class="step-desc" data-i18n="j6_d">按每个视角最高扣分项生成针对性改善建议，并给出「避免它大约能提多少分」——建议是前端真算的，不是文案模板。</p></div>
+          </div>
         </div>
       </div>
     </div>
+    <figure class="fig">
+      <img src="img/d2_upload.png" alt="上传页：拖拽视频、声明视角、绑定司机" loading="lazy" />
+      <figcaption data-i18n="fig2_cap">上传页：拖拽视频 + 声明视角 + 绑定司机 ID——视角选择这一步，就是把「路由到哪条检测管线」的决策交给最清楚的人。</figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- TECH -->
+<!-- PULL QUOTE -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec3_label">技术架构</p>
+    <p class="pull" data-i18n="pull1">「架构是真的，参数是演示级的。」<span class="by" data-i18n="pull1_by">这个项目最核心的一次取舍</span></p>
+  </div>
+</section>
+
+<!-- 核心取舍 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label">核心取舍</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head">先把闭环跑通，还是先把 AI 做真？</h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1">这是整个项目最核心的一次判断。我选择：<strong>检测引擎用真模型、真规则，但判定阈值按演示环境手工标定；同时把全部工程力气押在闭环完整度上。</strong>YOLOv8 是真跑的、违规判定是真规则推理，但每个阈值（手机-手腕 90px、方向盘区域 150px、跟车面积占比 10%……）是我在测试视频上手调的，没有标注集回归验证。</p>
+        <p data-i18n="sec3_p2">这笔账是这么算的：四个月的窗口里，做真闭环的边际收益远大于把某个阈值从「演示可用」打磨到「生产可靠」——后者需要的是<strong>数据</strong>（标注好的违规片段、多光照多车型样本），而不是代码时间，而第一阶段根本没有这些数据。把闭环做全、把数据模型做对，等客户拿真数据来喂，参数层可以整体替换。</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p class="big" data-i18n="co1_big">MVP 里该真的，和可以先演示级的，是两种东西。</p>
+      <p data-i18n="co1_p"><strong>该真的是数据模型和闭环骨架（改不动的部分），可以先演示级的是参数和边缘功能（可整体替换的部分）。</strong>数据模型错一行，后面全歪；阈值差一倍，换一批数字就行。当时精力重前者、轻后者，事后看是对的。</p>
+    </div>
+    <figure class="fig">
+      <img src="img/d3_result.png" alt="检测结果页：真实 YOLO 检测框、评分、违规明细" loading="lazy" />
+      <figcaption data-i18n="fig3_cap">检测结果页：真实 YOLOv8 检测框（car 0.92 / traffic light / parking meter）、100 分制评分、带时间戳的违规明细——检测是真跑的，不是 PPT。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 技术架构 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec4_label">技术架构 · 每个选型都对着一个约束</p>
     <div class="arch-grid">
       <div class="arch-cell">
         <p class="arch-layer" data-i18n="a1_l">检测层</p>
         <p class="arch-tech">YOLOv8 + OpenCV</p>
-        <p class="arch-desc" data-i18n="a1_d">实时目标检测与行为识别，支持帧级时间戳定位，检测结果附带置信度分级。</p>
+        <p class="arch-desc" data-i18n="a1_d">YOLOv8m + Pose 关键点 + MediaPipe（可选）+ OpenCV 光流。本地权重、Apple Silicon MPS 实测跑通；缺可选依赖时优雅降级不崩。</p>
       </div>
       <div class="arch-cell">
         <p class="arch-layer" data-i18n="a2_l">后端层</p>
         <p class="arch-tech">Python · FastAPI</p>
-        <p class="arch-desc" data-i18n="a2_d">异步 API 服务处理视频上传与分析队列，RESTful 接口供前端消费，SQLite 存储行为历史与用户档案。</p>
+        <p class="arch-desc" data-i18n="a2_d">异步任务覆盖「上传后分析」，前端轮询 status。选 Python 的决定性理由：<strong>AI 生态都在 Python 里</strong>，Web 层和推理层同语言，省掉一层序列化胶水。</p>
       </div>
       <div class="arch-cell">
         <p class="arch-layer" data-i18n="a3_l">数据层</p>
         <p class="arch-tech">SQLite</p>
-        <p class="arch-desc" data-i18n="a3_d">轻量级本地数据库，存储驾驶事件记录、评分历史与趋势数据，支持多驾驶者独立档案。</p>
+        <p class="arch-desc" data-i18n="a3_d">四层模型 users→drivers→videos→violations + 行为字典 + 评分实时视图。单文件、零运维、演示可携带——整个库拷走就能跑。</p>
       </div>
       <div class="arch-cell">
         <p class="arch-layer" data-i18n="a4_l">前端层</p>
-        <p class="arch-tech">React</p>
-        <p class="arch-desc" data-i18n="a4_d">行为频次图表与月趋势分析看板，交互式数据可视化让非技术用户轻松读懂分析报告。</p>
+        <p class="arch-tech">React · Vite</p>
+        <p class="arch-desc" data-i18n="a4_d">11 个页面。Vite 秒级热更新让一个人全栈迭代翻倍；不引 TypeScript 是刻意的——MVP 阶段类型系统的收益，抵不过 AI 辅助编程在纯 JS 上的流畅度。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- GALLERY -->
+<!-- 评分与长期画像 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec4_label">产品截图</p>
-    <div class="gallery">
-      <div class="gallery-full">
-        <div class="img-placeholder">
-          <span data-i18n="ph1">主看板 / Dashboard 截图待补充</span>
-        </div>
+    <p class="sec-label" data-i18n="sec5_label">评分与长期画像</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec5_head">客户买单的不是单次检测，是趋势</h2>
+      <div class="col-body">
+        <p data-i18n="sec5_p1">评分用 100 分基线减扣分，8 类行为的扣分字典是<strong>唯一真源</strong>（玩手机 −30、疲劳 −40、闯红灯 −30……）。分数不落库，用一个实时视图现算——扣分字典改了，历史分数自动跟着对。设计原则：偶发小错不重罚、高频重复加重，面向长期画像。</p>
+        <p data-i18n="sec5_p2">光扣分会让分数一路向下，所以我加了<strong>正向 credit bonus</strong>：安全驾驶时长按视角折算加分，封顶 100。再往上，按每个视角最高扣分项生成个性化建议——让分数不只是审判，而是可改善的目标。</p>
       </div>
-      <div class="img-placeholder">
-        <span data-i18n="ph2">检测结果页</span>
+    </div>
+    <div class="fig-pair">
+      <figure class="fig">
+        <img src="img/d5_overall.png" alt="评分拆解：平均分 + credit bonus = 最终分" loading="lazy" />
+        <figcaption data-i18n="fig5_cap">评分拆解：平均分 + 安全驾驶 credit bonus = 最终分，并展开「这些数字怎么算出来的」——评分口径对用户透明。</figcaption>
+      </figure>
+      <figure class="fig">
+        <img src="img/d4_history.png" alt="历史检索：按时间范围过滤司机上传与评分" loading="lazy" />
+        <figcaption data-i18n="fig4_cap">历史检索：按时间范围（全部 / 近 1 年 / 6 个月 / 3 个月）过滤某司机的上传与评分——趋势，才是长期风险画像的原料。</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 诚实的能力边界 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec6_label">诚实的能力边界</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec6_head">做不到的，我不包装成做得到</h2>
+      <div class="col-body">
+        <p data-i18n="sec6_p1">做 AI 产品，能力边界的诚实是<strong>产品设计的一部分</strong>，不是技术备忘录里的一行小字。这个产品没有一处「看起来能、实际上不能」的功能——下面三个边界，都是主动划掉、而不是藏起来的。</p>
       </div>
-      <div class="img-placeholder">
-        <span data-i18n="ph3">趋势分析图表</span>
+    </div>
+    <div class="trio">
+      <div class="trio-item"><h4 data-i18n="t1_h">安全带检测</h4><p data-i18n="t1_p">试过让 YOLO 识别安全带，标了一批图，效果很差——安全带和衣服纹理、阴影、斜挎包带在像素层高度混淆。<strong>当错误样本人眼都要语义推理才能判对时，纯检测范式就是错的。</strong>果断移出承诺范围。</p></div>
+      <div class="trio-item"><h4 data-i18n="t2_h">超速检测</h4><p data-i18n="t2_p">单路固定视角、没有 GPS/IMU/车速接口，<strong>真实速度物理上就不可恢复</strong>。没有包装成「超速检测」，而是降级为视觉可观测的代理信号：急加速、急刹车、跟车距离变化。</p></div>
+      <div class="trio-item"><h4 data-i18n="t3_h">实时分析</h4><p data-i18n="t3_p">实时摄像头分析在第一期<strong>主动裁掉</strong>，列进 roadmap。它要解决设备接入、带宽、隐私合规——那是后面阶段的事，是清醒的减法。</p></div>
+    </div>
+    <div class="col-body" style="margin-top:26px">
+      <p data-i18n="rm_line">同一套诚实也贯穿在交付里：<span class="rm real">真跑通</span> YOLOv8 检测 + 带框视频、三视角规则判定、100 分评分视图；<span class="rm mock">演示级</span> 阈值手调无评估集回归、confidence 恒为 0、账号体系是无盐哈希。<strong>对客户我从不含糊哪些是真、哪些是演示。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 最想讲透的一课 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec7_label">最想讲透的一课</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec7_head">一个我亲手埋、亲手挖、亲手修的 bug</h2>
+      <div class="col-body">
+        <p data-i18n="sec7_p1">交付时的 demo 数据库和代码里的建表逻辑是<strong>漂移的</strong>：演示推进中我直接在库里手工加列、手工建表、把评分做成实时视图，但建表代码从没回头同步。后果是——带着演示数据一切正常，<strong>换一台机器删库重建，服务当场崩</strong>：违规表根本不存在，分析结果无处可写。</p>
+        <p data-i18n="sec7_p2">根因不是技术，是流程：MVP 冲刺里「改库」比「改建表代码」快十倍，而「新库重建」只在交付后的新机器上才第一次发生——恰好是最需要它工作的时刻。这是典型的 demo 阶段技术债：<strong>债在演示路径上不可见，在交付路径上爆炸。</strong>2026 年复盘我把它彻底修了，并用「删库重建」实测验证。面试我会主动讲这个 bug——能自己定位、讲清根因、给出修法，比从没踩过坑更有说服力。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PULL QUOTE 2 -->
+<section>
+  <div class="container">
+    <p class="pull" data-i18n="pull2">「评估体系先于模型迭代——harness 不是后期工程，是第一天就该在的骨架。」<span class="by" data-i18n="pull2_by">阈值「演示级」教给我的</span></p>
+  </div>
+</section>
+
+<!-- 沉淀 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec8_label">沉淀</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec8_head">AI 加速的是「写」，不加速「判断」</h2>
+      <div class="col-body">
+        <p data-i18n="sec8_p1">阈值演示级欠的债，让我想清楚一件事：缺的从来不是调参，是<strong>评估基础设施</strong>——没有一个标注好的 golden set，任何阈值调整都无法回答「变好了还是变坏了」。如果重来，我会在第一次调阈值之前，就先冻结 20 段标注视频做回归集。</p>
+        <p data-i18n="sec8_p2">四个月一个人交付 11 页前端 + 9 个接口 + 580 行推理管线 + 完整数据模型，没有 AI 辅助编程不可能。但我也看清了杠杆的边界——<strong>AI 加速的是「写」，不加速「判断」</strong>：阈值该不该调、schema 该不该同步、任务定义是不是错了，这些 AI 不替你做，而项目里所有真正的坑都在判断层。AI-coding 让产品经理第一次有了「独立交付完整产品」的可能，但交付质量的下限，仍由工程判断力决定。</p>
       </div>
     </div>
   </div>
@@ -236,67 +375,138 @@
 <script>
 const T = {
   zh: {
-    back: '← 于清程',
-    hero_meta: 'AI 项目 · 2025 · 与悉尼本地 startup 合作 MVP',
+    back: '于清程', foot_back: '← 返回主页',
+    hero_meta: 'AI 项目 · 2025 · 与悉尼一家 startup 合作的一期 MVP',
     hero_title: 'AI 驾驶行为<br>检测系统',
-    hero_sub: '项目经理 & 核心开发',
-    sec1_label: '产品理念',
-    sec1_head: '从视频到洞察——一个完整的 AI 产品闭环',
-    sec1_p1: '驾驶行为检测不是一个新概念，但大多数系统只提供原始报警数据，缺乏可操作的分析视角。这个项目从产品角度重新定义了"检测"的边界——从识别单次危险行为，延伸到帮助驾驶员理解自己的<strong>行为模式趋势</strong>。',
-    sec1_p2: '这是与悉尼本地一家 startup 合作的 MVP：我负责整体产品设计，并以 AI 辅助编程独立完成前后端全栈落地（YOLOv8 / OpenCV 检测管线、FastAPI 后端、SQLite、React 看板）——定义用户旅程的每个节点，决定哪些检测结果值得呈现、如何呈现，让非技术用户也能从 AI 分析中得到真正有用的改善建议。',
-    sec2_label: '用户旅程',
-    j1_t: '视频上传', j1_d: '用户上传行车记录仪视频，支持多格式输入，系统自动预处理并排队分析。',
-    j2_t: '视角选择', j2_d: '用户指定摄像头视角（正前方 / 车内 / 后视），系统针对不同视角调用对应的检测模型参数。',
-    j3_t: '驾驶者筛选', j3_d: '多人使用场景下，用户绑定特定驾驶者 ID，确保行为数据归属准确、分析结果个人化。',
-    j4_t: 'AI 检测评分', j4_d: 'YOLOv8 + OpenCV 识别分心驾驶、急刹车、超速、压线等行为，输出置信度评分与时间戳标注。',
-    j5_t: '历史对比看板', j5_d: '行为频次图表 + 月趋势折线图，让驾驶员清晰看到自己哪些习惯在改善、哪些还在反复。',
-    j6_t: '个性化改善建议', j6_d: '基于历史数据生成针对性行为改善建议，让 AI 分析结果真正产生行为改变。',
-    sec3_label: '技术架构',
-    a1_l: '检测层', a1_d: '实时目标检测与行为识别，支持帧级时间戳定位，检测结果附带置信度分级。',
-    a2_l: '后端层', a2_d: '异步 API 服务处理视频上传与分析队列，RESTful 接口供前端消费，SQLite 存储行为历史。',
-    a3_l: '数据层', a3_d: '轻量级本地数据库，存储驾驶事件记录、评分历史与趋势数据，支持多驾驶者独立档案。',
-    a4_l: '前端层', a4_d: '行为频次图表与月趋势分析看板，交互式数据可视化让非技术用户轻松读懂分析报告。',
-    sec4_label: '产品截图',
-    ph1: '主看板 / Dashboard 截图待补充', ph2: '检测结果页', ph3: '趋势分析图表',
-    foot_back: '← 返回主页',
+    hero_sub: '产品设计 + AI 辅助全栈 · 独立交付',
+    tag_pd: '产品设计',
+    s1n: '4 个月', s1: '一个人从立项到客户演示，独立交付 MVP 闭环',
+    s2n: '3 视角', s2: '车内 / 前向 / 路边——各一条针对性检测管线',
+    s3n: '580 行', s3: '真实 YOLOv8 + 规则推理检测管线（本地权重 MPS 实测）',
+    sec1_label: '产品判断',
+    sec1_head: '把一段段行车视频，变成可解释的驾驶评分',
+    sec1_p1: '目标客户——保险、车队监管、政府部门——不缺数据，缺的是把视频变成「可解释评分」的<strong>中间层</strong>。这个产品的判断不是去判「这个人今天有没有违规」，而是持续观察驾驶习惯，形成<strong>长期风险画像</strong>。',
+    sec1_p2: '为什么是「上传视频」这个形态，而不是行车记录仪实时流或 OBD 硬件？因为第一阶段客户的真实工作流是<strong>事后审阅</strong>——出险了、季度复盘了，才把视频调出来看。实时流要解决设备接入、带宽、隐私合规，那是后面阶段的事；OBD 硬件完全出了软件公司的能力圈。上传式 MVP 是四个月内唯一能跑通、又直接对准客户既有工作流的形态。',
+    fig1_cap: '主看板：按司机聚合行为频次、最近评分与司机排名——「长期风险画像」这个产品判断的落点。',
+    sec2_label: '产品闭环 · 六步',
+    sec2_head: '每一步，都对应一个用户假设',
+    j1_t: '视频上传', j1_d: '上传一段 MP4，后台以异步任务跑检测，前端每 2 秒轮询一次 status 取进度——上传不阻塞。',
+    j2_t: '视角选择', j2_d: '上传时声明视角（车内 / 前向 / 路边）。这是整个产品的<strong>技术枢纽</strong>——不同视角能看到的行为完全不同，让用户声明视角，等于让用户帮我做了「路由到哪条检测管线」的决策。',
+    j3_t: '驾驶者筛选', j3_d: '目标客户管的是「一批司机」而不是「一个司机」。数据模型从第一天就是 users→drivers→videos 三层，「按司机出报告」是系统的<strong>原生能力</strong>，不是事后拼凑。',
+    j4_t: 'AI 检测评分', j4_d: 'YOLOv8 真跑、导出带检测框视频；规则层判定违规——手机在手、双手离开方向盘、红绿灯 HSV + 光流、跟车 bbox 面积比——落成 100 分制评分。',
+    j5_t: '历史对比', j5_d: '按时间范围（3 个月 / 6 个月 / 1 年）过滤，看某司机的行为频次和评分怎么变——单次检测只是功能，趋势才是洞察。',
+    j6_t: '个性化建议', j6_d: '按每个视角最高扣分项生成针对性改善建议，并给出「避免它大约能提多少分」——建议是前端真算的，不是文案模板。',
+    fig2_cap: '上传页：拖拽视频 + 声明视角 + 绑定司机 ID——视角选择这一步，就是把「路由到哪条检测管线」的决策交给最清楚的人。',
+    pull1: '「架构是真的，参数是演示级的。」<span class="by">这个项目最核心的一次取舍</span>',
+    pull1_by: '这个项目最核心的一次取舍',
+    sec3_label: '核心取舍',
+    sec3_head: '先把闭环跑通，还是先把 AI 做真？',
+    sec3_p1: '这是整个项目最核心的一次判断。我选择：<strong>检测引擎用真模型、真规则，但判定阈值按演示环境手工标定；同时把全部工程力气押在闭环完整度上。</strong>YOLOv8 是真跑的、违规判定是真规则推理，但每个阈值（手机-手腕 90px、方向盘区域 150px、跟车面积占比 10%……）是我在测试视频上手调的，没有标注集回归验证。',
+    sec3_p2: '这笔账是这么算的：四个月的窗口里，做真闭环的边际收益远大于把某个阈值从「演示可用」打磨到「生产可靠」——后者需要的是<strong>数据</strong>（标注好的违规片段、多光照多车型样本），而不是代码时间，而第一阶段根本没有这些数据。把闭环做全、把数据模型做对，等客户拿真数据来喂，参数层可以整体替换。',
+    co1_big: 'MVP 里该真的，和可以先演示级的，是两种东西。',
+    co1_p: '<strong>该真的是数据模型和闭环骨架（改不动的部分），可以先演示级的是参数和边缘功能（可整体替换的部分）。</strong>数据模型错一行，后面全歪；阈值差一倍，换一批数字就行。当时精力重前者、轻后者，事后看是对的。',
+    fig3_cap: '检测结果页：真实 YOLOv8 检测框（car 0.92 / traffic light / parking meter）、100 分制评分、带时间戳的违规明细——检测是真跑的，不是 PPT。',
+    sec4_label: '技术架构 · 每个选型都对着一个约束',
+    a1_l: '检测层', a1_d: 'YOLOv8m + Pose 关键点 + MediaPipe（可选）+ OpenCV 光流。本地权重、Apple Silicon MPS 实测跑通；缺可选依赖时优雅降级不崩。',
+    a2_l: '后端层', a2_d: '异步任务覆盖「上传后分析」，前端轮询 status。选 Python 的决定性理由：<strong>AI 生态都在 Python 里</strong>，Web 层和推理层同语言，省掉一层序列化胶水。',
+    a3_l: '数据层', a3_d: '四层模型 users→drivers→videos→violations + 行为字典 + 评分实时视图。单文件、零运维、演示可携带——整个库拷走就能跑。',
+    a4_l: '前端层', a4_d: '11 个页面。Vite 秒级热更新让一个人全栈迭代翻倍；不引 TypeScript 是刻意的——MVP 阶段类型系统的收益，抵不过 AI 辅助编程在纯 JS 上的流畅度。',
+    sec5_label: '评分与长期画像',
+    sec5_head: '客户买单的不是单次检测，是趋势',
+    sec5_p1: '评分用 100 分基线减扣分，8 类行为的扣分字典是<strong>唯一真源</strong>（玩手机 −30、疲劳 −40、闯红灯 −30……）。分数不落库，用一个实时视图现算——扣分字典改了，历史分数自动跟着对。设计原则：偶发小错不重罚、高频重复加重，面向长期画像。',
+    sec5_p2: '光扣分会让分数一路向下，所以我加了<strong>正向 credit bonus</strong>：安全驾驶时长按视角折算加分，封顶 100。再往上，按每个视角最高扣分项生成个性化建议——让分数不只是审判，而是可改善的目标。',
+    fig5_cap: '评分拆解：平均分 + 安全驾驶 credit bonus = 最终分，并展开「这些数字怎么算出来的」——评分口径对用户透明。',
+    fig4_cap: '历史检索：按时间范围（全部 / 近 1 年 / 6 个月 / 3 个月）过滤某司机的上传与评分——趋势，才是长期风险画像的原料。',
+    sec6_label: '诚实的能力边界',
+    sec6_head: '做不到的，我不包装成做得到',
+    sec6_p1: '做 AI 产品，能力边界的诚实是<strong>产品设计的一部分</strong>，不是技术备忘录里的一行小字。这个产品没有一处「看起来能、实际上不能」的功能——下面三个边界，都是主动划掉、而不是藏起来的。',
+    t1_h: '安全带检测', t1_p: '试过让 YOLO 识别安全带，标了一批图，效果很差——安全带和衣服纹理、阴影、斜挎包带在像素层高度混淆。<strong>当错误样本人眼都要语义推理才能判对时，纯检测范式就是错的。</strong>果断移出承诺范围。',
+    t2_h: '超速检测', t2_p: '单路固定视角、没有 GPS/IMU/车速接口，<strong>真实速度物理上就不可恢复</strong>。没有包装成「超速检测」，而是降级为视觉可观测的代理信号：急加速、急刹车、跟车距离变化。',
+    t3_h: '实时分析', t3_p: '实时摄像头分析在第一期<strong>主动裁掉</strong>，列进 roadmap。它要解决设备接入、带宽、隐私合规——那是后面阶段的事，是清醒的减法。',
+    rm_line: '同一套诚实也贯穿在交付里：<span class="rm real">真跑通</span> YOLOv8 检测 + 带框视频、三视角规则判定、100 分评分视图；<span class="rm mock">演示级</span> 阈值手调无评估集回归、confidence 恒为 0、账号体系是无盐哈希。<strong>对客户我从不含糊哪些是真、哪些是演示。</strong>',
+    sec7_label: '最想讲透的一课',
+    sec7_head: '一个我亲手埋、亲手挖、亲手修的 bug',
+    sec7_p1: '交付时的 demo 数据库和代码里的建表逻辑是<strong>漂移的</strong>：演示推进中我直接在库里手工加列、手工建表、把评分做成实时视图，但建表代码从没回头同步。后果是——带着演示数据一切正常，<strong>换一台机器删库重建，服务当场崩</strong>：违规表根本不存在，分析结果无处可写。',
+    sec7_p2: '根因不是技术，是流程：MVP 冲刺里「改库」比「改建表代码」快十倍，而「新库重建」只在交付后的新机器上才第一次发生——恰好是最需要它工作的时刻。这是典型的 demo 阶段技术债：<strong>债在演示路径上不可见，在交付路径上爆炸。</strong>2026 年复盘我把它彻底修了，并用「删库重建」实测验证。面试我会主动讲这个 bug——能自己定位、讲清根因、给出修法，比从没踩过坑更有说服力。',
+    pull2: '「评估体系先于模型迭代——harness 不是后期工程，是第一天就该在的骨架。」<span class="by">阈值「演示级」教给我的</span>',
+    pull2_by: '阈值「演示级」教给我的',
+    sec8_label: '沉淀',
+    sec8_head: 'AI 加速的是「写」，不加速「判断」',
+    sec8_p1: '阈值演示级欠的债，让我想清楚一件事：缺的从来不是调参，是<strong>评估基础设施</strong>——没有一个标注好的 golden set，任何阈值调整都无法回答「变好了还是变坏了」。如果重来，我会在第一次调阈值之前，就先冻结 20 段标注视频做回归集。',
+    sec8_p2: '四个月一个人交付 11 页前端 + 9 个接口 + 580 行推理管线 + 完整数据模型，没有 AI 辅助编程不可能。但我也看清了杠杆的边界——<strong>AI 加速的是「写」，不加速「判断」</strong>：阈值该不该调、schema 该不该同步、任务定义是不是错了，这些 AI 不替你做，而项目里所有真正的坑都在判断层。AI-coding 让产品经理第一次有了「独立交付完整产品」的可能，但交付质量的下限，仍由工程判断力决定。',
   },
   en: {
-    back: '← Qingcheng Yu',
-    hero_meta: 'AI Project · 2025 · MVP with a Sydney startup',
+    back: 'Qingcheng Yu', foot_back: '← Back to portfolio',
+    hero_meta: 'AI Project · 2025 · A first-phase MVP with a Sydney startup',
     hero_title: 'AI Driving Behavior<br>Detection System',
-    hero_sub: 'Project Manager & Core Developer',
-    sec1_label: 'Product Concept',
-    sec1_head: 'From video to insight — a complete AI product loop',
-    sec1_p1: 'Driving behavior detection isn\'t a new category, but most systems only surface raw alert data without actionable analysis. This project redefined the scope from a product perspective — shifting from flagging individual dangerous actions to helping drivers understand their <strong>behavioral pattern trends</strong> over time.',
-    sec1_p2: 'This was an MVP built with a local Sydney startup. I owned the product design and, using AI-assisted coding, delivered the full stack myself (YOLOv8 / OpenCV detection pipeline, FastAPI backend, SQLite, React dashboard) — defining every node of the user journey, deciding which detection outputs to surface and how, and making the AI analysis genuinely useful for non-technical drivers.',
-    sec2_label: 'User Journey',
-    j1_t: 'Video Upload', j1_d: 'Users upload dashcam footage in multiple formats. System auto-preprocesses and queues for analysis.',
-    j2_t: 'Angle Selection', j2_d: 'User specifies camera angle (front-facing / in-cabin / rear). System applies corresponding model parameters per angle.',
-    j3_t: 'Driver Selection', j3_d: 'In multi-driver scenarios, users link to a specific driver ID, ensuring accurate attribution and personalized results.',
-    j4_t: 'AI Detection & Scoring', j4_d: 'YOLOv8 + OpenCV detects distracted driving, hard braking, speeding, lane violations — output includes confidence scores and frame-level timestamps.',
-    j5_t: 'Historical Dashboard', j5_d: 'Behavior frequency charts + monthly trend lines show drivers exactly which habits are improving and which keep recurring.',
-    j6_t: 'Personalized Recommendations', j6_d: 'Targeted behavior improvement tips generated from historical patterns — not generic safety warnings, but specific actionable guidance.',
-    sec3_label: 'Technical Architecture',
-    a1_l: 'Detection Layer', a1_d: 'Real-time object detection and behavior classification with frame-level timestamp anchoring and confidence scoring.',
-    a2_l: 'Backend Layer', a2_d: 'Async FastAPI service handles video upload queue and analysis pipeline; RESTful API consumed by frontend; SQLite for behavior history.',
-    a3_l: 'Data Layer', a3_d: 'Lightweight SQLite stores driving event records, scoring history, and trend data with independent profiles per driver.',
-    a4_l: 'Frontend Layer', a4_d: 'React dashboard with interactive behavior frequency charts and monthly trend visualizations — readable by non-technical users.',
-    sec4_label: 'Screenshots',
-    ph1: 'Main dashboard screenshot to be added', ph2: 'Detection results view', ph3: 'Trend analysis charts',
-    foot_back: '← Back to portfolio',
+    hero_sub: 'Product design + AI-assisted full stack · delivered solo',
+    tag_pd: 'Product Design',
+    s1n: '4 months', s1: 'From kickoff to client demo — a complete MVP loop, delivered solo',
+    s2n: '3 angles', s2: 'In-cabin / front-facing / roadside — a dedicated detection pipeline each',
+    s3n: '580 lines', s3: 'A real YOLOv8 + rule-inference detection pipeline (local weights, MPS-tested)',
+    sec1_label: 'Product Judgment',
+    sec1_head: 'Turning raw driving footage into an explainable driving score',
+    sec1_p1: "The target clients — insurers, fleet regulators, government bodies — don't lack data. What they lack is the <strong>middle layer</strong> that turns video into an explainable score. The product's bet isn't judging whether someone broke a rule today, but continuously observing driving habits to build a <strong>long-term risk profile</strong>.",
+    sec1_p2: "Why an upload-a-video form, rather than a live dashcam stream or OBD hardware? Because phase-one clients' real workflow is <strong>after-the-fact review</strong> — they pull footage up only after an incident or a quarterly review. A live stream would mean solving device integration, bandwidth, and privacy compliance — that's a later phase; OBD hardware is entirely outside a software company's scope. An upload-based MVP was the only form that could ship in four months and map directly onto the client's existing workflow.",
+    fig1_cap: "Main dashboard: behavior frequency, recent scores and driver rankings aggregated per driver — where the 'long-term risk profile' bet actually lands.",
+    sec2_label: 'The Product Loop · Six Steps',
+    sec2_head: 'Every step answers a user assumption',
+    j1_t: 'Video Upload', j1_d: 'Upload an MP4; the backend runs detection as an async task while the front end polls status every 2 seconds for progress — the upload never blocks.',
+    j2_t: 'Angle Selection', j2_d: "You declare the camera angle at upload (in-cabin / front-facing / roadside). This is the product's <strong>technical hub</strong> — each angle sees entirely different behaviors, so having the user declare the angle means the user makes the 'which pipeline to route to' decision for me.",
+    j3_t: 'Driver Selection', j3_d: "Clients manage a fleet of drivers, not a single driver. The data model was users→drivers→videos from day one, so 'report per driver' is a <strong>native capability</strong>, not something bolted on later.",
+    j4_t: 'AI Detection & Scoring', j4_d: 'YOLOv8 truly runs and exports a boxed video; the rule layer flags violations — phone in hand, hands off the wheel, traffic-light HSV + optical flow, tailgating bbox-area ratio — rolled into a 100-point score.',
+    j5_t: 'Historical Comparison', j5_d: "Filter by time range (3 months / 6 months / 1 year) to see how a driver's behavior frequency and scores shift — a single detection is just a feature; the trend is the insight.",
+    j6_t: 'Personalized Advice', j6_d: "Targeted improvement tips are generated from each angle's top penalty, with an estimate of 'how many points avoiding it would gain' — the advice is genuinely computed on the front end, not a template.",
+    fig2_cap: "Upload page: drag in a video + declare the angle + link a driver ID — the angle step hands the 'which pipeline to route to' decision to whoever knows best.",
+    pull1: '"The architecture is real. The parameters are demo-grade."<span class="by">The single most central trade-off of the project</span>',
+    pull1_by: 'The single most central trade-off of the project',
+    sec3_label: 'The Core Trade-off',
+    sec3_head: 'Ship the loop first, or make the AI real first?',
+    sec3_p1: "This was the project's most central judgment. My choice: <strong>the detection engine uses real models and real rules, but the decision thresholds were hand-calibrated for the demo environment — and I put all the engineering effort into loop completeness.</strong> YOLOv8 truly runs and the violation calls are real rule inference, but every threshold (phone-to-wrist 90px, wheel region 150px, tailgating area ratio 10%…) was hand-tuned on my test videos, with no labeled-set regression.",
+    sec3_p2: "Here's the math: in a four-month window, the marginal return on a real end-to-end loop far exceeds polishing one threshold from 'demo-usable' to 'production-reliable' — the latter needs <strong>data</strong> (labeled violation clips, multi-lighting multi-vehicle samples), not code time, and phase one simply had none. Build the loop complete, get the data model right, and when the client brings real data, the parameter layer can be swapped wholesale.",
+    co1_big: "In an MVP, what must be real and what can stay demo-grade are two different things.",
+    co1_p: "<strong>What must be real is the data model and the loop skeleton (the parts you can't change); what can stay demo-grade is the parameters and edge features (the parts you can swap wholesale).</strong> Get one line of the data model wrong and everything downstream tilts; get a threshold off by 2× and you just swap in new numbers. Weighting the former over the latter was, in hindsight, right.",
+    fig3_cap: 'Detection result page: real YOLOv8 boxes (car 0.92 / traffic light / parking meter), a 100-point score, and time-stamped violation details — the detection truly runs; it is not a slide.',
+    sec4_label: 'Architecture · Every choice answers a constraint',
+    a1_l: 'Detection Layer', a1_d: 'YOLOv8m + Pose keypoints + MediaPipe (optional) + OpenCV optical flow. Local weights, tested on Apple Silicon MPS; degrades gracefully when optional deps are missing.',
+    a2_l: 'Backend Layer', a2_d: "Async tasks cover 'analyze after upload'; the front end polls status. The decisive reason for Python: <strong>the entire AI ecosystem lives in Python</strong> — web and inference layers share one language, dropping a serialization layer.",
+    a3_l: 'Data Layer', a3_d: 'A four-tier model users→drivers→videos→violations + a behavior dictionary + a live scoring view. Single file, zero ops, portable for demos — copy the whole DB and it runs.',
+    a4_l: 'Frontend Layer', a4_d: "11 pages. Vite's instant hot-reload doubled a one-person full-stack pace; skipping TypeScript was deliberate — at MVP stage, the type system's payoff didn't beat the fluency of AI-assisted coding in plain JS.",
+    sec5_label: 'Scoring & the Long-term Profile',
+    sec5_head: "What clients pay for isn't a single detection — it's the trend",
+    sec5_p1: "Scoring is a 100-point baseline minus penalties, and the 8-behavior penalty dictionary is the <strong>single source of truth</strong> (phone −30, drowsiness −40, red-light −30…). Scores aren't stored — a live view computes them on the fly, so changing the dictionary updates historical scores automatically. Design principle: don't over-penalize the occasional slip, weight repeated habits harder — built for the long-term profile.",
+    sec5_p2: 'Penalties alone drive the score only downward, so I added a <strong>positive credit bonus</strong>: safe-driving duration converts to points per angle, capped at 100. On top of that, per-angle personalized advice from the top penalty — so the score is not just a verdict, but an improvable target.',
+    fig5_cap: "Score breakdown: average + safe-driving credit bonus = final score, with an expandable 'how are these numbers calculated' — the scoring logic is transparent to the user.",
+    fig4_cap: "History search: filter a driver's uploads and scores by time range (all / past year / 6 months / 3 months) — the trend is the raw material of a long-term risk profile.",
+    sec6_label: 'Honest Capability Boundaries',
+    sec6_head: "What it can't do, I don't dress up as something it can",
+    sec6_p1: "In an AI product, honesty about capability boundaries is <strong>part of the product design</strong>, not a footnote in a tech memo. This product has no feature that 'looks capable but isn't' — the three boundaries below were all cut deliberately, not hidden.",
+    t1_h: 'Seatbelt Detection', t1_p: "I tried having YOLO detect seatbelts, labeled a batch of images — it worked poorly. Seatbelts blur into clothing texture, shadows, and bag straps at the pixel level. <strong>When even a human needs semantic reasoning to judge a wrong sample, the pure-detection paradigm is simply wrong.</strong> Cut from scope, decisively.",
+    t2_h: 'Speed Detection', t2_p: 'With a single fixed-angle video and no GPS/IMU/speed feed, <strong>true speed is physically unrecoverable</strong>. Rather than dress it up as "speed detection," I downgraded it to visually observable proxy signals: rapid acceleration, hard braking, and following-distance change.',
+    t3_h: 'Real-time Analysis', t3_p: 'Live-camera analysis was <strong>deliberately cut</strong> from phase one and put on the roadmap. It would mean solving device integration, bandwidth, and privacy compliance — a later phase, and a clear-eyed subtraction.',
+    rm_line: 'The same honesty runs through the delivery: <span class="rm real">real</span> YOLOv8 detection + boxed video, three-angle rule decisions, the 100-point scoring view; <span class="rm mock">demo-grade</span> hand-tuned thresholds with no eval-set regression, confidence hard-coded to 0, an unsalted-hash account system. <strong>I was never vague with the client about what was real and what was demo.</strong>',
+    sec7_label: 'The Lesson I Most Want to Tell',
+    sec7_head: 'A bug I buried, dug up, and fixed — all with my own hands',
+    sec7_p1: "At delivery, the demo database and the table-creation code had <strong>drifted apart</strong>: during the demo push I added columns by hand, created tables by hand, and made scoring a live view — but never synced the bootstrap code back. The result: everything worked with the demo data, but <strong>drop the DB and rebuild on a fresh machine and the service crashed on the spot</strong> — the violations table simply didn't exist, and analysis had nowhere to write.",
+    sec7_p2: "The root cause wasn't technical, it was process: in an MVP sprint, 'editing the DB' is ten times faster than 'editing the create-table code,' and 'rebuild from scratch' first happens only on the delivery machine — precisely when it most needs to work. This is textbook demo-stage debt: <strong>invisible on the demo path, exploding on the delivery path.</strong> In the 2026 retrospective I fixed it properly and verified with a real drop-and-rebuild. I raise this bug in interviews on purpose — locating it, explaining the root cause, and giving the fix is more convincing than never having hit the pit.",
+    pull2: '"Evaluation infrastructure comes before model iteration — a harness isn\'t late-stage engineering, it\'s the skeleton that should be there on day one."<span class="by">What the demo-grade thresholds taught me</span>',
+    pull2_by: 'What the demo-grade thresholds taught me',
+    sec8_label: 'What I Took Away',
+    sec8_head: 'AI accelerates the writing, not the judgment',
+    sec8_p1: "The debt from demo-grade thresholds made one thing clear: what was missing was never the tuning, it was <strong>evaluation infrastructure</strong> — without a labeled golden set, no threshold change can answer 'did this get better or worse?' If I did it again, I'd freeze 20 labeled videos as a regression set before touching the first threshold.",
+    sec8_p2: "Four months, one person, 11 front-end pages + 9 endpoints + a 580-line inference pipeline + a complete data model — none of it possible without AI-assisted coding. But I also saw the lever's limits clearly — <strong>AI accelerates the writing, not the judgment</strong>: whether a threshold should move, whether the schema should sync, whether the task definition is wrong — the AI won't decide those for you, and every real pitfall in the project lived at the judgment layer. AI coding gave a product manager, for the first time, a real shot at 'delivering a complete product solo' — but the floor on delivery quality is still set by engineering judgment.",
   }
 };
 let lang = 'zh';
+try { const s = localStorage.getItem('site_lang'); if (s === 'en' || s === 'zh') lang = s; } catch (e) {}
 function applyLang(l) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const v = T[l][el.dataset.i18n];
-    if (v !== undefined) el.innerHTML = v;
-  });
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = T[l][el.dataset.i18n]; if (v !== undefined) el.innerHTML = v; });
   document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
   document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+  try { localStorage.setItem('site_lang', l); } catch (e) {}
 }
-function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
-applyLang('zh');
+function toggleLang() { lang = (document.documentElement.lang === 'en' ? 'zh' : 'en'); applyLang(lang); }
+applyLang(lang);
 </script>
 </body>
 </html>
