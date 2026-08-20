@@ -3,213 +3,345 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI 面试辅导智能体 · Qingcheng Yu</title>
+  <title>AI 面试辅助智能体 · Qingcheng Yu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
-      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
-      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --bg: #F8F7F4; --panel: #FFFDFA; --text: #1A1918; --muted: #6E6A63;
+      --light: #B8B4AE; --border: #E0DCD4; --border-light: #EAE7E0;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', 'Songti SC', Georgia, serif;
       --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
       --ease: cubic-bezier(0.4, 0, 0.2, 1);
     }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
     a { color: inherit; text-decoration: none; }
+    ::selection { background: var(--text); color: var(--bg); }
+    :focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
     .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 56px; background: rgba(248,247,244,0.88); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); border-bottom: 1px solid var(--border-light); }
     .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
     .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .nav-back:hover { color: var(--text); }
-    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 7px 15px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 4px; }
     #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
 
-    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
-    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
-    .hero-title { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.1; margin-bottom: 20px; }
-    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero { padding: 140px 0 60px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 26px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(2.8rem, 6.5vw, 5.4rem); font-weight: 300; line-height: 1.06; margin-bottom: 18px; letter-spacing: -0.01em; }
+    .hero-sub { font-family: var(--serif); font-size: 1.35rem; font-style: normal; color: var(--muted); margin-bottom: 30px; }
+    html[lang="en"] .hero-sub { font-style: italic; }
     .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+    .tag { font-size: 0.64rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
 
-    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
-    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 44px 36px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 2.4rem; font-weight: 300; line-height: 1.1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
 
-    /* PAIN POINTS */
-    .pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-    .pain-cell { padding: 36px; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
-    .pain-cell:nth-child(3n) { border-right: none; }
-    .pain-cell:nth-last-child(-n+3) { border-bottom: none; }
-    .pain-icon { font-family: var(--serif); font-size: 2rem; color: var(--border); margin-bottom: 16px; }
-    .pain-title { font-size: 0.88rem; font-weight: 500; margin-bottom: 8px; }
-    .pain-desc { font-size: 0.82rem; color: #706C67; line-height: 1.8; }
+    section { padding: 76px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 42px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 72px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.85rem; font-weight: 400; line-height: 1.28; }
+    .col-body { font-size: 0.9rem; color: #4E4A45; line-height: 1.95; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
 
-    /* PRODUCT */
-    .feature-list { display: flex; flex-direction: column; gap: 0; }
-    .feature { display: grid; grid-template-columns: 240px 1fr; gap: 56px; padding: 32px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
-    .feature:last-child { border-bottom: none; }
-    .feature-name { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; line-height: 1.3; }
-    .feature-desc { font-size: 0.865rem; color: #635F5A; line-height: 1.9; }
-    .feature-desc strong { color: var(--text); font-weight: 500; }
+    .pull { font-family: var(--serif); font-weight: 300; font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.4; color: var(--text); text-align: center; padding: 8px 0; max-width: 26ch; margin: 0 auto; }
+    .pull .by { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--light); margin-top: 20px; }
 
-    /* AI PIPELINE */
-    .pipeline { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--border); margin-top: 0; overflow-x: auto; }
-    .pipe-node { flex: 1; min-width: 160px; padding: 28px 24px; border-right: 1px solid var(--border-light); display: flex; flex-direction: column; gap: 10px; }
-    .pipe-node:last-child { border-right: none; }
-    .pipe-layer { font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); }
-    .pipe-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 400; }
-    .pipe-tech { font-size: 0.75rem; color: var(--muted); }
+    .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 28px; }
+    .pair-item { padding: 26px 24px; background: var(--panel); border: 1px solid var(--border-light); border-radius: 8px; }
+    .pair-item h4 { font-family: var(--serif); font-size: 1.2rem; font-weight: 500; margin-bottom: 8px; }
+    .pair-item p { font-size: 0.83rem; color: var(--muted); line-height: 1.75; }
+    .pair-item strong { color: var(--text); font-weight: 500; }
 
-    /* GALLERY */
-    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--border-light); border: 1.5px dashed var(--border); display: flex; align-items: center; justify-content: center; }
-    .img-placeholder span { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--light); }
-    .gallery-full { grid-column: 1 / -1; }
-    .gallery-full .img-placeholder { aspect-ratio: 21/9; }
+    .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); margin-top: 30px; }
+    .path { background: var(--bg); padding: 30px 30px 34px; }
+    .path-tag { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 12px; }
+    .path-head { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; margin-bottom: 6px; }
+    .path-sub { font-size: 0.74rem; color: var(--light); margin-bottom: 18px; }
+    .path-body { font-size: 0.845rem; color: #4E4A45; line-height: 1.85; }
+    .path-body strong { color: var(--text); font-weight: 500; }
 
-    .page-footer { padding: 56px 0; }
+    .atable { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    .atable td { padding: 16px 14px; border-bottom: 1px solid var(--border-light); font-size: 0.85rem; vertical-align: top; }
+    .atable tr:last-child td { border-bottom: none; }
+    .atable td:first-child { font-weight: 500; width: 22%; }
+    .atable td:nth-child(2) { width: 22%; }
+    .atable td:last-child { color: #4E4A45; }
+
+    .rules { counter-reset: r; margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .rule { background: var(--bg); padding: 18px 22px; font-size: 0.835rem; color: #4E4A45; line-height: 1.7; display: flex; gap: 14px; }
+    .rule::before { counter-increment: r; content: counter(r); font-family: var(--serif); font-size: 1.1rem; color: var(--border); flex-shrink: 0; }
+
+    .code { margin-top: 24px; background: var(--panel); border: 1px solid var(--border-light); border-radius: 8px; padding: 22px 24px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; line-height: 2; color: #4E4A45; overflow-x: auto; white-space: pre; }
+    .code b { color: var(--text); font-weight: 600; }
+
+    .callout { border-left: 2px solid var(--text); padding: 4px 0 4px 24px; margin-top: 38px; }
+    .callout .big { font-family: var(--serif); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin-bottom: 12px; }
+    .callout p { font-size: 0.875rem; color: #4E4A45; line-height: 1.9; }
+    .callout strong { color: var(--text); font-weight: 500; }
+
+    .rm { display: inline-block; font-size: 0.62rem; letter-spacing: 0.05em; padding: 1px 7px; border-radius: 3px; vertical-align: middle; }
+    .rm.real { background: #E8F0E9; color: #3C6B49; }
+    .rm.mock { background: #F0ECE4; color: #8A6D3B; }
+
+    figure.fig { margin: 40px 0 0; }
+    figure.fig img { width: 100%; height: auto; display: block; border-radius: 8px; border: 1px solid var(--border-light); background: var(--panel); }
+    figure.fig figcaption { font-size: 0.75rem; color: var(--muted); line-height: 1.65; margin-top: 14px; padding-left: 14px; border-left: 2px solid var(--border); }
+    .fig-narrow { max-width: 560px; }
+
+    .page-footer { padding: 52px 0; }
     .footer-inner { display: flex; align-items: center; justify-content: space-between; }
     .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; }
     .footer-back:hover { color: var(--text); }
     .footer-copy { font-size: 0.7rem; color: var(--light); }
 
+    .reveal { opacity: 0; transform: translateY(14px); animation: rise 0.7s var(--ease) forwards; }
+    .hero .reveal:nth-child(1) { animation-delay: .05s; }
+    .hero .reveal:nth-child(2) { animation-delay: .13s; }
+    .hero .reveal:nth-child(3) { animation-delay: .21s; }
+    .hero .reveal:nth-child(4) { animation-delay: .29s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
     @media (max-width: 840px) {
       .container { padding: 0 24px; }
-      .pain-grid { grid-template-columns: 1fr; }
-      .pain-cell { border-right: none !important; }
-      .feature { grid-template-columns: 1fr; gap: 10px; }
-      .gallery { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; gap: 22px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 32px 0; }
+      .pair, .paths, .rules { grid-template-columns: 1fr; }
+      .atable td { padding: 12px 8px; font-size: 0.8rem; }
+      .atable td:first-child, .atable td:nth-child(2) { width: auto; }
     }
-    ::selection { background: var(--text); color: var(--bg); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
   </style>
 </head>
 <body>
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back" data-i18n="back">← 于清程</a>
-    <button id="lang-btn" onclick="toggleLang()">EN</button>
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="container">
-    <p class="hero-meta" data-i18n="hero_meta">AI 产品设计 · 2024 — 2025</p>
-    <h1 class="hero-title" data-i18n="hero_title">AI 面试<br>辅导智能体</h1>
-    <p class="hero-sub" data-i18n="hero_sub">产品经理</p>
-    <div class="hero-tags">
-      <span class="tag">LLM</span>
+    <p class="hero-meta reveal" data-i18n="hero_meta">AI Agent 项目 · 2024.08 – 2025.05 · 北京中科智传孵化 · Job Thanos</p>
+    <h1 class="hero-title reveal" data-i18n="hero_title">AI 面试辅助<br>智能体</h1>
+    <p class="hero-sub reveal" data-i18n="hero_sub">AI 产品经理（Agent 方向）· 产品调研与方案设计</p>
+    <div class="hero-tags reveal">
+      <span class="tag" data-i18n="tag_pd">产品设计</span>
+      <span class="tag" data-i18n="tag_ao">Agent 编排</span>
+      <span class="tag" data-i18n="tag_pr">Prompt 设计</span>
       <span class="tag">WebSocket</span>
-      <span class="tag">Prompt Engineering</span>
-      <span class="tag">Tencent STT</span>
-      <span class="tag">Agent Design</span>
+      <span class="tag">Streaming STT</span>
+      <span class="tag">LLM</span>
     </div>
   </div>
 </div>
 
-<!-- PAIN POINTS -->
+<div class="stats">
+  <div class="stat"><div class="stat-num" data-i18n="s1n">约 1 秒</div><div class="stat-label" data-i18n="s1">面试官话音一落到答案出现的窗口——整套架构的第一约束</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s2n">2 模式 · 1 底座</div><div class="stat-label" data-i18n="s2">练习模式（AI 考你）+ 实盘辅助（AI 帮你），共用一套能力底座</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s3n">1 位付费用户</div><div class="stat-label" data-i18n="s3">商业化没跑通、产品已下线——这是这段经历教我最狠的一课</div></div>
+</div>
+
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec1_label">用户痛点</p>
-    <div class="pain-grid">
-      <div class="pain-cell">
-        <div class="pain-icon">01</div>
-        <p class="pain-title" data-i18n="p1_t">没有实战练习机会</p>
-        <p class="pain-desc" data-i18n="p1_d">留学生在国内缺乏熟悉目标岗位行业语境的练习伙伴，Mock Interview 约不到，HR 也不会给机会反复试错。</p>
+    <p class="sec-label" data-i18n="sec1_label">产品判断</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head">面试是一场动态的、强上下文的对话</h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1">2024 年我在海外读本科，身边同学都在为求职面试发愁。我自己也一样——<strong>很多人不是没有项目经历，而是不知道怎么把经历讲成面试官听得懂、信得过的故事</strong>：写在简历上还行，一开口就逻辑乱、答不到点、被追问就露怯。</p>
+        <p data-i18n="sec1_p2">传统解法都不好用：找真人陪练，一小时几百块还约不到对口的；刷题库，问题是死的，不会顺着你的简历和上一句回答继续深挖。所以我判断这个赛道真正的空白<strong>不在"题多不多"，而在"能不能实时、动态、针对你"</strong>。我把这个想法带进朋友公司的智能体平台，成了首批孵化产品之一。</p>
       </div>
-      <div class="pain-cell">
-        <div class="pain-icon">02</div>
-        <p class="pain-title" data-i18n="p2_t">反馈笼统、难以改进</p>
-        <p class="pain-desc" data-i18n="p2_d">现有 AI 工具要么只纠正语法，要么反馈过于宽泛——"讲得不错"不能帮你提升下次面试的通过率。</p>
+    </div>
+    <div class="pair">
+      <div class="pair-item"><h4 data-i18n="m1_h">练习模式 · AI 考你</h4><p data-i18n="m1_p">AI 扮演稳定的面试官，读你的简历和目标 JD，提问、听你语音回答、<strong>顺着回答追问</strong>，最后给结构化评分和改进建议。</p></div>
+      <div class="pair-item"><h4 data-i18n="m2_h">实盘辅助 · AI 帮你</h4><p data-i18n="m2_p">真实面试进行时，同时捕获<strong>你的麦克风</strong>和<strong>对方的系统音频</strong>，实时转写、判断哪句是面试官在提问，秒速给出回答思路。</p></div>
+    </div>
+    <div class="col-body" style="margin-top:26px">
+      <p data-i18n="sec1_p3">两个模式共享同一套底座（简历/JD 理解、语音转写、LLM 编排、结构化输出）——<strong>不做两个产品，做一个能力底座上的两种交互</strong>。</p>
+    </div>
+    <figure class="fig">
+      <img src="img/j1_landing.jpg" alt="Job Thanos 产品落地页" loading="lazy" />
+      <figcaption data-i18n="fig1_cap">产品落地页：网页版是产品主体，另提供一个轻量 Windows 桌面件——它只负责采集音频（见下文「为什么必须有它」）。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label">核心架构判断</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head">整个设计，是被「面试中那一秒」逼出来的</h2>
+      <div class="col-body">
+        <p data-i18n="sec2_p1">实盘辅助有一个残酷的<strong>延迟预算</strong>：面试官话音一落，留给我的窗口只有大约一秒。人正常对话的轮次间隔本就在两百毫秒量级，超过一秒对方就觉得你在卡壳；<strong>延迟大到几秒，不只是尴尬，是会直接暴露你在用工具</strong>。</p>
+        <p data-i18n="sec2_p2">所以我把整条链路切成<strong>冷、热两条路径</strong>——贵的、慢的、要联网的活全部前置到面试前，面试中只留最短的那条路。</p>
       </div>
-      <div class="pain-cell">
-        <div class="pain-icon">03</div>
-        <p class="pain-title" data-i18n="p3_t">语言与文化双重障碍</p>
-        <p class="pain-desc" data-i18n="p3_d">留学生面临语言转换（中文面试）与职场文化理解的双重挑战，需要针对性训练，而非通用内容。</p>
+    </div>
+    <div class="paths">
+      <div class="path">
+        <p class="path-tag" data-i18n="cold_tag">冷路径</p>
+        <p class="path-head" data-i18n="cold_h">面试前 · 慢无所谓</p>
+        <p class="path-sub" data-i18n="cold_sub">能提前算的，全部提前算</p>
+        <p class="path-body" data-i18n="cold_d">解析简历 + JD → 判定技术领域 → <strong>联网拉这个领域的术语表</strong> → 排序截断 → 灌进语音识别当热词，同时备好结构化画像、可深挖项目、短板与评分标准。</p>
+      </div>
+      <div class="path">
+        <p class="path-tag" data-i18n="hot_tag">热路径</p>
+        <p class="path-head" data-i18n="hot_h">面试中 · 每毫秒都算</p>
+        <p class="path-sub" data-i18n="hot_sub">不联网、不重新解析、不重读整段对话</p>
+        <p class="path-body" data-i18n="hot_d">转写 → 拼一个<strong>尽量短</strong>的 prompt → <strong>流式</strong>吐答案。中间结果先渲染出来降低感知延迟，稳定结果再定稿。</p>
+      </div>
+    </div>
+    <div class="callout">
+      <p class="big" data-i18n="co1_big">这条线一立起来，后面每个设计都不是孤立功能，而是同一个原因的产物。</p>
+      <p data-i18n="co1_p"><strong>领域词表为什么必须前置</strong>——面试中现场联网查词等于自杀。<strong>为什么把关键状态抽成结构化字段</strong>——热路径要短。<strong>为什么「最近几轮留原文、更早的做摘要」</strong>——省 token 是次要的，主要是在抢首字延迟：输入越长，第一个字吐出来越慢。<strong>为什么要有「快答」按钮</strong>——给用户一个手动重触发，不必等系统判完静音。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="pull" data-i18n="pull1">「面试官话音一落，我只有大概一秒。」<span class="by">延迟，是这个产品的第一约束</span></p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label">冷路径 · 解析模块会联网</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head">真正的活不是「拉词」，是排序和截断</h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1">解析模块读完简历 + JD 之后，会<strong>判断出这个人的技术领域，然后上网拉这个领域的术语表</strong>。这份表同时喂两处：<strong>灌进语音识别当热词</strong>（不做这件事，转写就会把 WebSocket、YOLO、RAG、FastAPI 换成音近的常见词，后面的追问和评分全建在错文本上）；以及<strong>供面试官 Agent 追问技术细节</strong>。</p>
+        <p data-i18n="sec3_p2">这一步让解析模块不只是「抽取器」——它会<strong>调用外部工具主动补充上下文</strong>，这正是「Agent」和「一段 Prompt」的分界。</p>
+        <p data-i18n="sec3_p3">但真实约束很硬：热词在建立语音连接时<strong>一次性传入、粒度是每场会话、不能中途改</strong>；临时词表有条数上限、单词不能含空格；而且<strong>塞多了反伤</strong>——通用词加太多会拉低专有词的识别率。<strong>所以真正的活是排序和截断</strong>：从简历、JD 和联网拉来的一堆词里，挑出「最可能在这场面试里出现、且最容易被转错」的那些。这是产品判断，不是工程搬砖。</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRODUCT DESIGN -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec2_label">产品设计</p>
-    <div class="feature-list">
-      <div class="feature">
-        <div class="feature-name" data-i18n="f1_n">实时语音模拟面试</div>
-        <p class="feature-desc" data-i18n="f1_d">用户开口说话，系统实时转写并分析回答。模拟真实面试节奏，让练习者在接近真实压力的环境下找到最佳表达状态。WebSocket 保持低延迟连接，<strong>腾讯 STT</strong> 处理实时语音识别。</p>
+    <p class="sec-label" data-i18n="sec4_label">热路径 · 以及那个桌面音频桥</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec4_head">桌面端不是将就，是唯一的正解</h2>
+      <div class="col-body">
+        <p data-i18n="sec4_p1">实盘辅助要同时听「你」和「面试官」。你的麦克风好办，浏览器能拿到。但<strong>面试官的声音是会议软件放出来的系统音频，浏览器采不到</strong>——网页的采集入口一个只给麦克风，另一个只能「分享某个标签页/屏幕」、系统音频还是「提示而非保证」且平台受限。要抓「扬声器正在播的声音」，必须走操作系统级接口，而那是浏览器沙箱够不到的。</p>
+        <p data-i18n="sec4_p2">所以解法是：<strong>一个极轻量的 Windows 桌面件专职采集，再用一个「房间号」把音频桥回网页端</strong>。这一笔我特别想讲——它证明我们看懂了这个硬约束，并且清楚<strong>产品主体该在网页，桌面端只做它非做不可的那一件事</strong>。而且「本机 / 对方」是两条物理声道，天然就是说话人身份，比事后做声纹分离更稳也更快。</p>
       </div>
-      <div class="feature">
-        <div class="feature-name" data-i18n="f2_n">结构化维度反馈</div>
-        <p class="feature-desc" data-i18n="f2_d">每次回答结束，系统从<strong>逻辑结构、内容完整度、表达清晰度、亮点与改进点</strong>四个维度给出细化评分。不是"说得不错"——而是"你的 STAR 结构里，Result 部分用数据支撑不足，下次试试加上具体指标"。</p>
+    </div>
+    <figure class="fig">
+      <img src="img/j2_copilot.jpg" alt="实时面试辅助界面：双路音频、实时转写、极速辅助回答" loading="lazy" />
+      <figcaption data-i18n="fig2_cap">实盘辅助界面：左侧「本机 / 对方」双路音频采集，右侧实时转写出面试官问题并给出「极速辅助回答」；可选模型、可设触发方式、转写可手动纠错。</figcaption>
+    </figure>
+    <figure class="fig fig-narrow">
+      <img src="img/j3_bridge.jpg" alt="Windows 桌面音频桥：麦克风与系统音频采集，房间号配对" loading="lazy" />
+      <figcaption data-i18n="fig3_cap">那个桌面件的全部界面：只有「麦克风（捕获用户声音）」「系统音频（捕获对方声音）」和一个房间号——填号连回网页端，此外什么都不做。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec5_label">Agent 怎么拆</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec5_head">考官和裁判，必须是两个角色</h2>
+      <div class="col-body">
+        <p data-i18n="sec5_p1">我没把它做成「一个 Prompt 包打天下的 chatbot」，而是拆成一个主流程编排 + 四个职责模块。但严格按今天的定义，四者<strong>分量并不相同</strong>——我如实区分，因为把状态层也叫成「Agent」是虚的，一戳就穿：</p>
       </div>
-      <div class="feature">
-        <div class="feature-name" data-i18n="f3_n">高频场景针对训练</div>
-        <p class="feature-desc" data-i18n="f3_d">重点覆盖求职过程中出现频率最高的场景：中英文<strong>自我介绍</strong>、技术背景追问、行为面试（STAR）、职业规划类问题。用户可选择岗位方向（产品 / 技术 / 数据），系统调用对应题库与评判标准。</p>
-      </div>
-      <div class="feature">
-        <div class="feature-name" data-i18n="f4_n">Prompt 工程体系</div>
-        <p class="feature-desc" data-i18n="f4_d">设计结构化 Prompt 模板，将"评判者"与"鼓励者"两种角色分离，避免 LLM 过度正向反馈。反馈格式强制输出 JSON，保证前端渲染的一致性与可扩展性。</p>
-      </div>
+    </div>
+    <table class="atable">
+      <tr><td data-i18n="ag1_m">面试官 Agent</td><td><span class="rm real" data-i18n="ag1_q">真正的 Agent</span></td><td data-i18n="ag1_d">独立 prompt，在循环里跑：靠「上一轮回答」这个反馈决定下一步问什么。</td></tr>
+      <tr><td data-i18n="ag2_m">评分 Agent</td><td><span class="rm real" data-i18n="ag2_q">真正的 Agent</span></td><td data-i18n="ag2_d">独立 prompt 与评分标准，<strong>刻意只给它干净上下文</strong>——只喂问题、回答和标准。</td></tr>
+      <tr><td data-i18n="ag3_m">解析模块</td><td><span class="rm real" data-i18n="ag3_q">会用工具的工序</span></td><td data-i18n="ag3_d">一次性结构化抽取 + 联网拉领域术语表，因此够得上「会用工具的 Agent」。</td></tr>
+      <tr><td data-i18n="ag4_m">复盘模块</td><td><span class="rm mock" data-i18n="ag4_q">状态层，不是 Agent</span></td><td data-i18n="ag4_d">存每轮的输入、输出与评分，算跨轮次的变化。它是数据层，不该叫 Agent。</td></tr>
+    </table>
+    <div class="col-body" style="margin-top:30px">
+      <p data-i18n="sec5_p2"><strong>为什么提问和评价必须分开</strong>：让同一个 Agent 既当考官又当裁判，它会既温柔又没标准——主持对话的目标是「把天聊顺」，打分要的是「守住尺子」，两个目标融在一起，必然是前者赢、扣分被和稀泥。拆开之后，面试官可以咄咄逼人地追问，评分可以冷静客观地扣分。<strong>而且评分 Agent 故意不看那段「聊得很顺」的完整对话</strong>，它才不会被气氛带着走。</p>
     </div>
   </div>
 </section>
 
-<!-- AI PIPELINE -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec3_label">AI 技术链路</p>
-    <div class="pipeline">
-      <div class="pipe-node">
-        <span class="pipe-layer" data-i18n="pipe1_l">输入</span>
-        <span class="pipe-name" data-i18n="pipe1_n">语音输入</span>
-        <span class="pipe-tech" data-i18n="pipe1_tech">WebSocket 实时流传输</span>
+    <p class="sec-label" data-i18n="sec6_label">把资深面试官的直觉，写成规则</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec6_head">追问能力不是模型给的，是这几条给的</h2>
+      <div class="col-body">
+        <p data-i18n="sec6_p1">最早只让模型「扮演面试官」，它永远问那三句：介绍一下你的项目 / 你遇到过什么困难 / 你为什么适合这个岗位。<strong>太泛，没有任何训练价值。</strong>解法是在 Prompt 里把追问逻辑写成可执行规则：</p>
       </div>
-      <div class="pipe-node">
-        <span class="pipe-layer" data-i18n="pipe2_l">识别</span>
-        <span class="pipe-name" data-i18n="pipe2_n">语音转文字</span>
-        <span class="pipe-tech" data-i18n="pipe2_tech">腾讯云 STT</span>
+    </div>
+    <div class="rules">
+      <div class="rule" data-i18n="r1">每次只问一个主要问题</div>
+      <div class="rule" data-i18n="r2">优先围绕用户刚才提到的具体内容追问</div>
+      <div class="rule" data-i18n="r3">不要一次性列太多问题</div>
+      <div class="rule" data-i18n="r4">回答太泛 → 追问细节</div>
+      <div class="rule" data-i18n="r5">有技术点 → 追问实现方式</div>
+      <div class="rule" data-i18n="r6">有业务结果 → 追问指标和验证方式</div>
+      <div class="rule" data-i18n="r7">有明显不清楚处 → 追问边界和反思</div>
+      <div class="rule" data-i18n="r8">配具体范例：提到 WebSocket 就追问「为什么不用普通 HTTP」</div>
+    </div>
+    <div class="col-body" style="margin-top:30px">
+      <p data-i18n="sec6_p2">这件事让我第一次体会到：做 AI 产品，产品经理的核心工作之一，就是<strong>把「高手脑子里的隐性判断」显性化、结构化，喂给模型</strong>。</p>
+      <p data-i18n="sec6_p3">而多轮追问会让上下文膨胀——塞太多，模型反而抓不住重点、开始忘事，<strong>而且输入越长首字越慢，在实盘场景里是致命的</strong>。我的策略是分层保留 + 摘要，真正的落地物是我设计的那组会话状态字段——<strong>把「下一步问什么」「已经问过什么」从对话流里抽出来，变成结构化字段</strong>，模型每轮只需要看常驻画像 + 当前项目 + 最近几轮 + 这两个账本：</p>
+    </div>
+    <div class="code"><b>user_profile</b>        简历结构化信息（常驻）
+<b>target_jd</b>           目标岗位 JD（常驻）
+<b>interview_stage</b>     当前环节 → 决定继续追问 / 换题 / 进反馈
+<b>question_history</b>    已问过的问题 → 避免重复
+<b>answer_history</b>      用户回答
+<b>follow_up_points</b>    待追问的点 → 决定下一步问什么
+<b>scoring_rubric</b>      评分维度与分档
+<b>final_feedback</b>      最终反馈</div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec7_label">评分与反馈</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec7_head">没有稳定的尺子，模型调得好不好你无从判断</h2>
+      <div class="col-body">
+        <p data-i18n="sec7_p1">早期让模型给回答打分，<strong>同一个回答问两次能差十几分</strong>——因为「好」这个字对模型太模糊。解法是上明确的评分标准：我设计的维度包括回答完整度、结构是否清晰（有无 STAR）、是否贴合 JD、是否体现<strong>个人贡献</strong>、技术细节是否可信、有无业务结果、<strong>能否解释 trade-off</strong>、有无反思与改进；再落成几个可量化分项（总分、逻辑、JD 匹配、技术深度、表达）。</p>
+        <p data-i18n="sec7_p2">分档也写死：<strong>90 分以上</strong>要有结构有细节有结果有反思；<strong>70–80 分</strong>内容完整但细节或指标不足；<strong>60 分以下</strong>泛泛而谈、缺少个人贡献。再加两条硬约束——<strong>强制模型先输出扣分理由、再给分数</strong>，以及全部走结构化 JSON 输出。因为用户真正要的不是「78 分」，是「为什么扣分、怎么改」。</p>
+        <p data-i18n="sec7_p3">这塑造了我一个至今没变的信念：<strong>做 AI 评估类产品，评估标准必须先于模型迭代存在</strong>。（这个信念在我后来做 AI 驾驶检测时又被印证了一次：没有评估集，任何调参都是玄学。）</p>
       </div>
-      <div class="pipe-node">
-        <span class="pipe-layer" data-i18n="pipe3_l">理解</span>
-        <span class="pipe-name" data-i18n="pipe3_n">语义分析</span>
-        <span class="pipe-tech" data-i18n="pipe3_tech">LLM + 结构化 Prompt</span>
-      </div>
-      <div class="pipe-node">
-        <span class="pipe-layer" data-i18n="pipe4_l">评估</span>
-        <span class="pipe-name" data-i18n="pipe4_n">维度打分</span>
-        <span class="pipe-tech" data-i18n="pipe4_tech">JSON 结构化输出</span>
-      </div>
-      <div class="pipe-node">
-        <span class="pipe-layer" data-i18n="pipe5_l">呈现</span>
-        <span class="pipe-name" data-i18n="pipe5_n">反馈报告</span>
-        <span class="pipe-tech" data-i18n="pipe5_tech">前端可视化展示</span>
-      </div>
+    </div>
+    <div class="callout">
+      <p class="big" data-i18n="co2_big">「能给出可执行的反馈」是上下文设计的产物，不是措辞技巧。</p>
+      <p data-i18n="co2_p">很多 AI 工具的反馈是「你答得很好，但可以更具体」——这句话本身就违反了它自己的建议。我们要求反馈必须落到「<strong>你没说清自己在项目里的具体角色</strong>」「你没解释为什么选 WebSocket」「你的回答和 JD 里的能力要求没对上」。但关键在机制：反馈之所以<strong>能</strong>这么具体，是因为简历、JD 和这一轮回答同时在上下文里，模型才能做<strong>「应该有什么 vs 实际说了什么」的差集</strong>。缺了 JD 它说不出「和岗位没对上」，缺了简历它不知道你本来有什么可讲。</p>
     </div>
   </div>
 </section>
 
-<!-- GALLERY -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec4_label">产品截图</p>
-    <div class="gallery">
-      <div class="gallery-full">
-        <div class="img-placeholder">
-          <span data-i18n="ph1">主界面截图待补充</span>
-        </div>
+    <p class="sec-label" data-i18n="sec8_label">诚实的结果，与那一课</p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec8_head">痛点强 ≠ 需求强 ≠ 付费意愿强</h2>
+      <div class="col-body">
+        <p data-i18n="sec8_p1"><strong>产品真上线了</strong>：能输入简历与 JD、能语音交互、能实时转写、能多轮追问、能给结构化反馈；支持面试/笔试/双栏模式、模型可选、触发可设、转写可纠错。<strong>但商业化没跑通</strong>——累计只有一位付费用户，流量也不高，产品后来下线了。没有用户量、留存、转化数据，这个赛道我们没跑到那一步，我不编。</p>
+        <p data-i18n="sec8_p2">事后复盘：不是技术不行，是<strong>我们对「需求强度」和「付费意愿」判断过于乐观</strong>。「求职焦虑」是真痛点，但它<strong>低频</strong>（只在面试前那几天焦虑，用完就走，订阅制天然错配）、<strong>信任门槛极高</strong>（把面试成败托付给一个工具，还有被发现的风险）、<strong>极度同质化</strong>（核心就是大模型 + 转写 + 悬浮窗，谁都能做）。三者叠加的结果是：<strong>这个品类极容易转化成注意力，极难转化成经常性收入。</strong></p>
+        <p data-i18n="sec8_p3">所以真正的解法不是「再优化产品」，而是<strong>换买家、换场景</strong>——往「有人愿意报销、且高频复用」的方向迁移。这个赛道后来最出名的玩家，最终也正是靠离开面试场景才活下来的。<strong>这堂课我记到今天</strong>：痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每条都得单独验证，而不是停在「这个痛点很真」就冲进去。这是我现在看任何 AI 产品机会时第一个会问的问题。</p>
       </div>
-      <div class="img-placeholder">
-        <span data-i18n="ph2">面试模拟页</span>
-      </div>
-      <div class="img-placeholder">
-        <span data-i18n="ph3">反馈报告页</span>
-      </div>
+    </div>
+    <div class="callout">
+      <p class="big" data-i18n="co3_big">它是我用 Agent 的方式理解世界的起点。</p>
+      <p data-i18n="co3_p">当年很多设计是靠产品直觉摸出来的，但回头看，这些直觉踩中的恰恰是今天 AI Agent 领域最核心的问题：<strong>怎么切 Agent 的职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。所以这段经历的意义不是「我做了个成功产品」（它没成），而是它成了我 AI 产品认知的地基——后来我做 AI 驾驶检测全栈、深入 AI 辅助编程，都是在补齐和印证这里第一次撞见的那些问题。</p>
+    </div>
+    <div class="col-body" style="margin-top:30px">
+      <p data-i18n="sec8_p4"><strong>一条我会主动讲清的边界：</strong>我在这个项目里做的是产品调研、需求定义、产品方案、技术选型论证，以及交互链路 / Prompt / 评分体系的设计与推动。<strong>后端框架是开发同学选定的，我不写后端代码。</strong>我主导并想清楚的，是这条链路怎么串、每个环节解决什么问题。</p>
     </div>
   </div>
 </section>
@@ -226,63 +358,156 @@
 <script>
 const T = {
   zh: {
-    back: '← 于清程',
-    hero_meta: 'AI 产品设计 · 2024 — 2025',
-    hero_title: 'AI 面试<br>辅导智能体',
-    hero_sub: '产品经理',
-    sec1_label: '用户痛点',
-    p1_t: '没有实战练习机会', p1_d: '留学生在国内缺乏熟悉目标岗位行业语境的练习伙伴，Mock Interview 约不到，HR 也不会给机会反复试错。',
-    p2_t: '反馈笼统、难以改进', p2_d: '现有 AI 工具要么只纠正语法，要么反馈过于宽泛——"讲得不错"不能帮你提升下次面试的通过率。',
-    p3_t: '语言与文化双重障碍', p3_d: '留学生面临语言转换（中文面试）与职场文化理解的双重挑战，需要针对性训练，而非通用内容。',
-    sec2_label: '产品设计',
-    f1_n: '实时语音模拟面试', f1_d: '用户开口说话，系统实时转写并分析回答。模拟真实面试节奏，让练习者在接近真实压力的环境下找到最佳表达状态。WebSocket 保持低延迟连接，<strong>腾讯 STT</strong> 处理实时语音识别。',
-    f2_n: '结构化维度反馈', f2_d: '每次回答结束，系统从<strong>逻辑结构、内容完整度、表达清晰度、亮点与改进点</strong>四个维度给出细化评分。不是"说得不错"——而是"你的 STAR 结构里，Result 部分用数据支撑不足，下次试试加上具体指标"。',
-    f3_n: '高频场景针对训练', f3_d: '重点覆盖求职过程中出现频率最高的场景：中英文<strong>自我介绍</strong>、技术背景追问、行为面试（STAR）、职业规划类问题。用户可选择岗位方向（产品 / 技术 / 数据），系统调用对应题库与评判标准。',
-    f4_n: 'Prompt 工程体系', f4_d: '设计结构化 Prompt 模板，将"评判者"与"鼓励者"两种角色分离，避免 LLM 过度正向反馈。反馈格式强制输出 JSON，保证前端渲染的一致性与可扩展性。',
-    sec3_label: 'AI 技术链路',
-    pipe1_l: '输入', pipe1_n: '语音输入', pipe2_l: '识别', pipe2_n: '语音转文字',
-    pipe3_l: '理解', pipe3_n: '语义分析', pipe4_l: '评估', pipe4_n: '维度打分',
-    pipe5_l: '呈现', pipe5_n: '反馈报告',
-    pipe1_tech: 'WebSocket 实时流传输', pipe2_tech: '腾讯云 STT', pipe3_tech: 'LLM + 结构化 Prompt', pipe4_tech: 'JSON 结构化输出', pipe5_tech: '前端可视化展示',
-    sec4_label: '产品截图',
-    ph1: '主界面截图待补充', ph2: '面试模拟页', ph3: '反馈报告页',
-    foot_back: '← 返回主页',
+    back: '于清程', foot_back: '← 返回主页',
+    hero_meta: 'AI Agent 项目 · 2024.08 – 2025.05 · 北京中科智传孵化 · Job Thanos',
+    hero_title: 'AI 面试辅助<br>智能体',
+    hero_sub: 'AI 产品经理（Agent 方向）· 产品调研与方案设计',
+    tag_pd: '产品设计', tag_ao: 'Agent 编排', tag_pr: 'Prompt 设计',
+    s1n: '约 1 秒', s1: '面试官话音一落到答案出现的窗口——整套架构的第一约束',
+    s2n: '2 模式 · 1 底座', s2: '练习模式（AI 考你）+ 实盘辅助（AI 帮你），共用一套能力底座',
+    s3n: '1 位付费用户', s3: '商业化没跑通、产品已下线——这是这段经历教我最狠的一课',
+    sec1_label: '产品判断',
+    sec1_head: '面试是一场动态的、强上下文的对话',
+    sec1_p1: '2024 年我在海外读本科，身边同学都在为求职面试发愁。我自己也一样——<strong>很多人不是没有项目经历，而是不知道怎么把经历讲成面试官听得懂、信得过的故事</strong>：写在简历上还行，一开口就逻辑乱、答不到点、被追问就露怯。',
+    sec1_p2: '传统解法都不好用：找真人陪练，一小时几百块还约不到对口的；刷题库，问题是死的，不会顺着你的简历和上一句回答继续深挖。所以我判断这个赛道真正的空白<strong>不在「题多不多」，而在「能不能实时、动态、针对你」</strong>。我把这个想法带进朋友公司的智能体平台，成了首批孵化产品之一。',
+    m1_h: '练习模式 · AI 考你', m1_p: 'AI 扮演稳定的面试官，读你的简历和目标 JD，提问、听你语音回答、<strong>顺着回答追问</strong>，最后给结构化评分和改进建议。',
+    m2_h: '实盘辅助 · AI 帮你', m2_p: '真实面试进行时，同时捕获<strong>你的麦克风</strong>和<strong>对方的系统音频</strong>，实时转写、判断哪句是面试官在提问，秒速给出回答思路。',
+    sec1_p3: '两个模式共享同一套底座（简历/JD 理解、语音转写、LLM 编排、结构化输出）——<strong>不做两个产品，做一个能力底座上的两种交互</strong>。',
+    fig1_cap: '产品落地页：网页版是产品主体，另提供一个轻量 Windows 桌面件——它只负责采集音频（见下文「为什么必须有它」）。',
+    sec2_label: '核心架构判断',
+    sec2_head: '整个设计，是被「面试中那一秒」逼出来的',
+    sec2_p1: '实盘辅助有一个残酷的<strong>延迟预算</strong>：面试官话音一落，留给我的窗口只有大约一秒。人正常对话的轮次间隔本就在两百毫秒量级，超过一秒对方就觉得你在卡壳；<strong>延迟大到几秒，不只是尴尬，是会直接暴露你在用工具</strong>。',
+    sec2_p2: '所以我把整条链路切成<strong>冷、热两条路径</strong>——贵的、慢的、要联网的活全部前置到面试前，面试中只留最短的那条路。',
+    cold_tag: '冷路径', cold_h: '面试前 · 慢无所谓', cold_sub: '能提前算的，全部提前算',
+    cold_d: '解析简历 + JD → 判定技术领域 → <strong>联网拉这个领域的术语表</strong> → 排序截断 → 灌进语音识别当热词，同时备好结构化画像、可深挖项目、短板与评分标准。',
+    hot_tag: '热路径', hot_h: '面试中 · 每毫秒都算', hot_sub: '不联网、不重新解析、不重读整段对话',
+    hot_d: '转写 → 拼一个<strong>尽量短</strong>的 prompt → <strong>流式</strong>吐答案。中间结果先渲染出来降低感知延迟，稳定结果再定稿。',
+    co1_big: '这条线一立起来，后面每个设计都不是孤立功能，而是同一个原因的产物。',
+    co1_p: '<strong>领域词表为什么必须前置</strong>——面试中现场联网查词等于自杀。<strong>为什么把关键状态抽成结构化字段</strong>——热路径要短。<strong>为什么「最近几轮留原文、更早的做摘要」</strong>——省 token 是次要的，主要是在抢首字延迟：输入越长，第一个字吐出来越慢。<strong>为什么要有「快答」按钮</strong>——给用户一个手动重触发，不必等系统判完静音。',
+    pull1: '「面试官话音一落，我只有大概一秒。」<span class="by">延迟，是这个产品的第一约束</span>',
+    sec3_label: '冷路径 · 解析模块会联网',
+    sec3_head: '真正的活不是「拉词」，是排序和截断',
+    sec3_p1: '解析模块读完简历 + JD 之后，会<strong>判断出这个人的技术领域，然后上网拉这个领域的术语表</strong>。这份表同时喂两处：<strong>灌进语音识别当热词</strong>（不做这件事，转写就会把 WebSocket、YOLO、RAG、FastAPI 换成音近的常见词，后面的追问和评分全建在错文本上）；以及<strong>供面试官 Agent 追问技术细节</strong>。',
+    sec3_p2: '这一步让解析模块不只是「抽取器」——它会<strong>调用外部工具主动补充上下文</strong>，这正是「Agent」和「一段 Prompt」的分界。',
+    sec3_p3: '但真实约束很硬：热词在建立语音连接时<strong>一次性传入、粒度是每场会话、不能中途改</strong>；临时词表有条数上限、单词不能含空格；而且<strong>塞多了反伤</strong>——通用词加太多会拉低专有词的识别率。<strong>所以真正的活是排序和截断</strong>：从简历、JD 和联网拉来的一堆词里，挑出「最可能在这场面试里出现、且最容易被转错」的那些。这是产品判断，不是工程搬砖。',
+    sec4_label: '热路径 · 以及那个桌面音频桥',
+    sec4_head: '桌面端不是将就，是唯一的正解',
+    sec4_p1: '实盘辅助要同时听「你」和「面试官」。你的麦克风好办，浏览器能拿到。但<strong>面试官的声音是会议软件放出来的系统音频，浏览器采不到</strong>——网页的采集入口一个只给麦克风，另一个只能「分享某个标签页/屏幕」、系统音频还是「提示而非保证」且平台受限。要抓「扬声器正在播的声音」，必须走操作系统级接口，而那是浏览器沙箱够不到的。',
+    sec4_p2: '所以解法是：<strong>一个极轻量的 Windows 桌面件专职采集，再用一个「房间号」把音频桥回网页端</strong>。这一笔我特别想讲——它证明我们看懂了这个硬约束，并且清楚<strong>产品主体该在网页，桌面端只做它非做不可的那一件事</strong>。而且「本机 / 对方」是两条物理声道，天然就是说话人身份，比事后做声纹分离更稳也更快。',
+    fig2_cap: '实盘辅助界面：左侧「本机 / 对方」双路音频采集，右侧实时转写出面试官问题并给出「极速辅助回答」；可选模型、可设触发方式、转写可手动纠错。',
+    fig3_cap: '那个桌面件的全部界面：只有「麦克风（捕获用户声音）」「系统音频（捕获对方声音）」和一个房间号——填号连回网页端，此外什么都不做。',
+    sec5_label: 'Agent 怎么拆',
+    sec5_head: '考官和裁判，必须是两个角色',
+    sec5_p1: '我没把它做成「一个 Prompt 包打天下的 chatbot」，而是拆成一个主流程编排 + 四个职责模块。但严格按今天的定义，四者<strong>分量并不相同</strong>——我如实区分，因为把状态层也叫成「Agent」是虚的，一戳就穿：',
+    ag1_m: '面试官 Agent', ag1_q: '真正的 Agent', ag1_d: '独立 prompt，在循环里跑：靠「上一轮回答」这个反馈决定下一步问什么。',
+    ag2_m: '评分 Agent', ag2_q: '真正的 Agent', ag2_d: '独立 prompt 与评分标准，<strong>刻意只给它干净上下文</strong>——只喂问题、回答和标准。',
+    ag3_m: '解析模块', ag3_q: '会用工具的工序', ag3_d: '一次性结构化抽取 + 联网拉领域术语表，因此够得上「会用工具的 Agent」。',
+    ag4_m: '复盘模块', ag4_q: '状态层，不是 Agent', ag4_d: '存每轮的输入、输出与评分，算跨轮次的变化。它是数据层，不该叫 Agent。',
+    sec5_p2: '<strong>为什么提问和评价必须分开</strong>：让同一个 Agent 既当考官又当裁判，它会既温柔又没标准——主持对话的目标是「把天聊顺」，打分要的是「守住尺子」，两个目标融在一起，必然是前者赢、扣分被和稀泥。拆开之后，面试官可以咄咄逼人地追问，评分可以冷静客观地扣分。<strong>而且评分 Agent 故意不看那段「聊得很顺」的完整对话</strong>，它才不会被气氛带着走。',
+    sec6_label: '把资深面试官的直觉，写成规则',
+    sec6_head: '追问能力不是模型给的，是这几条给的',
+    sec6_p1: '最早只让模型「扮演面试官」，它永远问那三句：介绍一下你的项目 / 你遇到过什么困难 / 你为什么适合这个岗位。<strong>太泛，没有任何训练价值。</strong>解法是在 Prompt 里把追问逻辑写成可执行规则：',
+    r1: '每次只问一个主要问题', r2: '优先围绕用户刚才提到的具体内容追问', r3: '不要一次性列太多问题', r4: '回答太泛 → 追问细节',
+    r5: '有技术点 → 追问实现方式', r6: '有业务结果 → 追问指标和验证方式', r7: '有明显不清楚处 → 追问边界和反思', r8: '配具体范例：提到 WebSocket 就追问「为什么不用普通 HTTP」',
+    sec6_p2: '这件事让我第一次体会到：做 AI 产品，产品经理的核心工作之一，就是<strong>把「高手脑子里的隐性判断」显性化、结构化，喂给模型</strong>。',
+    sec6_p3: '而多轮追问会让上下文膨胀——塞太多，模型反而抓不住重点、开始忘事，<strong>而且输入越长首字越慢，在实盘场景里是致命的</strong>。我的策略是分层保留 + 摘要，真正的落地物是我设计的那组会话状态字段——<strong>把「下一步问什么」「已经问过什么」从对话流里抽出来，变成结构化字段</strong>，模型每轮只需要看常驻画像 + 当前项目 + 最近几轮 + 这两个账本：',
+    sec7_label: '评分与反馈',
+    sec7_head: '没有稳定的尺子，模型调得好不好你无从判断',
+    sec7_p1: '早期让模型给回答打分，<strong>同一个回答问两次能差十几分</strong>——因为「好」这个字对模型太模糊。解法是上明确的评分标准：我设计的维度包括回答完整度、结构是否清晰（有无 STAR）、是否贴合 JD、是否体现<strong>个人贡献</strong>、技术细节是否可信、有无业务结果、<strong>能否解释 trade-off</strong>、有无反思与改进；再落成几个可量化分项（总分、逻辑、JD 匹配、技术深度、表达）。',
+    sec7_p2: '分档也写死：<strong>90 分以上</strong>要有结构有细节有结果有反思；<strong>70–80 分</strong>内容完整但细节或指标不足；<strong>60 分以下</strong>泛泛而谈、缺少个人贡献。再加两条硬约束——<strong>强制模型先输出扣分理由、再给分数</strong>，以及全部走结构化 JSON 输出。因为用户真正要的不是「78 分」，是「为什么扣分、怎么改」。',
+    sec7_p3: '这塑造了我一个至今没变的信念：<strong>做 AI 评估类产品，评估标准必须先于模型迭代存在</strong>。（这个信念在我后来做 AI 驾驶检测时又被印证了一次：没有评估集，任何调参都是玄学。）',
+    co2_big: '「能给出可执行的反馈」是上下文设计的产物，不是措辞技巧。',
+    co2_p: '很多 AI 工具的反馈是「你答得很好，但可以更具体」——这句话本身就违反了它自己的建议。我们要求反馈必须落到「<strong>你没说清自己在项目里的具体角色</strong>」「你没解释为什么选 WebSocket」「你的回答和 JD 里的能力要求没对上」。但关键在机制：反馈之所以<strong>能</strong>这么具体，是因为简历、JD 和这一轮回答同时在上下文里，模型才能做<strong>「应该有什么 vs 实际说了什么」的差集</strong>。缺了 JD 它说不出「和岗位没对上」，缺了简历它不知道你本来有什么可讲。',
+    sec8_label: '诚实的结果，与那一课',
+    sec8_head: '痛点强 ≠ 需求强 ≠ 付费意愿强',
+    sec8_p1: '<strong>产品真上线了</strong>：能输入简历与 JD、能语音交互、能实时转写、能多轮追问、能给结构化反馈；支持面试/笔试/双栏模式、模型可选、触发可设、转写可纠错。<strong>但商业化没跑通</strong>——累计只有一位付费用户，流量也不高，产品后来下线了。没有用户量、留存、转化数据，这个赛道我们没跑到那一步，我不编。',
+    sec8_p2: '事后复盘：不是技术不行，是<strong>我们对「需求强度」和「付费意愿」判断过于乐观</strong>。「求职焦虑」是真痛点，但它<strong>低频</strong>（只在面试前那几天焦虑，用完就走，订阅制天然错配）、<strong>信任门槛极高</strong>（把面试成败托付给一个工具，还有被发现的风险）、<strong>极度同质化</strong>（核心就是大模型 + 转写 + 悬浮窗，谁都能做）。三者叠加的结果是：<strong>这个品类极容易转化成注意力，极难转化成经常性收入。</strong>',
+    sec8_p3: '所以真正的解法不是「再优化产品」，而是<strong>换买家、换场景</strong>——往「有人愿意报销、且高频复用」的方向迁移。这个赛道后来最出名的玩家，最终也正是靠离开面试场景才活下来的。<strong>这堂课我记到今天</strong>：痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每条都得单独验证，而不是停在「这个痛点很真」就冲进去。这是我现在看任何 AI 产品机会时第一个会问的问题。',
+    co3_big: '它是我用 Agent 的方式理解世界的起点。',
+    co3_p: '当年很多设计是靠产品直觉摸出来的，但回头看，这些直觉踩中的恰恰是今天 AI Agent 领域最核心的问题：<strong>怎么切 Agent 的职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。所以这段经历的意义不是「我做了个成功产品」（它没成），而是它成了我 AI 产品认知的地基——后来我做 AI 驾驶检测全栈、深入 AI 辅助编程，都是在补齐和印证这里第一次撞见的那些问题。',
+    sec8_p4: '<strong>一条我会主动讲清的边界：</strong>我在这个项目里做的是产品调研、需求定义、产品方案、技术选型论证，以及交互链路 / Prompt / 评分体系的设计与推动。<strong>后端框架是开发同学选定的，我不写后端代码。</strong>我主导并想清楚的，是这条链路怎么串、每个环节解决什么问题。',
   },
   en: {
-    back: '← Qingcheng Yu',
-    hero_meta: 'AI Product Design · 2024 — 2025',
-    hero_title: 'AI Interview<br>Coaching Agent',
-    hero_sub: 'Product Manager',
-    sec1_label: 'User Pain Points',
-    p1_t: 'No realistic practice', p1_d: 'International students lack access to context-aware mock interview partners. HR won\'t offer retry chances, and mock sessions are hard to schedule.',
-    p2_t: 'Vague, unhelpful feedback', p2_d: 'Existing AI tools either only correct grammar or give overly broad feedback — "good answer" doesn\'t improve your pass rate.',
-    p3_t: 'Dual language & culture barrier', p3_d: 'International students face both language switching (Chinese interviews) and workplace culture gaps — generic content doesn\'t help.',
-    sec2_label: 'Product Design',
-    f1_n: 'Real-time voice mock interviews', f1_d: 'Users speak; the system transcribes and analyzes in real time. Simulates genuine interview pacing, helping users find their optimal expression under realistic pressure. WebSocket keeps latency low; <strong>Tencent STT</strong> handles live speech recognition.',
-    f2_n: 'Structured dimensional feedback', f2_d: 'After each answer, the system scores across four dimensions: <strong>logical structure, content completeness, clarity of expression, and strengths/improvements</strong>. Not "good answer" — but "in your STAR structure, the Result section lacks quantitative data — try adding a specific metric next time."',
-    f3_n: 'High-frequency scenario training', f3_d: 'Covers the most common interview scenarios: <strong>self-introduction</strong> (Chinese & English), technical background probes, behavioral interviews (STAR), and career planning questions. Users select job track (PM / Engineering / Data) and the system loads the matching question bank and rubric.',
-    f4_n: 'Prompt engineering system', f4_d: 'Structured prompt templates that separate "evaluator" and "encourager" roles to prevent LLM over-validation. Feedback is forced to structured JSON output — ensuring consistent, extensible frontend rendering.',
-    sec3_label: 'AI Pipeline',
-    pipe1_l: 'Input', pipe1_n: 'Voice Input', pipe2_l: 'Recognition', pipe2_n: 'Speech-to-Text',
-    pipe3_l: 'Understanding', pipe3_n: 'Semantic Analysis', pipe4_l: 'Evaluation', pipe4_n: 'Dimensional Scoring',
-    pipe5_l: 'Output', pipe5_n: 'Feedback Report',
-    pipe1_tech: 'WebSocket real-time stream', pipe2_tech: 'Tencent Cloud STT', pipe3_tech: 'LLM + structured prompt', pipe4_tech: 'Structured JSON output', pipe5_tech: 'Frontend visualization',
-    sec4_label: 'Screenshots',
-    ph1: 'Main interface to be added', ph2: 'Interview simulation view', ph3: 'Feedback report view',
-    foot_back: '← Back to portfolio',
+    back: 'Qingcheng Yu', foot_back: '← Back to portfolio',
+    hero_meta: 'AI Agent Project · Aug 2024 – May 2025 · Incubated at Zhongke Zhichuan, Beijing · Job Thanos',
+    hero_title: 'AI Interview<br>Assistant Agent',
+    hero_sub: 'AI Product Manager (Agent focus) · product research & solution design',
+    tag_pd: 'Product Design', tag_ao: 'Agent Orchestration', tag_pr: 'Prompt Design',
+    s1n: '~1 second', s1: 'The window between the interviewer finishing and an answer appearing — the first constraint on the whole architecture',
+    s2n: '2 modes · 1 core', s2: 'Practice mode (AI interviews you) + live assist (AI helps you), sharing one capability core',
+    s3n: '1 paying user', s3: "Commercialization failed and the product was shut down — the harshest lesson this project taught me",
+    sec1_label: 'Product Judgment',
+    sec1_head: 'An interview is a dynamic, deeply context-dependent conversation',
+    sec1_p1: "In 2024 I was an undergrad abroad, and everyone around me was anxious about job interviews. So was I — <strong>most people don't lack project experience; they don't know how to turn that experience into a story an interviewer can follow and believe</strong>. It reads fine on a résumé, then falls apart the moment you open your mouth: rambling, missing the point, crumbling under follow-ups.",
+    sec1_p2: "Neither traditional option works. A human mock partner costs hundreds per hour and you still can't find one who knows your target role. Question banks are static — they won't follow your résumé or dig into what you just said. So my read was that the real gap in this space <strong>isn't \"how many questions\" — it's \"can it be real-time, adaptive, and about you\"</strong>. I brought the idea into a friend's company's agent platform, where it became one of the first products incubated there.",
+    m1_h: 'Practice mode · AI interviews you', m1_p: 'The AI plays a consistent interviewer: it reads your résumé and target job description, asks questions, listens to your spoken answers, <strong>follows up on what you just said</strong>, then returns a structured score and improvement notes.',
+    m2_h: 'Live assist · AI helps you', m2_p: 'During a real interview it captures <strong>your microphone</strong> and <strong>the other side\'s system audio</strong> at once, transcribes live, works out which line is the interviewer asking, and surfaces an answer direction in seconds.',
+    sec1_p3: 'Both modes share one capability core (résumé/JD understanding, speech transcription, LLM orchestration, structured output) — <strong>not two products, but two interactions on one core</strong>.',
+    fig1_cap: 'The product landing page: the web app is the product itself; a lightweight Windows helper is offered alongside it, and its only job is capturing audio (see "why it has to exist" below).',
+    sec2_label: 'The Core Architectural Call',
+    sec2_head: 'The whole design was forced by that one second mid-interview',
+    sec2_p1: "Live assist runs on a brutal <strong>latency budget</strong>: the interviewer stops talking and I have roughly one second. Natural turn-taking between humans sits around two hundred milliseconds; past a second the other person reads it as you stalling. <strong>A few seconds of lag isn't just awkward — it actively reveals that you're using a tool.</strong>",
+    sec2_p2: 'So I split the whole pipeline into a <strong>cold path and a hot path</strong> — everything expensive, slow, or network-bound moves ahead of the interview, and only the shortest possible route runs during it.',
+    cold_tag: 'Cold path', cold_h: 'Before the interview · slow is fine', cold_sub: 'Anything that can be precomputed, is',
+    cold_d: 'Parse résumé + JD → infer the technical domain → <strong>fetch that domain\'s terminology list from the web</strong> → rank and truncate it → load it into speech recognition as hotwords, while preparing the structured profile, deep-dive-able projects, weak spots, and scoring criteria.',
+    hot_tag: 'Hot path', hot_h: 'During the interview · every millisecond counts', hot_sub: 'No network calls, no re-parsing, no re-reading the whole transcript',
+    hot_d: 'Transcribe → assemble the <strong>shortest possible</strong> prompt → <strong>stream</strong> the answer out. Interim results render immediately to cut perceived latency; the stable result finalizes after.',
+    co1_big: 'Once that line is drawn, every later design stops being an isolated feature and becomes a consequence of the same cause.',
+    co1_p: '<strong>Why the domain word list must be prefetched</strong> — looking terms up over the network mid-interview would be suicide. <strong>Why key state is pulled out into structured fields</strong> — the hot path has to stay short. <strong>Why "keep the last few turns verbatim, summarize the older ones"</strong> — saving tokens is secondary; the real point is buying back time-to-first-token, because a longer input means the first character arrives later. <strong>Why there is a "quick answer" button</strong> — it gives the user a manual re-trigger instead of waiting on silence detection.',
+    pull1: '"The interviewer stops talking, and I have about one second."<span class="by">Latency was this product\'s first constraint</span>',
+    sec3_label: 'Cold Path · the parser reaches out to the web',
+    sec3_head: 'The real work isn\'t fetching words — it\'s ranking and truncating them',
+    sec3_p1: "After reading the résumé and JD, the parsing module <strong>infers the candidate's technical domain and then pulls that domain's terminology list from the web</strong>. That list feeds two places: <strong>into speech recognition as hotwords</strong> (without this, transcription turns WebSocket, YOLO, RAG and FastAPI into similar-sounding everyday words, and every follow-up and score downstream is built on corrupted text); and <strong>into the interviewer agent</strong>, so it knows which terms are worth probing.",
+    sec3_p2: 'This is what makes the parser more than an extractor — it <strong>calls an external tool to actively enrich its own context</strong>, which is precisely the line between an "agent" and "a prompt".',
+    sec3_p3: 'But the real constraints are hard: hotwords are passed in <strong>once, when the audio connection is established — the granularity is per session and they cannot be changed mid-stream</strong>; a temporary list has a size cap and individual entries cannot contain spaces; and <strong>overloading it backfires</strong> — piling in common words drags down recognition of the specialist ones. <strong>So the real work is ranking and truncating</strong>: out of everything gathered from the résumé, the JD and the web, pick the terms most likely to come up in this specific interview and most likely to be mis-transcribed. That is product judgment, not engineering labor.',
+    sec4_label: 'Hot Path · and that desktop audio bridge',
+    sec4_head: 'The desktop piece wasn\'t a compromise — it was the only correct answer',
+    sec4_p1: 'Live assist has to hear both "you" and "the interviewer". Your microphone is easy; the browser can get it. But <strong>the interviewer\'s voice is system audio coming out of a meeting app, and the browser cannot capture it</strong> — one web capture entry point gives you the microphone only, the other can just "share a tab or screen", where system audio is a hint rather than a guarantee and is platform-limited besides. To capture "what the speakers are playing" you need an operating-system-level interface, and that is out of reach of the browser sandbox.',
+    sec4_p2: 'Hence the answer: <strong>one extremely thin Windows helper dedicated to capture, bridging the audio back to the web app via a "room number"</strong>. I especially want to talk about this one, because it shows we understood the hard constraint — and understood that <strong>the product belongs in the browser while the desktop piece should do only the one thing it alone can do</strong>. It also means "yours" and "theirs" arrive as two physical channels, so channel identity is speaker identity — steadier and faster than inferring it from voice prints afterwards.',
+    fig2_cap: 'The live-assist screen: dual audio capture ("yours" / "theirs") on the left; on the right, the interviewer\'s question transcribed live with a rapid answer draft beside it — model selectable, trigger configurable, transcript manually correctable.',
+    fig3_cap: 'The desktop helper in its entirety: a microphone input (capture the user), a system-audio input (capture the other side), and a room number to connect back to the web app. Nothing else.',
+    sec5_label: 'How the Agents Were Split',
+    sec5_head: 'The examiner and the judge have to be two different roles',
+    sec5_p1: 'I didn\'t build it as "one prompt to rule them all". I split it into a main orchestration flow plus four responsibility modules — but by today\'s strict definitions those four <strong>are not equal in weight</strong>, and I say so plainly, because calling a state layer an "agent" is hollow and collapses the moment anyone pushes on it:',
+    ag1_m: 'Interviewer agent', ag1_q: 'a genuine agent', ag1_d: 'Its own prompt, running in a loop: the previous answer is the feedback that decides what to ask next.',
+    ag2_m: 'Scoring agent', ag2_q: 'a genuine agent', ag2_d: 'Its own prompt and criteria, and <strong>deliberately given a clean context</strong> — only the question, the answer, and the standard.',
+    ag3_m: 'Parsing module', ag3_q: 'a tool-using step', ag3_d: 'One-shot structured extraction plus fetching the domain terminology list — enough to qualify as a tool-using agent.',
+    ag4_m: 'Retrospective module', ag4_q: 'state layer, not an agent', ag4_d: 'Stores each round\'s input, output and score and computes change across sessions. It is a data layer and shouldn\'t be called an agent.',
+    sec5_p2: '<strong>Why asking and judging must be separated</strong>: make one agent both examiner and judge and it becomes gentle and standardless — running a conversation optimizes for "keep this flowing", while scoring optimizes for "hold the line". Fuse those objectives and the first one wins; deductions get smoothed away. Split apart, the interviewer can press hard while the scorer deducts calmly. <strong>And the scoring agent deliberately never sees that smooth-flowing transcript</strong>, so the mood can\'t carry it.',
+    sec6_label: 'Turning a Senior Interviewer\'s Instinct into Rules',
+    sec6_head: 'The ability to probe didn\'t come from the model — it came from these rules',
+    sec6_p1: 'At first I just told the model to "act as an interviewer", and it forever asked the same three things: tell me about your project / what difficulties did you face / why are you a fit. <strong>Too generic to have any training value.</strong> The fix was writing the probing logic into the prompt as executable rules:',
+    r1: 'Ask only one main question at a time', r2: 'Prioritize probing the specific thing the user just said', r3: 'Never list many questions at once', r4: 'Answer too vague → probe for detail',
+    r5: 'A technical point → probe the implementation', r6: 'A business result → probe the metric and how it was verified', r7: 'Something clearly unclear → probe the boundaries and the reflection', r8: 'With concrete exemplars: if they mention WebSocket, ask "why not plain HTTP?"',
+    sec6_p2: 'This was where I first felt it: in AI products, one of a product manager\'s core jobs is <strong>making an expert\'s implicit judgment explicit and structured, then feeding it to the model</strong>.',
+    sec6_p3: 'And multi-turn probing inflates context — stuff too much in and the model loses the thread and starts forgetting, <strong>and a longer input means a slower first token, which is fatal in the live case</strong>. My strategy was tiered retention plus summarization, and what actually implemented it was the set of session-state fields I designed — <strong>lifting "what to ask next" and "what has already been asked" out of the conversation stream and into structured fields</strong>, so each turn the model only needs the resident profile, the current project, the last few turns, and those two ledgers:',
+    sec7_label: 'Scoring & Feedback',
+    sec7_head: 'Without a stable ruler, you cannot tell whether tuning made the model better',
+    sec7_p1: 'Early on, asking the model to score an answer gave <strong>swings of a dozen points on the identical answer</strong> — because "good" is far too vague for a model. The fix was explicit criteria. The dimensions I designed covered completeness, whether the structure is clear (is there a STAR arc), fit to the JD, whether <strong>individual contribution</strong> comes through, credibility of technical detail, presence of business results, <strong>whether trade-offs can be explained</strong>, and whether there is reflection and improvement — then condensed into a few quantified sub-scores (overall, logic, JD fit, technical depth, communication).',
+    sec7_p2: 'The bands were pinned down too: <strong>90+</strong> needs structure, detail, results and reflection; <strong>70–80</strong> is complete but thin on specifics or metrics; <strong>below 60</strong> is generalities with no individual contribution. Plus two hard constraints — <strong>force the model to state its reasons for deductions before giving a number</strong>, and route everything through structured JSON output. Because what the user actually wants isn\'t "78" — it\'s "why the points came off and how to fix it".',
+    sec7_p3: 'This shaped a conviction I still hold: <strong>for AI evaluation products, the evaluation standard has to exist before model iteration does</strong>. (That conviction was confirmed again later on my AI driving-detection project: with no evaluation set, any parameter tuning is guesswork.)',
+    co2_big: 'Feedback that is actually actionable is a product of context design, not of clever wording.',
+    co2_p: 'Plenty of AI tools give you "good answer, but try to be more specific" — a sentence that violates its own advice. We required feedback to land on things like "<strong>you never said what your own role in the project was</strong>", "you didn\'t explain why you chose WebSocket", "your answer never connected to the capability the JD asks for". But the mechanism is the point: feedback <strong>can</strong> be this specific only because the résumé, the JD and the current answer are all in context at once, letting the model compute the <strong>difference between what should be there and what was actually said</strong>. Without the JD it can\'t say "this misses the role"; without the résumé it doesn\'t know what you had to offer.',
+    sec8_label: 'The Honest Outcome, and the Lesson',
+    sec8_head: 'Strong pain ≠ strong demand ≠ willingness to pay',
+    sec8_p1: '<strong>The product did ship</strong>: résumé and JD input, voice interaction, live transcription, multi-turn probing, structured feedback; interview / written-test / two-column modes, selectable model, configurable trigger, correctable transcript. <strong>But commercialization never worked</strong> — one paying user in total, low traffic, and the product was later shut down. There are no user-count, retention or conversion numbers: we never got that far, and I won\'t invent them.',
+    sec8_p2: 'In hindsight the problem wasn\'t the technology — <strong>we were too optimistic about demand intensity and willingness to pay</strong>. Job-hunting anxiety is real pain, but it is <strong>low-frequency</strong> (it spikes for a few days before an interview, then the user leaves — a structural mismatch with subscriptions), <strong>high-trust</strong> (you\'re handing a high-stakes outcome to a tool, with the risk of being caught), and <strong>heavily commoditized</strong> (the core is an LLM plus transcription plus an overlay; anyone can ship it). Stack those three and the result is this: <strong>the category converts easily into attention and very poorly into recurring revenue.</strong>',
+    sec8_p3: 'So the real fix isn\'t "polish the product" — it\'s <strong>change the buyer and change the setting</strong>: move toward something someone will expense and use often. The most famous player in this space ultimately survived precisely by leaving the interview use case behind. <strong>The lesson stuck with me</strong>: strong pain, strong demand and willingness to pay are separated by two distinct chasms, and each has to be validated on its own instead of charging in on "this pain is real". It\'s the first question I now ask of any AI product opportunity.',
+    co3_big: 'It was where I started understanding the world in terms of agents.',
+    co3_p: 'Back then a lot of the design came from product instinct. But looking back, what that instinct landed on is exactly what matters most in AI agents today: <strong>how to divide agent responsibilities, how to manage context, how to keep output controllable, how to standardize subjective evaluation, and how to make architectural trade-offs under a latency constraint</strong>. So the meaning of this experience isn\'t "I built a successful product" (I didn\'t) — it\'s that it became the foundation of how I think about AI products. Everything after it, from shipping the AI driving-detection stack to going deep on AI-assisted coding, has been filling in and confirming the questions I first ran into here.',
+    sec8_p4: '<strong>One boundary I always state plainly:</strong> on this project I did the product research, requirement definition, product design, technology-selection reasoning, and the design and driving-forward of the interaction chain, prompts and scoring system. <strong>The backend framework was the developers\' choice; I did not write backend code.</strong> What I owned and thought through was how this chain fits together and what problem each link solves.',
   }
 };
 let lang = 'zh';
+try { const s = localStorage.getItem('site_lang'); if (s === 'en' || s === 'zh') lang = s; } catch (e) {}
 function applyLang(l) {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const v = T[l][el.dataset.i18n];
-    if (v !== undefined) el.innerHTML = v;
-  });
+  document.querySelectorAll('[data-i18n]').forEach(el => { const v = T[l][el.dataset.i18n]; if (v !== undefined) el.innerHTML = v; });
   document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
   document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
+  try { localStorage.setItem('site_lang', l); } catch (e) {}
 }
-function toggleLang() { lang = lang === 'zh' ? 'en' : 'zh'; applyLang(lang); }
-applyLang('zh');
+function toggleLang() { lang = (document.documentElement.lang === 'en' ? 'zh' : 'en'); applyLang(lang); }
+applyLang(lang);
 </script>
 </body>
 </html>
