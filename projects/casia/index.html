@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自动驾驶世界模型 · Qingcheng Yu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #F8F7F4; --text: #1A1918; --muted: #8C8880;
+      --light: #B8B4AE; --border: #E0DDD6; --border-light: #EDEAE4;
+      --serif: 'Cormorant Garamond', 'Noto Serif SC', Georgia, serif;
+      --sans:  'Inter', -apple-system, 'PingFang SC', sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 64px; background: rgba(248,247,244,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-light); }
+    .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
+    .nav-back { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+    #lang-btn { font-size: 0.72rem; letter-spacing: 0.08em; background: none; border: 1px solid var(--border); padding: 5px 14px; cursor: pointer; color: var(--muted); transition: all 0.2s; border-radius: 2px; }
+    #lang-btn:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
+
+    /* HERO */
+    .hero { padding: 140px 0 80px; border-bottom: 1px solid var(--border); }
+    .hero-meta { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--light); margin-bottom: 28px; }
+    .hero-title { font-family: var(--serif); font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05; margin-bottom: 20px; }
+    .hero-sub { font-family: var(--serif); font-size: 1.4rem; font-style: italic; color: var(--muted); margin-bottom: 40px; }
+    .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+    .stat { padding: 52px 40px; border-right: 1px solid var(--border-light); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 3.2rem; font-weight: 300; line-height: 1; margin-bottom: 10px; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
+
+    /* CONTENT */
+    section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+    .sec-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--light); margin-bottom: 48px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+    .two-col { display: grid; grid-template-columns: 300px 1fr; gap: 80px; align-items: start; }
+    .col-head { font-family: var(--serif); font-size: 1.8rem; font-weight: 300; line-height: 1.3; }
+    .col-body { font-size: 0.88rem; color: #635F5A; line-height: 1.9; }
+    .col-body p + p { margin-top: 16px; }
+    .col-body strong { color: var(--text); font-weight: 500; }
+
+    /* CALLOUT */
+    .callout { border-left: 2px solid var(--text); padding: 4px 0 4px 24px; margin-top: 40px; }
+    .callout .big { font-family: var(--serif); font-size: 1.3rem; line-height: 1.45; color: var(--text); margin-bottom: 12px; }
+    .callout p { font-size: 0.85rem; color: #4E4A45; line-height: 1.9; }
+    .callout strong { color: var(--text); font-weight: 500; }
+    .quote { border-left: 2px solid var(--border); padding-left: 22px; margin-top: 28px; font-family: var(--serif); font-size: 1.08rem; font-style: italic; color: #4E4A45; line-height: 1.7; }
+
+    /* FIGURE */
+    .fig { margin-top: 52px; }
+    .fig img { width: 100%; display: block; border: 1px solid var(--border-light); background: #fff; }
+    .fig figcaption { margin-top: 14px; font-size: 0.76rem; color: var(--muted); line-height: 1.75; }
+
+    /* DIAGRAM */
+    .diagram { margin-top: 52px; }
+    .diagram svg { width: 100%; height: auto; display: block; }
+    .diagram text { font-family: var(--sans); }
+    .diagram text.dg-serif { font-family: var(--serif); }
+
+    /* ROUNDS */
+    .rounds { margin-top: 44px; border-top: 1px solid var(--border-light); }
+    .round { display: grid; grid-template-columns: 52px 1fr 1fr; gap: 34px; padding: 24px 0; border-bottom: 1px solid var(--border-light); align-items: start; }
+    .round-n { font-family: var(--serif); font-size: 1.7rem; font-weight: 300; color: var(--light); line-height: 0.9; }
+    .round-did { font-size: 0.84rem; color: var(--text); line-height: 1.8; }
+    .round-got { font-size: 0.84rem; color: #706C67; line-height: 1.8; }
+
+    /* BOUNDS */
+    .bounds { margin-top: 44px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border-light); border: 1px solid var(--border-light); }
+    .bound { background: var(--bg); padding: 26px 30px; }
+    .bound-k { font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--light); margin-bottom: 10px; }
+    .bound-v { font-size: 0.83rem; color: #635F5A; line-height: 1.85; }
+    .bound-v strong { color: var(--text); font-weight: 500; }
+
+    /* FOOTER */
+    .page-footer { padding: 56px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer-back { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .footer-back:hover { color: var(--text); }
+    .footer-copy { font-size: 0.7rem; color: var(--light); }
+
+    @media (max-width: 840px) {
+      .container { padding: 0 24px; }
+      .two-col, .stats, .bounds { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
+      .round { grid-template-columns: 1fr; gap: 8px; }
+      .round-n { font-size: 1.2rem; }
+      section { padding: 60px 0; }
+    }
+    ::selection { background: var(--text); color: var(--bg); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <button id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="container">
+    <p class="hero-meta" data-i18n="hero_meta"></p>
+    <h1 class="hero-title" data-i18n="hero_title"></h1>
+    <p class="hero-sub" data-i18n="hero_sub"></p>
+    <div class="hero-tags"><span class="tag">Autonomous Driving</span>
+      <span class="tag">End-to-End</span>
+      <span class="tag">BEV</span>
+      <span class="tag">World Model</span>
+      <span class="tag">Scene Graph</span></div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num" data-i18n="s1n"></div><div class="stat-label" data-i18n="s1"></div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s2n"></div><div class="stat-label" data-i18n="s2"></div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s3n"></div><div class="stat-label" data-i18n="s3"></div></div>
+</div>
+
+<!-- ① 研究方向 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec1_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec1_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec1_p1"></p>
+        <p data-i18n="sec1_p2"></p>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <svg viewBox="0 0 1200 392" role="img" aria-labelledby="dgTitle">
+        <title id="dgTitle" data-i18n="dg_alt"></title>
+        <defs>
+          <pattern id="pxgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <rect width="20" height="20" fill="#FFFDFA" stroke="#E0DDD6" stroke-width="1"/>
+          </pattern>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9" fill="none" stroke="#1A1918" stroke-width="1.4"/>
+          </marker>
+        </defs>
+
+        <!-- (a) 预测像素 -->
+        <text x="20" y="26" class="dg-serif" font-size="15" fill="#B8B4AE">(a)</text>
+        <text x="56" y="26" font-size="15" fill="#1A1918" data-i18n="dg_a_t"></text>
+        <rect x="20" y="52" width="320" height="160" fill="url(#pxgrid)"/>
+        <rect x="180" y="112" width="20" height="20" fill="#C9C4BB"/>
+        <rect x="200" y="112" width="20" height="20" fill="#B8B4AE"/>
+        <rect x="200" y="132" width="20" height="20" fill="#C9C4BB"/>
+        <rect x="120" y="72" width="20" height="20" fill="#D6D1C8"/>
+        <rect x="280" y="172" width="20" height="20" fill="#D6D1C8"/>
+        <rect x="20" y="52" width="320" height="160" fill="none" stroke="#E0DDD6" stroke-width="1"/>
+        <text x="20" y="248" font-size="13" fill="#8C8880" data-i18n="dg_a_c1"></text>
+        <text x="20" y="270" font-size="13" fill="#8C8880" data-i18n="dg_a_c2"></text>
+
+        <!-- (b) 压成隐式特征 -->
+        <text x="440" y="26" class="dg-serif" font-size="15" fill="#B8B4AE">(b)</text>
+        <text x="476" y="26" font-size="15" fill="#1A1918" data-i18n="dg_b_t"></text>
+        <rect x="440" y="52" width="320" height="160" fill="#FFFDFA" stroke="#E0DDD6" stroke-width="1"/>
+        <ellipse cx="560" cy="118" rx="66" ry="42" fill="#D6D1C8" opacity="0.55"/>
+        <ellipse cx="626" cy="146" rx="58" ry="36" fill="#C9C4BB" opacity="0.5"/>
+        <ellipse cx="604" cy="102" rx="48" ry="44" fill="#B8B4AE" opacity="0.38"/>
+        <path d="M486,168 C540,96 620,190 700,110" fill="none" stroke="#8C8880" stroke-width="1.1" opacity="0.8"/>
+        <path d="M492,104 C566,178 640,72 714,158" fill="none" stroke="#8C8880" stroke-width="1.1" opacity="0.8"/>
+        <path d="M478,138 C560,124 636,166 716,128" fill="none" stroke="#8C8880" stroke-width="1.1" opacity="0.6"/>
+        <text x="440" y="248" font-size="13" fill="#8C8880" data-i18n="dg_b_c1"></text>
+        <text x="440" y="270" font-size="13" fill="#8C8880" data-i18n="dg_b_c2"></text>
+
+        <!-- (c) 显式建关系 -->
+        <text x="860" y="26" class="dg-serif" font-size="15" fill="#B8B4AE">(c)</text>
+        <text x="896" y="26" font-size="15" fill="#1A1918" data-i18n="dg_c_t"></text>
+        <rect x="860" y="52" width="320" height="160" fill="#FFFDFA" stroke="#E0DDD6" stroke-width="1"/>
+        <line x1="946" y1="96" x2="1092" y2="96" stroke="#1A1918" stroke-width="1.2" marker-end="url(#ar)"/>
+        <line x1="936" y1="108" x2="936" y2="164" stroke="#1A1918" stroke-width="1.2" marker-end="url(#ar)"/>
+        <circle cx="932" cy="96" r="13" fill="#F8F7F4" stroke="#1A1918" stroke-width="1.3"/>
+        <circle cx="1106" cy="96" r="13" fill="#F8F7F4" stroke="#1A1918" stroke-width="1.3"/>
+        <circle cx="936" cy="178" r="13" fill="#F8F7F4" stroke="#1A1918" stroke-width="1.3"/>
+        <text x="932" y="100" text-anchor="middle" font-size="10" fill="#1A1918" data-i18n="dg_n1"></text>
+        <text x="1106" y="100" text-anchor="middle" font-size="10" fill="#1A1918" data-i18n="dg_n2"></text>
+        <text x="936" y="182" text-anchor="middle" font-size="10" fill="#1A1918" data-i18n="dg_n3"></text>
+        <text x="1019" y="86" text-anchor="middle" font-size="11.5" fill="#635F5A" data-i18n="dg_e1"></text>
+        <text x="948" y="142" font-size="11.5" fill="#635F5A" data-i18n="dg_e2"></text>
+        <text x="860" y="248" font-size="13" fill="#8C8880" data-i18n="dg_c_c1"></text>
+        <text x="860" y="270" font-size="13" fill="#8C8880" data-i18n="dg_c_c2"></text>
+
+        <line x1="20" y1="316" x2="1180" y2="316" stroke="#EDEAE4" stroke-width="1"/>
+        <text x="20" y="348" class="dg-serif" font-size="17" fill="#1A1918" data-i18n="dg_foot1"></text>
+        <text x="20" y="374" font-size="12.5" fill="#8C8880" data-i18n="dg_foot2"></text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ② 我接到的任务 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec2_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec2_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec2_p1"></p>
+        <p data-i18n="sec2_p2"></p>
+        <p data-i18n="sec2_p3"></p>
+      </div>
+    </div>
+    <div class="callout">
+      <p class="big" data-i18n="sec2_co_big"></p>
+      <p data-i18n="sec2_co_p"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ③ 第一件事：开一条别人没走的调研线 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1"></p>
+        <p data-i18n="sec3_p2"></p>
+        <p data-i18n="sec3_p3"></p>
+        <p data-i18n="sec3_p4"></p>
+      </div>
+    </div>
+    <figure class="fig">
+      <img src="img/sg2_baseline.png" alt="开源场景图生成模型的推理输出：注意力热力图与预测出的实体—关系—实体三元组" loading="lazy" />
+      <figcaption data-i18n="fig2_cap"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ④ 两个诊断 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec4_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec4_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec4_p1"></p>
+        <p class="quote" data-i18n="sec4_q1"></p>
+        <p data-i18n="sec4_p2"></p>
+        <p class="quote" data-i18n="sec4_q2"></p>
+        <p data-i18n="sec4_p3"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ 四轮实验 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec5_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec5_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec5_p1"></p>
+      </div>
+    </div>
+
+    <div class="rounds">
+      <div class="round"><div class="round-n">01</div><div class="round-did" data-i18n="r1d"></div><div class="round-got" data-i18n="r1g"></div></div>
+      <div class="round"><div class="round-n">02</div><div class="round-did" data-i18n="r2d"></div><div class="round-got" data-i18n="r2g"></div></div>
+      <div class="round"><div class="round-n">03</div><div class="round-did" data-i18n="r3d"></div><div class="round-got" data-i18n="r3g"></div></div>
+      <div class="round"><div class="round-n">04</div><div class="round-did" data-i18n="r4d"></div><div class="round-got" data-i18n="r4g"></div></div>
+    </div>
+
+    <figure class="fig">
+      <img src="img/sg1_bev.png" alt="一帧路口场景的俯视图：上百条标号车道、二十余个交通参与者" loading="lazy" />
+      <figcaption data-i18n="fig1_cap"></figcaption>
+    </figure>
+
+    <div class="callout">
+      <p class="big" data-i18n="sec5_co_big"></p>
+      <p data-i18n="sec5_co_p"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ 最想讲透的一课 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec6_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec6_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec6_p1"></p>
+        <p data-i18n="sec6_p2"></p>
+        <p data-i18n="sec6_p3"></p>
+        <p data-i18n="sec6_p4"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑦ 诚实的边界 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec7_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec7_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec7_p1"></p>
+      </div>
+    </div>
+    <div class="bounds">
+      <div class="bound"><div class="bound-k" data-i18n="b1k"></div><div class="bound-v" data-i18n="b1v"></div></div>
+      <div class="bound"><div class="bound-k" data-i18n="b2k"></div><div class="bound-v" data-i18n="b2v"></div></div>
+      <div class="bound"><div class="bound-k" data-i18n="b3k"></div><div class="bound-v" data-i18n="b3v"></div></div>
+      <div class="bound"><div class="bound-k" data-i18n="b4k"></div><div class="bound-v" data-i18n="b4v"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ 迁移 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec8_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec8_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec8_p1"></p>
+        <p data-i18n="sec8_p2"></p>
+        <p data-i18n="sec8_p3"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="page-footer">
+  <div class="container">
+    <div class="footer-inner">
+      <a href="/" class="footer-back" data-i18n="foot_back">← 返回主页</a>
+      <span class="footer-copy">© 2026 Qingcheng Yu</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const T = {
+  "zh": {
+    "back": "于清程",
+    "foot_back": "← 返回主页",
+
+    "hero_meta": "学术研究 · 中科院自动化所 · AAAI 2027 投稿在审",
+    "hero_title": "自动驾驶世界模型",
+    "hero_sub": "把「谁和谁正在发生什么」变成模型的显式预测目标",
+
+    "s1n": "4 个月",
+    "s1": "2026 年上半年，本科毕业回国到入职之间，在中国科学院自动化研究所参与",
+    "s2n": "4 轮",
+    "s2": "让大模型直接标注场景关系的对照实验——四轮全部没压住",
+    "s3n": "0.2%",
+    "s3": "一帧场景里，真正有效的关系只占全部候选组合的这么点。根因就在这",
+
+    "sec1_label": "研究方向",
+    "sec1_head": "让驾驶模型理解「场景里发生了什么关系」",
+    "sec1_p1": "端到端自动驾驶模型通常直接从传感器输入映射到控制输出，中间的场景理解是隐式的。这项工作的思路是引入<strong>显式的场景图</strong>——不只识别「这里有一辆车」，而是建模「这辆车正在切入我的车道」这类实体间关系，再把这层结构化理解喂给世界模型。",
+    "sec1_p2": "现有做法要么直接预测像素画面——把大量与驾驶决策无关的纹理和远景也一并当成预测目标；要么压进隐式特征——省了算力，但实体身份和它们之间的交互纠缠在一起，规划器拿不到能直接使用的关系证据。<strong>把关系本身变成显式的预测目标</strong>，是这项工作押的方向。论文已投稿 AAAI 2027，目前在审。",
+
+    "dg_alt": "三种场景表示路线的对比示意图",
+    "dg_a_t": "预测像素",
+    "dg_a_c1": "靶子是整幅画面。纹理、远景、天空——",
+    "dg_a_c2": "大量与驾驶决策无关的内容也被算进预测目标。",
+    "dg_b_t": "压成隐式特征",
+    "dg_b_c1": "省算力，但实体身份和交互纠缠在一起。",
+    "dg_b_c2": "规划器拿不到能直接使用的关系证据。",
+    "dg_c_t": "显式建关系",
+    "dg_c_c1": "节点留下与决策相关的实体，边留下它们的交互。",
+    "dg_c_c2": "关系是显式的，就能单独评估它、单独修它。",
+    "dg_n1": "自车",
+    "dg_n2": "车",
+    "dg_n3": "人",
+    "dg_e1": "跟随",
+    "dg_e2": "让行",
+    "dg_foot1": "显式的关系结构，是一道天然的信息瓶颈。",
+    "dg_foot2": "它不是把场景压得更小，而是把「什么该留下」这件事变成了一个可以讨论、可以验证的设计决策。",
+
+    "sec2_label": "我接到的任务",
+    "sec2_head": "组里唯一的产品背景",
+    "sec2_p1": "2026 年 1 月我本科毕业回国，9 月要去港科大读 AI 硕士，中间空出大半年。我没打算休息——我前两个 AI 项目都在应用层，<strong>我一直站在模型外面调用它，没进去过一次</strong>。这个空缺迟早要还。",
+    "sec2_p2": "进组时我的处境很清楚：<strong>我是这里唯一一个产品背景的人</strong>，对 BEV、世界模型、图神经网络的理解全部停留在「听说过」。同组的人都在写模型代码——组里不缺再多一个网络层。",
+    "sec2_p3": "方向不是我定的。我拿到的是一张总体路线图，和末尾一句话：<strong>「首要任务是定下来一个场景图的合理表示方式。」</strong>这是个开放任务——没人告诉我该怎么做。",
+    "sec2_co_big": "所以我给自己找的位置是：先把这个领域的地图画出来。",
+    "sec2_co_p": "写模型代码，组里每个博士都比我强十倍。但有件事他们通常没时间做——<strong>把一整条赛道的方法路线摊平做归类比较，找出哪条路已经被走透了、哪里还留着空位。</strong>这恰好是产品经理每天在干的事，只是这次的「市场调研」对象是文献，「竞品分析」对象是已发表的方法。",
+
+    "sec3_label": "第一件事",
+    "sec3_head": "开一条别人没走过的调研线",
+    "sec3_p1": "组里已经有一份端到端与世界模型方向的文献库。我没有重复它，而是自己开了另一条线——<strong>从视觉里直接抽出结构化关系</strong>那一支。这条线在组里已有的材料里没有人覆盖过。",
+    "sec3_p2": "第一个排除的是<strong>现成的高精地图</strong>。地图里的车道和拓扑本来就是结构化的，用了立刻省事。但我的判断是：<strong>那种结构是「给定」的，不是从感知里学出来的。</strong>直接用等于把结构当成输入，模型的一部分能力其实被替代掉了，也不符合端到端的方向。这是一次主动拒绝免费午餐。",
+    "sec3_p3": "第二个排除的是<strong>传统的两阶段做法</strong>——先检测物体，再枚举所有物体对，再逐对分类关系。理由是物体对的数量随物体数平方增长，在驾驶场景下噪声大、流程碎。（两个月后我会因为忘掉这条判断而付出代价。）",
+    "sec3_p4": "最后选基线时，我<strong>选了最容易跑通的那个，而不是最强的那个</strong>——这个阶段要买的不是性能，是「这条路到底走不走得通」这个信息。然后我把它亲手跑起来：改掉失效的权重下载、绕过新版框架的反序列化默认值、换掉被防盗链拦住的取图方式、修掉只有单条关系时绘图维度退化的报错。",
+
+    "fig2_cap": "我跑通的开源场景图生成基线：上两行是模型定位主体与客体时的注意力分布，第三行是它预测出的「实体—关系—实体」三元组。用的是公开的通用场景数据集，不是项目数据——这一步的价值不是产出，是把「场景图」从论文名词变成我亲眼见过的东西。（照片中路人面部已模糊）",
+
+    "sec4_label": "两个诊断",
+    "sec4_head": "跑通之后，我写下两句话",
+    "sec4_p1": "第一句是关于<strong>域偏移</strong>的：",
+    "sec4_q1": "模型对训练分布覆盖范围内的东西效果还可以，对分布外的东西基本不太行——关系很少，大部分候选都被过滤掉了。说明它强依赖训练分布，类别不匹配会直接压低关系数量。这个对后面如果迁到自动驾驶数据是个问题。",
+    "sec4_p2": "第二句是关于<strong>结构缺口</strong>的：",
+    "sec4_q2": "它输出的是一堆彼此独立的关系三元组，没有显式的图。同一个实体会重复出现、关系没有聚合、也没有可供下游消费的邻接结构。要往世界模型接，这三件事必须先补上。",
+    "sec4_p3": "这两句都写在 2026 年 3 月。<strong>第一句在两个月后被我自己的实验精确打中</strong>——而我当时甚至没有回头翻一眼自己的笔记。这件事后来成了我最想讲透的一课。",
+
+    "sec5_label": "四轮实验",
+    "sec5_head": "我以为是措辞问题，其实是题目问题",
+    "sec5_p1": "要训练一个能预测关系的模型，得先有一批标好了关系的数据，而这种标签不存在。两条路：写规则（确定可控，但带意图的语义关系很难界定），或者让大模型看图直接标（语义是它的强项，一个提示词覆盖全部关系类型）。我先试后者——<strong>因为赌注只是改提示词，是最便宜的实验</strong>。以下是四轮，每一轮我以为解决了问题，每一轮都没有。",
+
+    "r1d": "原始提示词，里面写了「全面覆盖场景中所有重要交互」。",
+    "r1g": "能跑，但模型开始<strong>机械枚举</strong>：自车「驶入车道 1 / 车道 2 / 车道 3……」顺序往下。它把「全面覆盖」理解成了「尽量多输出」。",
+    "r2d": "加严：不要枚举所有组合、不确定就别输出、每个参与者最多一到两条车道关系、总输出不超过三十条。",
+    "r2g": "<strong>压不住。</strong>自车照样被塞进多条车道，车道之间照样大量互连，部分输出还被长度上限截断。当时我写的是：「已经证明，模型不听，或者说听不住。」",
+    "r3d": "换个思路——给它完整的车道几何，信息更全，指望它判得准一点。",
+    "r3g": "<strong>显存直接炸了。</strong>信息量和上下文长度之间有硬兑换比，这一头也堵死了。",
+    "r4d": "用代码先筛候选：只留离自车最近的八到十二个参与者；每个参与者只给最近的一两条候选车道；每条车道只给首、中、尾三个点。",
+    "r4g": "枚举明显减少，<strong>方向对了</strong>——但车道之间仍然乱连、参与者之间仍然机械配对。没到能用的程度。",
+
+    "fig1_cap": "当时真喂给模型的输入长这样：一帧路口场景里，上百条逐条标号的车道、二十余个交通参与者，标签密到糊成一团。这张图就是那个根因判断的来源——也是我为什么说「模型不枚举才是奇怪的」。（该场景可视化由项目方产出，我是使用者）",
+
+    "sec5_co_big": "问题不在措辞，在我给它的候选空间太大。",
+    "sec5_co_p": "粗算一下：上百条车道、二十几个参与者，参与者与车道的组合约两千五百对，车道之间近万对，参与者之间数百对——<strong>一万三千多个候选组合里，我要求它精确挑出不到三十个，有效信号占比约 0.2%。</strong>我在提示词里写「不要枚举」，等于让它在一万三千个选项里靠自觉克制。这不是模型能力问题，<strong>是任务设计问题</strong>。正确的做法是把选择权收回来：在数据构造阶段就只给它该看的那几十对，让「乱枚举」这个动作在物理上不可能发生。我把这个认知叫<strong>「约束前移」</strong>——不要在输出端求模型自律，要在输入端让错误无法发生。",
+
+    "sec6_label": "最想讲透的一课",
+    "sec6_head": "我写下了正确的预判，然后没有用它",
+    "sec6_p1": "三月，我在自己的笔记里写下「它强依赖训练分布，迁到自动驾驶数据是个问题」。五月，我做的事是<strong>把一个通用大模型直接拿去标驾驶场景的关系</strong>。同一个机理的第二次发作，而我提前两个月就写下了它。",
+    "sec6_p2": "为什么？我现在的答案是：<strong>写下判断和使用判断，是两个动作。</strong>我把笔记当成了「学习的产物」，而不是「决策的输入」。一条写在文档里、但不出现在下一次实验设计里的判断，等于没有。",
+    "sec6_p3": "还有第二个错，更难承认：<strong>我全程没建评估基线。</strong>四轮实验，我判断质量好不好的方式是人眼看。所以我说不清第四轮比第二轮好了多少——只能说「减少了一部分」，这是感觉不是结论。如果当时有「一个参与者平均被分配到几条车道」这一个指标（它应该接近 1），第二轮就能立刻看出加严措辞只带来微小改善，<strong>大概能省掉整整一轮</strong>。",
+    "sec6_p4": "这两个错我都在上一个项目的复盘里写过对应的教训，半年后原封不动又犯一遍。所以现在我有两条硬性自查：<strong>动一个新实验之前，先回去看自己关于它写过什么；进一个新环境的第一周，先问「我怎么知道自己做的东西变好了」，再动手。</strong>",
+
+    "sec7_label": "诚实的边界",
+    "sec7_head": "哪些不是我的，我说清楚",
+    "sec7_p1": "这一段和我其他项目最大的不同：<strong>前面几段我是主导者，这一段我是新人。</strong>所以边界必须先划清楚——写清楚哪些不是我的，前面说的那些才可信。",
+
+    "b1k": "方向",
+    "b1v": "<strong>不是我提出的。</strong>整体路线在我动手前就已经定下来，我参与的是方向讨论，拿到的是一个开放任务。",
+    "b2k": "关系规格",
+    "b2v": "场景关系的类型体系<strong>由项目组给定</strong>。我做的是把这套规格落成一条可批量执行的链路，并用四轮对照实验把它验证到底。",
+    "b3k": "规模",
+    "b3v": "四轮实验是<strong>链路验证级的小批量</strong>（每组十条以内），不是数据集构建。我不会把它说成「我构建了数据集」。",
+    "b4k": "结果",
+    "b4v": "我 2026 年 5 月入职后交接，<strong>最终的实验与论文撰写我没有参与</strong>。我验证的那条路线在最终论文里已经不存在了——而论文采用的标注方式，正是我交接时给出的建议方向。",
+
+    "sec8_label": "沉淀",
+    "sec8_head": "这套东西不只对驾驶有用",
+    "sec8_p1": "这段经历真正改变的是我对多模态内容理解的认识：模型不只要认出物体<strong>是什么</strong>，还要理解物体之间的<strong>关系、位置、动作，以及这些关系接下来会怎么变</strong>。",
+    "sec8_p2": "这个结论不限于驾驶。一篇穿搭笔记里有人、衣服、鞋、场景、风格；一篇旅行笔记里有地点、路线、交通、预算、避坑点；一篇探店视频里有菜品、环境、价格、排队情况和用户评价。<strong>内容平台要做更强的搜索、内容理解和生活决策 Agent，同样得把图文视频转成结构化的实体与关系，而不只是看标题和正文里的关键词。</strong>",
+    "sec8_p3": "而且我踩过的那个坑在这里完全适用：让大模型从一整篇笔记里「全面地」抽实体和关系，它一样会给你枚举一堆废三元组。候选空间要先由业务规则收窄——哪些实体类型是这个品类该有的、哪些关系对下游的搜索和推荐真的有用。<strong>收窄这一步是产品的活，不是模型的活。</strong>"
+  },
+  "en": {
+    "back": "Qingcheng Yu",
+    "foot_back": "← Back to portfolio",
+
+    "hero_meta": "Research · CASIA · Under review at AAAI 2027",
+    "hero_title": "Driving world models",
+    "hero_sub": "Making \"who is doing what to whom\" an explicit prediction target",
+
+    "s1n": "4 months",
+    "s1": "Spring 2026, between finishing my bachelor's and starting work — at the Institute of Automation, Chinese Academy of Sciences",
+    "s2n": "4 rounds",
+    "s2": "of controlled trials on letting a large model annotate scene relations directly. None of them held.",
+    "s3n": "0.2%",
+    "s3": "the share of candidate pairs in a single frame that are genuinely valid relations. That is where the root cause was.",
+
+    "sec1_label": "The work",
+    "sec1_head": "Teaching a driving model what is happening between the things it sees",
+    "sec1_p1": "End-to-end driving models usually map sensor input straight to control output, leaving scene understanding implicit. This work introduces an <strong>explicit scene graph</strong> — not just \"there is a car here\" but relations between entities, such as \"that car is merging into my lane\" — and feeds that structured understanding into the world model.",
+    "sec1_p2": "Existing approaches either predict raw pixels — making textures and distant scenery, largely irrelevant to the driving decision, part of the prediction target — or compress everything into latent features, which is efficient but entangles entity identity with interaction, leaving the planner no relational evidence it can act on directly. <strong>Making relations themselves an explicit prediction target</strong> is the bet this work makes. The paper is under review at AAAI 2027.",
+
+    "dg_alt": "A comparison of three ways to represent a driving scene",
+    "dg_a_t": "Predict pixels",
+    "dg_a_c1": "The target is the whole frame — textures, distant",
+    "dg_a_c2": "scenery, sky. Most of it never touches the decision.",
+    "dg_b_t": "Compress to latent features",
+    "dg_b_c1": "Efficient, but identity and interaction are entangled.",
+    "dg_b_c2": "The planner gets no relational evidence it can use.",
+    "dg_c_t": "Make relations explicit",
+    "dg_c_c1": "Nodes keep decision-relevant entities, edges keep",
+    "dg_c_c2": "their interactions — separately checkable, separately fixable.",
+    "dg_n1": "ego",
+    "dg_n2": "car",
+    "dg_n3": "ped",
+    "dg_e1": "follows",
+    "dg_e2": "yields to",
+    "dg_foot1": "An explicit relational structure is a natural information bottleneck.",
+    "dg_foot2": "It does not just make the scene smaller — it turns \"what deserves to survive\" into a design decision you can argue about and verify.",
+
+    "sec2_label": "What I was handed",
+    "sec2_head": "The only product person in the room",
+    "sec2_p1": "I finished my bachelor's in January 2026 and came back to Beijing; my AI master's at HKUST would not start until September. I had no intention of coasting through the gap. My two previous AI projects both lived in the application layer — <strong>I had always stood outside the model calling it, never once inside</strong>. That gap was going to have to be paid off sooner or later.",
+    "sec2_p2": "My situation going in was unambiguous: <strong>I was the only product person there</strong>, and my grasp of BEV representation, world models and graph networks went about as far as having heard the terms. Everyone else was writing model code. What the group did not need was one more network layer.",
+    "sec2_p3": "The direction was not mine. What I was given was an overall roadmap and one closing sentence: <strong>\"the first priority is to settle on a sensible way of representing the scene graph.\"</strong> That is an open task — nobody tells you how to do it.",
+    "sec2_co_big": "So the position I carved out was this: first, draw the map of the field.",
+    "sec2_co_p": "At writing model code, every PhD in that room was ten times better than me. But there was one thing they rarely had time for — <strong>laying a whole research direction out flat, sorting it into routes, and working out which paths are already exhausted and where the gaps still are.</strong> That happens to be what a product manager does every day. The only difference is that here the \"market\" was the literature and the \"competitors\" were published methods.",
+
+    "sec3_label": "First move",
+    "sec3_head": "Opening a line of reading nobody else had walked",
+    "sec3_p1": "The group already had a library of notes on end-to-end planning and world models. I did not duplicate it. I opened a different line instead — <strong>extracting structured relations directly from vision</strong>. Nothing in the group's existing material covered it.",
+    "sec3_p2": "The first thing I ruled out was <strong>using the pre-built HD map</strong>. Its lanes and topology are already structured, and taking them would have saved real work. But my read was this: <strong>that structure is given, not learned from perception.</strong> Consuming it directly turns structure into an input and quietly substitutes for a capability the model is supposed to acquire — which is not what end-to-end is for. It was a deliberate refusal of a free lunch.",
+    "sec3_p3": "The second thing I ruled out was <strong>the classic two-stage approach</strong> — detect objects, enumerate every object pair, then classify each pair. The number of pairs grows with the square of the object count, which in driving scenes means noise and a fragmented pipeline. (Two months later I would pay for forgetting this.)",
+    "sec3_p4": "When it came to picking a baseline I <strong>chose the easiest one to get running, not the strongest</strong> — at that stage what you are buying is not performance, it is the answer to \"does this route go anywhere at all\". Then I got it running myself: replacing a dead weights download, working around a new deserialisation default in the framework, swapping out an image fetch that was being blocked, and fixing a plotting crash that only appeared when exactly one relation survived filtering.",
+
+    "fig2_cap": "The open-source scene-graph baseline I got running. The top two rows show where the model attends when it localises the subject and the object; the third row shows the entity–relation–entity triples it predicted. This ran on a public general-purpose dataset, not project data — the value of this step was not the output, it was turning \"scene graph\" from a term in a paper into something I had seen with my own eyes. (Bystanders' faces have been blurred.)",
+
+    "sec4_label": "Two diagnoses",
+    "sec4_head": "Once it ran, I wrote down two things",
+    "sec4_p1": "The first was about <strong>domain shift</strong>:",
+    "sec4_q1": "Inside the training distribution it does reasonably well; outside it, barely at all — few relations survive, most candidates get filtered away. So it depends heavily on the training distribution, and a category mismatch directly suppresses how many relations come out. That is going to be a problem if this gets moved onto driving data.",
+    "sec4_p2": "The second was about a <strong>structural gap</strong>:",
+    "sec4_q2": "What it emits is a flat set of independent relation triples — no explicit graph. The same entity recurs, relations are never aggregated, and there is no adjacency structure for anything downstream to consume. Those three things have to be closed before a world model can sit on top of it.",
+    "sec4_p3": "Both were written in March 2026. <strong>The first one was hit dead-on by my own experiments two months later</strong> — and at the time I did not even go back and reread my own notes. That eventually became the lesson I most want to talk through.",
+
+    "sec5_label": "Four rounds",
+    "sec5_head": "I thought it was a wording problem. It was a task-design problem.",
+    "sec5_p1": "Training a model to predict relations requires data with relations already labelled, and no such labels existed. Two options: write rules (deterministic and controllable, but intent-bearing relations are genuinely hard to define), or let a large model look at the scene and label it directly (semantics is its strength, and one prompt covers every relation type). I tried the second first — <strong>because the only stake was editing a prompt, which is the cheapest experiment available</strong>. Four rounds follow. Each time I thought I had solved it. Each time I had not.",
+
+    "r1d": "The original prompt, which asked it to \"comprehensively cover all important interactions in the scene\".",
+    "r1g": "It ran — and the model started <strong>enumerating mechanically</strong>: ego turning into lane 1, lane 2, lane 3, straight down the list. It had read \"cover comprehensively\" as \"emit as much as possible\".",
+    "r2d": "Tighten the prompt: do not enumerate every pair, skip anything you are unsure about, at most one or two lane relations per agent, no more than thirty lines total.",
+    "r2g": "<strong>It did not hold.</strong> Ego still landed in several lanes at once, lanes still cross-connected freely, and some outputs were cut off by the length limit. What I wrote at the time: \"this proves the model isn't listening — or can't hold the line.\"",
+    "r3d": "Change tack — hand it the full lane geometry, on the theory that more complete information would let it judge better.",
+    "r3g": "<strong>It ran straight out of GPU memory.</strong> There is a hard exchange rate between how much you tell it and how long the context gets. That door was shut too.",
+    "r4d": "Filter the candidates in code first: keep only the eight to twelve agents nearest ego, offer each of them only its one or two closest candidate lanes, and describe each lane by just its start, middle and end.",
+    "r4g": "Enumeration dropped noticeably and <strong>the direction was right</strong> — but lanes still cross-connected and agents were still being paired mechanically. Not good enough to use.",
+
+    "fig1_cap": "This is what actually went into the model: one intersection, well over a hundred individually labelled lanes and twenty-odd traffic participants, with the labels packed so densely they blur together. This image is where the root-cause call came from — and why I say it would have been strange if the model had <em>not</em> enumerated. (Scene visualisation produced by the project; I was a consumer of it.)",
+
+    "sec5_co_big": "The problem was not the wording. It was the size of the candidate space I was handing over.",
+    "sec5_co_p": "Roughly: a hundred-odd lanes and twenty-odd participants gives about 2,500 agent–lane pairs, close to ten thousand lane–lane pairs, and several hundred agent–agent pairs. <strong>Out of some thirteen thousand candidates I was asking it to pick fewer than thirty — a valid-signal rate of about 0.2%.</strong> Writing \"do not enumerate\" into the prompt amounted to asking it to exercise restraint across thirteen thousand options. That is not a capability problem, <strong>it is a task-design problem</strong>. The right move is to take the choice back: construct the input so it only ever sees the few dozen pairs that matter, making runaway enumeration physically impossible. I call this <strong>moving the constraint upstream</strong> — do not ask the model for discipline at the output; make the error unreachable at the input.",
+
+    "sec6_label": "The lesson",
+    "sec6_head": "I wrote down the right call, then failed to use it",
+    "sec6_p1": "In March I wrote in my own notes that the model \"depends heavily on the training distribution — that will be a problem on driving data\". In May, what I did was <strong>take a general-purpose large model and point it straight at driving-scene relations</strong>. Same mechanism, second occurrence — and I had written it down two months in advance.",
+    "sec6_p2": "Why? My answer now is that <strong>writing a judgement down and using it are two separate acts.</strong> I had treated my notes as an artefact of learning rather than an input to a decision. A judgement that lives in a document but never shows up in the next experiment design might as well not exist.",
+    "sec6_p3": "There is a second mistake, and it is harder to admit: <strong>I never built an evaluation baseline.</strong> Across four rounds, my method for judging output quality was to look at it. Which means I cannot tell you how much better round four was than round two — only that \"some of it went away\", which is a feeling, not a finding. One single metric — the average number of lanes assigned per agent, which should sit close to 1 — would have shown me immediately that tightening the wording bought almost nothing, and <strong>would probably have saved an entire round</strong>.",
+    "sec6_p4": "I had already written the corresponding lesson into the retrospective for my previous project. Six months later I repeated it verbatim. So I now run two hard checks: <strong>before starting a new experiment, go back and read what I have already written about it; in the first week of any new environment, ask \"how will I know if what I am doing is getting better\" before touching anything.</strong>",
+
+    "sec7_label": "Honest boundary",
+    "sec7_head": "What was not mine, stated plainly",
+    "sec7_p1": "The biggest difference between this project and my others: <strong>in the others I was the one driving. Here I was the newcomer.</strong> So the boundary has to be drawn first — nothing above is worth believing unless what wasn't mine is also on the record.",
+
+    "b1k": "Direction",
+    "b1v": "<strong>Not mine to claim.</strong> The overall route was settled before I started. I took part in the discussions; what I was handed was an open task.",
+    "b2k": "Relation spec",
+    "b2v": "The taxonomy of scene relations <strong>was given by the group</strong>. What I did was turn that spec into a pipeline that could be executed in batch, and take four rounds of controlled trials to find out whether it worked.",
+    "b3k": "Scale",
+    "b3v": "The four rounds were <strong>pipeline-validation batches</strong> — ten samples or fewer each. This was not dataset construction, and I will not describe it as \"I built a dataset\".",
+    "b4k": "Outcome",
+    "b4v": "I handed the work over when I started at my current role in May 2026; <strong>the final experiments and the paper itself are not mine</strong>. The route I validated no longer exists in the final paper — and the annotation approach it did adopt is the direction I recommended in my handover.",
+
+    "sec8_label": "What transfers",
+    "sec8_head": "None of this is specific to driving",
+    "sec8_p1": "What this experience actually changed is how I think about multimodal content understanding: a model has to do more than recognise <strong>what</strong> an object is. It has to represent <strong>the relations, positions and actions between objects — and where those relations are heading next.</strong>",
+    "sec8_p2": "That conclusion is not confined to driving. An outfit post contains a person, garments, shoes, a setting, a style. A travel post contains places, a route, transport, a budget, the traps to avoid. A restaurant video contains dishes, the room, prices, how long the queue is, what people thought. <strong>Any content platform that wants stronger search, real content understanding, or an agent that helps people decide things has to turn images, text and video into structured entities and relations — not just keywords lifted from the title and body.</strong>",
+    "sec8_p3": "And the trap I fell into transfers cleanly: ask a large model to \"comprehensively\" extract entities and relations from a whole post and it will hand you a pile of useless triples, exactly as before. The candidate space has to be narrowed by product rules first — which entity types this category should even have, which relations are genuinely useful downstream. <strong>That narrowing is product work, not model work.</strong>"
+  }
+};
+let lang = 'zh';
+function applyLang(l) {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = T[l][el.dataset.i18n];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
+  document.documentElement.lang = l === 'zh' ? 'zh' : 'en';
+}
+function toggleLang() {
+  lang = lang === 'zh' ? 'en' : 'zh';
+  localStorage.setItem('site-lang', lang);
+  applyLang(lang);
+}
+lang = localStorage.getItem('site-lang') || 'zh';
+applyLang(lang);
+</script>
+
+</body>
+</html>
