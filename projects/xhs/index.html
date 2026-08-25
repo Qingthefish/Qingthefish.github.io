@@ -67,6 +67,7 @@
     .diagram svg { width: 100%; height: auto; display: block; }
     .diagram text { font-family: var(--sans); }
     .diagram text.dg-serif { font-family: var(--serif); }
+    .dg-hint { display: none; font-size: 0.66rem; letter-spacing: 0.08em; color: var(--light); margin-bottom: 12px; }
     .dg-cap { margin-top: 16px; font-size: 0.76rem; color: var(--muted); line-height: 1.75; }
     .dg-cap strong { color: var(--text); font-weight: 500; }
 
@@ -101,6 +102,9 @@
     .footer-copy { font-size: 0.7rem; color: var(--light); }
 
     @media (max-width: 840px) {
+      .diagram { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .diagram svg { min-width: 1100px; }
+      .dg-hint { display: block; }
       .container { padding: 0 24px; }
       .two-col, .stats, .bounds { grid-template-columns: 1fr; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
@@ -181,6 +185,7 @@
     </div>
 
     <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
       <svg viewBox="0 0 1200 300" role="img" aria-labelledby="dg1Title">
         <title id="dg1Title" data-i18n="dg1_alt"></title>
         <defs>
@@ -255,6 +260,7 @@
     </div>
 
     <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
       <svg viewBox="0 0 1200 340" role="img" aria-labelledby="dg2Title">
         <title id="dg2Title" data-i18n="dg2_alt"></title>
         <defs>
@@ -389,6 +395,7 @@
     </div>
 
     <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
       <svg viewBox="0 0 1200 424" role="img" aria-labelledby="dg3Title">
         <title id="dg3Title" data-i18n="dg3_alt"></title>
         <defs>
@@ -483,6 +490,7 @@
     </div>
 
     <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
       <svg viewBox="0 0 1200 344" role="img" aria-labelledby="dg4Title">
         <title id="dg4Title" data-i18n="dg4_alt"></title>
 
@@ -616,6 +624,7 @@
 const T = {
   "zh": {
     // ZH-ANCHOR
+    "dg_hint": "← 左右滑动看完整图 →",
     "sec9_label": "两条主线的共同产品对象",
     "sec9_head": "它们看着毫无关系，其实在处理同一件事：页面状态和真实世界状态不一致",
     "sec9_p1": "Agent 和资源治理是两条完全不同的线，但把它们放在一起看，我才发现是同一个问题的两个版本。下面六条，左边是系统或界面说的，右边是真实世界的状态——<strong>中间那个不等号，才是我这段实习真正的工作对象：</strong>",
@@ -842,6 +851,7 @@ const T = {
   },
   "en": {
     // EN-ANCHOR
+    "dg_hint": "← swipe to see the full diagram →",
     "sec9_label": "What both tracks were really about",
     "sec9_head": "They look unrelated. Both are the same problem: what the screen says versus what is true.",
     "sec9_p1": "The agent work and the resource work are completely different tracks, but put side by side they turn out to be two versions of one problem. In the six pairs below, the left is what the system or the interface says; the right is the state of the real world — <strong>and that inequality sign in the middle is what this internship was actually about:</strong>",

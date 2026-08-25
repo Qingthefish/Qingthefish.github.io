@@ -70,6 +70,7 @@
     .diagram svg { width: 100%; height: auto; display: block; }
     .diagram text { font-family: var(--sans); }
     .diagram text.dg-serif { font-family: var(--serif); }
+    .dg-hint { display: none; font-size: 0.66rem; letter-spacing: 0.08em; color: var(--light); margin-bottom: 12px; }
 
     /* ROUNDS */
     .rounds { margin-top: 44px; border-top: 1px solid var(--border-light); }
@@ -93,6 +94,9 @@
     .footer-copy { font-size: 0.7rem; color: var(--light); }
 
     @media (max-width: 840px) {
+      .diagram { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .diagram svg { min-width: 1100px; }
+      .dg-hint { display: block; }
       .container { padding: 0 24px; }
       .two-col, .stats, .bounds { grid-template-columns: 1fr; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
@@ -144,6 +148,7 @@
     </div>
 
     <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
       <svg viewBox="0 0 1200 392" role="img" aria-labelledby="dgTitle">
         <title id="dgTitle" data-i18n="dg_alt"></title>
         <defs>
@@ -354,6 +359,7 @@
 <script>
 const T = {
   "zh": {
+    "dg_hint": "← 左右滑动看完整图 →",
     "back": "于清程",
     "foot_back": "← 返回主页",
 
@@ -461,6 +467,7 @@ const T = {
     "sec8_p3": "而且我踩过的那个坑在这里完全适用：让大模型从一整篇笔记里「全面地」抽实体和关系，它一样会给你枚举一堆废三元组。候选空间要先由业务规则收窄——哪些实体类型是这个品类该有的、哪些关系对下游的搜索和推荐真的有用。<strong>收窄这一步是产品的活，不是模型的活。</strong>"
   },
   "en": {
+    "dg_hint": "← swipe to see the full diagram →",
     "back": "Qingcheng Yu",
     "foot_back": "← Back to portfolio",
 
