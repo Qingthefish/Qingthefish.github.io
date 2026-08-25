@@ -5,3 +5,8 @@ CLAUDE.local.md
 .DS_Store
 CLAUDE.md
 .wrangler/
+
+# 原始素材目录（公众号 docx 原稿 + 后台截图）：只有筛选、压缩、去元数据后的
+# 成品图进 projects/*/img/，原稿绝不发布——里面有第三方版权图（含 Getty 水印）、
+# 读者投稿藏品照（PSA/BGS 证书号可反查）等不该出现在公开仓的内容。
+环球卡社/
