@@ -79,6 +79,10 @@
     .tl-item.gap .tl-title { color: var(--muted); }
 
     /* FIGURES */
+    .fig { margin-top: 44px; }
+    .fig img { width: 100%; display: block; border: 1px solid var(--border-light); background: #fff; }
+    .fig figcaption { margin-top: 14px; font-size: 0.76rem; color: var(--muted); line-height: 1.75; }
+    .fig figcaption strong { color: var(--text); font-weight: 500; }
     .fig-2 { margin-top: 52px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 34px; align-items: start; }
     .fig-2 figure { margin: 0; }
     .fig-2 img { width: 100%; display: block; border: 1px solid var(--border-light); background: #fff; }
@@ -230,6 +234,10 @@
         <figcaption data-i18n="fig2_cap"></figcaption>
       </figure>
     </div>
+    <figure class="fig">
+      <img src="img/wsu-ahegs-medal.jpg" alt="西悉尼大学澳洲高等教育毕业证明（AHEGS）第四节：项目 GPA 6.636、7 分制评分对照表，以及 Special achievements 栏中的 Dean's Merit List 2024 与 Dean's Medal for outstanding scholarship 2026" loading="lazy" />
+      <figcaption data-i18n="fig3_cap"></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -334,6 +342,7 @@
 const T = {
   "zh": {
     // ZH-ANCHOR
+    "fig3_cap": "这是<strong>澳洲高等教育毕业证明（AHEGS）</strong>第四节的原件截取——澳洲高校随学位一并签发的官方文件。一张图里有三件事能被逐字核对：项目 GPA <strong>6.636</strong>；7 分制的评分对照（<strong>High Distinction = 85–100 分</strong>，所以上面那门 97 分是 High Distinction）；以及最下面 Special achievements 栏里的两行——<strong>Dean's Merit List 2024</strong> 与 <strong>Dean's Medal for outstanding scholarship 2026</strong>。<strong>页脚我裁掉了</strong>：这份文件每一页页脚都印着姓名加学号，学号不该出现在公开页上。",
     "sec6_label": "我做产品的偏好",
     "sec6_head": "六个项目做完，我发现自己的偏好其实非常固定",
     "sec6_p1": "这四条不是我为了这一页总结出来的漂亮话——<strong>是我回头看六个项目时，发现自己每次都在做同一类选择。</strong>所以每条后面我都挂一个具体项目，你可以点进去核对我到底是不是这么做的。",
@@ -384,7 +393,7 @@ const T = {
     "sec3_p1": "成绩这种事，说得再多不如把原件摆出来。下面四条都能在证书或成绩单上逐字对上。",
     "sec3_p2": "我挑那四门课放上来，不是因为分数最高，<strong>是因为它们和我现在做的事直接相关</strong>：分布式系统和系统编程解释了我为什么能读懂一个 Agent 的执行链路、能分清 WebSocket 和 SSE 各自约束什么；数据库设计解释了我为什么坚持<strong>先定数据模型再画界面</strong>——那门课教的东西，我在 <a href=\"/projects/ai-driving/\">AI 驾驶检测</a>里因为没做到而踩过一个真实的坑。",
     "e1k": "Dean's Medal",
-    "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>，2026 年授予，记录在正式成绩单的「Special achievements, recognition and prizes」栏。这是西悉尼大学授予学业最卓越毕业生的荣誉。",
+    "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>，2026 年授予，记录在正式成绩单的「Special achievements, recognition and prizes」栏。这是西悉尼大学授予学业最卓越毕业生的荣誉。<strong>（原件见最下方那张图）</strong>",
     "e2k": "Dean's Merit List",
     "e2v": "2024 年入选，由<strong>计算机、数据与数学科学学院院长 Kurt Langfeld 教授</strong>签发（右图）。",
     "e3k": "学位",
@@ -433,6 +442,7 @@ const T = {
   },
   "en": {
     // EN-ANCHOR
+    "fig3_cap": "Section 4 of the <strong>Australian Higher Education Graduation Statement (AHEGS)</strong> — the official document Australian universities issue alongside the degree. Three things in one image, all checkable word for word: program GPA <strong>6.636</strong>; the 7-point scale (<strong>High Distinction = 85–100</strong>, which is why the 97 above is a High Distinction); and, at the bottom, the two lines under Special achievements — <strong>Dean's Merit List 2024</strong> and <strong>Dean's Medal for outstanding scholarship 2026</strong>. <strong>I cropped the footer out</strong>: every page of this document carries the graduate's name and student number in the footer, and a student number has no business on a public page.",
     "sec6_label": "How I tend to build",
     "sec6_head": "Six projects in, my preferences turn out to be remarkably consistent",
     "sec6_p1": "These four aren't lines I invented for this page — <strong>they are what I found when I looked back and noticed I keep making the same kind of call.</strong> So each one names a specific project; click through and check whether I actually did it that way.",
@@ -483,7 +493,7 @@ const T = {
     "sec3_p1": "With grades, describing them matters less than putting the documents up. All four lines below can be matched word for word against a certificate or the official transcript.",
     "sec3_p2": "I picked those four units not because they were my highest marks but <strong>because they map directly onto what I do now</strong>: Distributed Systems and Systems Programming are why I can read an agent's execution path and tell you what WebSocket versus SSE each constrain; Database Design is why I insist on <strong>settling the data model before drawing any screen</strong> — and on <a href=\"/projects/ai-driving/\">the AI driving project</a> I hit a real bug precisely because I failed to do that.",
     "e1k": "Dean's Medal",
-    "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>, awarded 2026, recorded under \"Special achievements, recognition and prizes\" on the official transcript. It is Western Sydney University's recognition for its most outstanding graduates.",
+    "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>, awarded 2026, recorded under \"Special achievements, recognition and prizes\" on the official transcript. It is Western Sydney University's recognition for its most outstanding graduates. <strong>(The document itself is the bottom image.)</strong>",
     "e2k": "Dean's Merit List",
     "e2v": "Awarded 2024, signed by <strong>Professor Kurt Langfeld, Dean of the School of Computer, Data and Mathematical Sciences</strong> (right).",
     "e3k": "The degree",
