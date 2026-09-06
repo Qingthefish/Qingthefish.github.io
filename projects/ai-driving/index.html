@@ -146,7 +146,7 @@
   <div class="container">
     <p class="hero-meta reveal" data-i18n="hero_meta">AI 项目 · 2025 · 与悉尼一家 startup 合作的一期 MVP</p>
     <h1 class="hero-title reveal" data-i18n="hero_title">AI 驾驶行为<br>检测系统</h1>
-    <p class="hero-sub reveal" data-i18n="hero_sub">产品设计 + AI 辅助全栈 · 独立交付</p>
+    <p class="hero-sub reveal" data-i18n="hero_sub">独立全栈交付 · 2026 再次重构验证</p>
     <div class="hero-tags reveal">
       <span class="tag" data-i18n="tag_pd">产品设计</span>
       <span class="tag">YOLOv8</span>
@@ -160,7 +160,7 @@
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-num" data-i18n="s1n">4 个月</div><div class="stat-label" data-i18n="s1">一个人从立项到客户演示，独立交付 MVP 闭环</div></div>
+  <div class="stat"><div class="stat-num" data-i18n="s1n">4 个月</div><div class="stat-label" data-i18n="s1">独立完成产品设计、前后端、AI 管线、数据层与交付闭环</div></div>
   <div class="stat"><div class="stat-num" data-i18n="s2n">3 视角</div><div class="stat-label" data-i18n="s2">车内 / 前向 / 路边——各一条针对性检测管线</div></div>
   <div class="stat"><div class="stat-num" data-i18n="s3n">580 行</div><div class="stat-label" data-i18n="s3">真实 YOLOv8 + 规则推理检测管线（本地权重 MPS 实测）</div></div>
 </div>
@@ -254,58 +254,9 @@
   </div>
 </section>
 
-<!-- 技术架构 -->
-<section>
-  <div class="container">
-    <p class="sec-label" data-i18n="sec4_label">技术架构 · 每个选型都对着一个约束</p>
-    <div class="arch-grid">
-      <div class="arch-cell">
-        <p class="arch-layer" data-i18n="a1_l">检测层</p>
-        <p class="arch-tech">YOLOv8 + OpenCV</p>
-        <p class="arch-desc" data-i18n="a1_d">YOLOv8m + Pose 关键点 + MediaPipe（可选）+ OpenCV 光流。本地权重、Apple Silicon MPS 实测跑通；缺可选依赖时优雅降级不崩。</p>
-      </div>
-      <div class="arch-cell">
-        <p class="arch-layer" data-i18n="a2_l">后端层</p>
-        <p class="arch-tech">Python · FastAPI</p>
-        <p class="arch-desc" data-i18n="a2_d">异步任务覆盖「上传后分析」，前端轮询 status。选 Python 的决定性理由：<strong>AI 生态都在 Python 里</strong>，Web 层和推理层同语言，省掉一层序列化胶水。</p>
-      </div>
-      <div class="arch-cell">
-        <p class="arch-layer" data-i18n="a3_l">数据层</p>
-        <p class="arch-tech">SQLite</p>
-        <p class="arch-desc" data-i18n="a3_d">四层模型 users→drivers→videos→violations + 行为字典 + 评分实时视图。单文件、零运维、演示可携带——整个库拷走就能跑。</p>
-      </div>
-      <div class="arch-cell">
-        <p class="arch-layer" data-i18n="a4_l">前端层</p>
-        <p class="arch-tech">React · Vite</p>
-        <p class="arch-desc" data-i18n="a4_d">11 个页面。Vite 秒级热更新让一个人全栈迭代翻倍；不引 TypeScript 是刻意的——MVP 阶段类型系统的收益，抵不过 AI 辅助编程在纯 JS 上的流畅度。</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- 技术栈与逐层选型保留在私密复盘；公开页把篇幅让给产品取舍和真实界面。 -->
 
 <!-- 评分与长期画像 -->
-<section>
-  <div class="container">
-    <p class="sec-label" data-i18n="sec5_label">评分与长期画像</p>
-    <div class="two-col">
-      <h2 class="col-head" data-i18n="sec5_head">客户买单的不是单次检测，是趋势</h2>
-      <div class="col-body">
-        <p data-i18n="sec5_p1">评分用 100 分基线减扣分，8 类行为的扣分字典是<strong>唯一真源</strong>（玩手机 −30、疲劳 −40、闯红灯 −30……）。分数不落库，用一个实时视图现算——扣分字典改了，历史分数自动跟着对。设计原则：偶发小错不重罚、高频重复加重，面向长期画像。</p>
-        <p data-i18n="sec5_p2">光扣分会让分数一路向下，所以我加了<strong>正向 credit bonus</strong>：安全驾驶时长按视角折算加分，封顶 100。再往上，按每个视角最高扣分项生成个性化建议——让分数不只是审判，而是可改善的目标。</p>
-      </div>
-    </div>
-    <div class="fig-pair">
-      <figure class="fig">
-        <img src="img/d5_overall.png" alt="评分拆解：平均分 + credit bonus = 最终分" loading="lazy" />
-        <figcaption data-i18n="fig5_cap">评分拆解：平均分 + 安全驾驶 credit bonus = 最终分，并展开「这些数字怎么算出来的」——评分口径对用户透明。</figcaption>
-      </figure>
-      <figure class="fig">
-        <img src="img/d4_history.png" alt="历史检索：按时间范围过滤司机上传与评分" loading="lazy" />
-        <figcaption data-i18n="fig4_cap">历史检索：按时间范围（全部 / 近 1 年 / 6 个月 / 3 个月）过滤某司机的上传与评分——趋势，才是长期风险画像的原料。</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
 
 <!-- 诚实的能力边界 -->
 <section>
@@ -357,7 +308,7 @@
       <h2 class="col-head" data-i18n="sec8_head">AI 加速的是「写」，不加速「判断」</h2>
       <div class="col-body">
         <p data-i18n="sec8_p1">阈值演示级欠的债，让我想清楚一件事：缺的从来不是调参，是<strong>评估基础设施</strong>——没有一个标注好的 golden set，任何阈值调整都无法回答「变好了还是变坏了」。如果重来，我会在第一次调阈值之前，就先冻结 20 段标注视频做回归集。</p>
-        <p data-i18n="sec8_p2">四个月一个人交付 11 页前端 + 9 个接口 + 580 行推理管线 + 完整数据模型，没有 AI 辅助编程不可能。但我也看清了杠杆的边界——<strong>AI 加速的是「写」，不加速「判断」</strong>：阈值该不该调、schema 该不该同步、任务定义是不是错了，这些 AI 不替你做，而项目里所有真正的坑都在判断层。AI-coding 让产品经理第一次有了「独立交付完整产品」的可能，但交付质量的下限，仍由工程判断力决定。</p>
+        <p data-i18n="sec8_p2">项目由我独立完成产品设计、前端、后端、AI 检测、数据层、集成与演示交付；课程报告里的团队署名是课程安排，不用于判断真实贡献。2026 年我又独立完成历史副本去重、schema 修复、依赖现代化和全链路复测。现存工程是 10 个页面、11 个接口和约 580 行推理管线。<strong>AI 加速的是「写」，不加速「判断」</strong>。</p>
       </div>
     </div>
   </div>
@@ -374,127 +325,131 @@
 
 <script>
 const T = {
-  zh: {
-    back: '于清程', foot_back: '← 返回主页',
-    hero_meta: 'AI 项目 · 2025 · 与悉尼一家 startup 合作的一期 MVP',
-    hero_title: 'AI 驾驶行为<br>检测系统',
-    hero_sub: '产品设计 + AI 辅助全栈 · 独立交付',
-    tag_pd: '产品设计',
-    s1n: '4 个月', s1: '一个人从立项到客户演示，独立交付 MVP 闭环',
-    s2n: '3 视角', s2: '车内 / 前向 / 路边——各一条针对性检测管线',
-    s3n: '580 行', s3: '真实 YOLOv8 + 规则推理检测管线（本地权重 MPS 实测）',
-    sec1_label: '产品判断',
-    sec1_head: '把一段段行车视频，变成可解释的驾驶评分',
-    sec1_p1: '目标客户——保险、车队监管、政府部门——不缺数据，缺的是把视频变成「可解释评分」的<strong>中间层</strong>。这个产品的判断不是去判「这个人今天有没有违规」，而是持续观察驾驶习惯，形成<strong>长期风险画像</strong>。',
-    sec1_p2: '为什么是「上传视频」这个形态，而不是行车记录仪实时流或 OBD 硬件？因为第一阶段客户的真实工作流是<strong>事后审阅</strong>——出险了、季度复盘了，才把视频调出来看。实时流要解决设备接入、带宽、隐私合规，那是后面阶段的事；OBD 硬件完全出了软件公司的能力圈。上传式 MVP 是四个月内唯一能跑通、又直接对准客户既有工作流的形态。',
-    fig1_cap: '主看板：按司机聚合行为频次、最近评分与司机排名——「长期风险画像」这个产品判断的落点。',
-    sec2_label: '产品闭环 · 六步',
-    sec2_head: '每一步，都对应一个用户假设',
-    j1_t: '视频上传', j1_d: '上传一段 MP4，后台以异步任务跑检测，前端每 2 秒轮询一次 status 取进度——上传不阻塞。',
-    j2_t: '视角选择', j2_d: '上传时声明视角（车内 / 前向 / 路边）。这是整个产品的<strong>技术枢纽</strong>——不同视角能看到的行为完全不同，让用户声明视角，等于让用户帮我做了「路由到哪条检测管线」的决策。',
-    j3_t: '驾驶者筛选', j3_d: '目标客户管的是「一批司机」而不是「一个司机」。数据模型从第一天就是 users→drivers→videos 三层，「按司机出报告」是系统的<strong>原生能力</strong>，不是事后拼凑。',
-    j4_t: 'AI 检测评分', j4_d: 'YOLOv8 真跑、导出带检测框视频；规则层判定违规——手机在手、双手离开方向盘、红绿灯 HSV + 光流、跟车 bbox 面积比——落成 100 分制评分。',
-    j5_t: '历史对比', j5_d: '按时间范围（3 个月 / 6 个月 / 1 年）过滤，看某司机的行为频次和评分怎么变——单次检测只是功能，趋势才是洞察。',
-    j6_t: '个性化建议', j6_d: '按每个视角最高扣分项生成针对性改善建议，并给出「避免它大约能提多少分」——建议是前端真算的，不是文案模板。',
-    fig2_cap: '上传页：拖拽视频 + 声明视角 + 绑定司机 ID——视角选择这一步，就是把「路由到哪条检测管线」的决策交给最清楚的人。',
-    pull1: '「架构是真的，参数是演示级的。」<span class="by">这个项目最核心的一次取舍</span>',
-    pull1_by: '这个项目最核心的一次取舍',
-    sec3_label: '核心取舍',
-    sec3_head: '先把闭环跑通，还是先把 AI 做真？',
-    sec3_p1: '这是整个项目最核心的一次判断。我选择：<strong>检测引擎用真模型、真规则，但判定阈值按演示环境手工标定；同时把全部工程力气押在闭环完整度上。</strong>YOLOv8 是真跑的、违规判定是真规则推理，但每个阈值（手机-手腕 90px、方向盘区域 150px、跟车面积占比 10%……）是我在测试视频上手调的，没有标注集回归验证。',
-    sec3_p2: '这笔账是这么算的：四个月的窗口里，做真闭环的边际收益远大于把某个阈值从「演示可用」打磨到「生产可靠」——后者需要的是<strong>数据</strong>（标注好的违规片段、多光照多车型样本），而不是代码时间，而第一阶段根本没有这些数据。把闭环做全、把数据模型做对，等客户拿真数据来喂，参数层可以整体替换。',
-    co1_big: 'MVP 里该真的，和可以先演示级的，是两种东西。',
-    co1_p: '<strong>该真的是数据模型和闭环骨架（改不动的部分），可以先演示级的是参数和边缘功能（可整体替换的部分）。</strong>数据模型错一行，后面全歪；阈值差一倍，换一批数字就行。当时精力重前者、轻后者，事后看是对的。',
-    fig3_cap: '检测结果页：真实 YOLOv8 检测框（car 0.92 / traffic light / parking meter）、100 分制评分、带时间戳的违规明细——检测是真跑的，不是 PPT。',
-    sec4_label: '技术架构 · 每个选型都对着一个约束',
-    a1_l: '检测层', a1_d: 'YOLOv8m + Pose 关键点 + MediaPipe（可选）+ OpenCV 光流。本地权重、Apple Silicon MPS 实测跑通；缺可选依赖时优雅降级不崩。',
-    a2_l: '后端层', a2_d: '异步任务覆盖「上传后分析」，前端轮询 status。选 Python 的决定性理由：<strong>AI 生态都在 Python 里</strong>，Web 层和推理层同语言，省掉一层序列化胶水。',
-    a3_l: '数据层', a3_d: '四层模型 users→drivers→videos→violations + 行为字典 + 评分实时视图。单文件、零运维、演示可携带——整个库拷走就能跑。',
-    a4_l: '前端层', a4_d: '11 个页面。Vite 秒级热更新让一个人全栈迭代翻倍；不引 TypeScript 是刻意的——MVP 阶段类型系统的收益，抵不过 AI 辅助编程在纯 JS 上的流畅度。',
-    sec5_label: '评分与长期画像',
-    sec5_head: '客户买单的不是单次检测，是趋势',
-    sec5_p1: '评分用 100 分基线减扣分，8 类行为的扣分字典是<strong>唯一真源</strong>（玩手机 −30、疲劳 −40、闯红灯 −30……）。分数不落库，用一个实时视图现算——扣分字典改了，历史分数自动跟着对。设计原则：偶发小错不重罚、高频重复加重，面向长期画像。',
-    sec5_p2: '光扣分会让分数一路向下，所以我加了<strong>正向 credit bonus</strong>：安全驾驶时长按视角折算加分，封顶 100。再往上，按每个视角最高扣分项生成个性化建议——让分数不只是审判，而是可改善的目标。',
-    fig5_cap: '评分拆解：平均分 + 安全驾驶 credit bonus = 最终分，并展开「这些数字怎么算出来的」——评分口径对用户透明。',
-    fig4_cap: '历史检索：按时间范围（全部 / 近 1 年 / 6 个月 / 3 个月）过滤某司机的上传与评分——趋势，才是长期风险画像的原料。',
-    sec6_label: '诚实的能力边界',
-    sec6_head: '做不到的，我不包装成做得到',
-    sec6_p1: '做 AI 产品，能力边界的诚实是<strong>产品设计的一部分</strong>，不是技术备忘录里的一行小字。这个产品没有一处「看起来能、实际上不能」的功能——下面三个边界，都是主动划掉、而不是藏起来的。',
-    t1_h: '安全带检测', t1_p: '试过让 YOLO 识别安全带，标了一批图，效果很差——安全带和衣服纹理、阴影、斜挎包带在像素层高度混淆。<strong>当错误样本人眼都要语义推理才能判对时，纯检测范式就是错的。</strong>果断移出承诺范围。',
-    t2_h: '超速检测', t2_p: '单路固定视角、没有 GPS/IMU/车速接口，<strong>真实速度物理上就不可恢复</strong>。没有包装成「超速检测」，而是降级为视觉可观测的代理信号：急加速、急刹车、跟车距离变化。',
-    t3_h: '实时分析', t3_p: '实时摄像头分析在第一期<strong>主动裁掉</strong>，列进 roadmap。它要解决设备接入、带宽、隐私合规——那是后面阶段的事，是清醒的减法。',
-    rm_line: '同一套诚实也贯穿在交付里：<span class="rm real">真跑通</span> YOLOv8 检测 + 带框视频、三视角规则判定、100 分评分视图；<span class="rm mock">演示级</span> 阈值手调无评估集回归、confidence 恒为 0、账号体系是无盐哈希。<strong>对客户我从不含糊哪些是真、哪些是演示。</strong>',
-    sec7_label: '最想讲透的一课',
-    sec7_head: '一个我亲手埋、亲手挖、亲手修的 bug',
-    sec7_p1: '交付时的 demo 数据库和代码里的建表逻辑是<strong>漂移的</strong>：演示推进中我直接在库里手工加列、手工建表、把评分做成实时视图，但建表代码从没回头同步。后果是——带着演示数据一切正常，<strong>换一台机器删库重建，服务当场崩</strong>：违规表根本不存在，分析结果无处可写。',
-    sec7_p2: '根因不是技术，是流程：MVP 冲刺里「改库」比「改建表代码」快十倍，而「新库重建」只在交付后的新机器上才第一次发生——恰好是最需要它工作的时刻。这是典型的 demo 阶段技术债：<strong>债在演示路径上不可见，在交付路径上爆炸。</strong>2026 年复盘我把它彻底修了，并用「删库重建」实测验证。面试我会主动讲这个 bug——能自己定位、讲清根因、给出修法，比从没踩过坑更有说服力。',
-    pull2: '「评估体系先于模型迭代——harness 不是后期工程，是第一天就该在的骨架。」<span class="by">阈值「演示级」教给我的</span>',
-    pull2_by: '阈值「演示级」教给我的',
-    sec8_label: '沉淀',
-    sec8_head: 'AI 加速的是「写」，不加速「判断」',
-    sec8_p1: '阈值演示级欠的债，让我想清楚一件事：缺的从来不是调参，是<strong>评估基础设施</strong>——没有一个标注好的 golden set，任何阈值调整都无法回答「变好了还是变坏了」。如果重来，我会在第一次调阈值之前，就先冻结 20 段标注视频做回归集。',
-    sec8_p2: '四个月一个人交付 11 页前端 + 9 个接口 + 580 行推理管线 + 完整数据模型，没有 AI 辅助编程不可能。但我也看清了杠杆的边界——<strong>AI 加速的是「写」，不加速「判断」</strong>：阈值该不该调、schema 该不该同步、任务定义是不是错了，这些 AI 不替你做，而项目里所有真正的坑都在判断层。AI-coding 让产品经理第一次有了「独立交付完整产品」的可能，但交付质量的下限，仍由工程判断力决定。',
+  "zh": {
+    "back": "于清程",
+    "foot_back": "← 返回主页",
+    "hero_meta": "AI 项目 · 2025 · 与悉尼一家 startup 合作的一期 MVP",
+    "hero_title": "AI 驾驶行为<br>检测系统",
+    "hero_sub": "独立全栈交付 · 2026 再次重构验证",
+    "tag_pd": "产品设计",
+    "s1n": "4 个月",
+    "s1": "独立完成产品设计、前后端、AI 管线、数据层与交付闭环",
+    "s2n": "3 视角",
+    "s2": "车内 / 前向 / 路边——各一条针对性检测管线",
+    "s3n": "580 行",
+    "s3": "真实 YOLOv8 + 规则推理检测管线（本地权重 MPS 实测）",
+    "sec1_label": "产品判断",
+    "sec1_head": "把一段段行车视频，变成可解释的驾驶评分",
+    "sec1_p1": "目标客户——保险、车队监管、政府部门——不缺数据，缺的是把视频变成「可解释评分」的<strong>中间层</strong>。这个产品的判断不是去判「这个人今天有没有违规」，而是持续观察驾驶习惯，形成<strong>长期风险画像</strong>。",
+    "sec1_p2": "为什么是「上传视频」这个形态，而不是行车记录仪实时流或 OBD 硬件？因为第一阶段客户的真实工作流是<strong>事后审阅</strong>——出险了、季度复盘了，才把视频调出来看。实时流要解决设备接入、带宽、隐私合规，那是后面阶段的事；OBD 硬件完全出了软件公司的能力圈。上传式 MVP 是四个月内唯一能跑通、又直接对准客户既有工作流的形态。",
+    "fig1_cap": "主看板：按司机聚合行为频次、最近评分与司机排名——「长期风险画像」这个产品判断的落点。",
+    "sec2_label": "产品闭环 · 六步",
+    "sec2_head": "每一步，都对应一个用户假设",
+    "j1_t": "视频上传",
+    "j1_d": "上传一段 MP4，后台以异步任务跑检测，前端每 2 秒轮询一次 status 取进度——上传不阻塞。",
+    "j2_t": "视角选择",
+    "j2_d": "上传时声明视角（车内 / 前向 / 路边）。这是整个产品的<strong>技术枢纽</strong>——不同视角能看到的行为完全不同，让用户声明视角，等于让用户帮我做了「路由到哪条检测管线」的决策。",
+    "j3_t": "驾驶者筛选",
+    "j3_d": "目标客户管的是「一批司机」而不是「一个司机」。数据模型从第一天就是 users→drivers→videos 三层，「按司机出报告」是系统的<strong>原生能力</strong>，不是事后拼凑。",
+    "j4_t": "AI 检测评分",
+    "j4_d": "YOLOv8 真跑、导出带检测框视频；规则层判定违规——手机在手、双手离开方向盘、红绿灯 HSV + 光流、跟车 bbox 面积比——落成 100 分制评分。",
+    "j5_t": "历史对比",
+    "j5_d": "按时间范围（3 个月 / 6 个月 / 1 年）过滤，看某司机的行为频次和评分怎么变——单次检测只是功能，趋势才是洞察。",
+    "j6_t": "个性化建议",
+    "j6_d": "按每个视角最高扣分项生成针对性改善建议，并给出「避免它大约能提多少分」——建议是前端真算的，不是文案模板。",
+    "fig2_cap": "上传页：拖拽视频 + 声明视角 + 绑定司机 ID——视角选择这一步，就是把「路由到哪条检测管线」的决策交给最清楚的人。",
+    "pull1": "「架构是真的，参数是演示级的。」<span class=\"by\">这个项目最核心的一次取舍</span>",
+    "pull1_by": "这个项目最核心的一次取舍",
+    "sec3_label": "核心取舍",
+    "sec3_head": "先把闭环跑通，还是先把 AI 做真？",
+    "sec3_p1": "这是整个项目最核心的一次判断。我选择：<strong>检测引擎用真模型、真规则，但判定阈值按演示环境手工标定；同时把全部工程力气押在闭环完整度上。</strong>YOLOv8 是真跑的、违规判定是真规则推理，但每个阈值（手机-手腕 90px、方向盘区域 150px、跟车面积占比 10%……）是我在测试视频上手调的，没有标注集回归验证。",
+    "sec3_p2": "这笔账是这么算的：四个月的窗口里，做真闭环的边际收益远大于把某个阈值从「演示可用」打磨到「生产可靠」——后者需要的是<strong>数据</strong>（标注好的违规片段、多光照多车型样本），而不是代码时间，而第一阶段根本没有这些数据。把闭环做全、把数据模型做对，等客户拿真数据来喂，参数层可以整体替换。",
+    "co1_big": "MVP 里该真的，和可以先演示级的，是两种东西。",
+    "co1_p": "<strong>该真的是数据模型和闭环骨架（改不动的部分），可以先演示级的是参数和边缘功能（可整体替换的部分）。</strong>数据模型错一行，后面全歪；阈值差一倍，换一批数字就行。当时精力重前者、轻后者，事后看是对的。",
+    "fig3_cap": "检测结果页：真实 YOLOv8 检测框（car 0.92 / traffic light / parking meter）、100 分制评分、带时间戳的违规明细——检测是真跑的，不是 PPT。",
+    "sec6_label": "诚实的能力边界",
+    "sec6_head": "做不到的，我不包装成做得到",
+    "sec6_p1": "做 AI 产品，能力边界的诚实是<strong>产品设计的一部分</strong>，不是技术备忘录里的一行小字。这个产品没有一处「看起来能、实际上不能」的功能——下面三个边界，都是主动划掉、而不是藏起来的。",
+    "t1_h": "安全带检测",
+    "t1_p": "试过让 YOLO 识别安全带，标了一批图，效果很差——安全带和衣服纹理、阴影、斜挎包带在像素层高度混淆。<strong>当错误样本人眼都要语义推理才能判对时，纯检测范式就是错的。</strong>果断移出承诺范围。",
+    "t2_h": "超速检测",
+    "t2_p": "单路固定视角、没有 GPS/IMU/车速接口，<strong>真实速度物理上就不可恢复</strong>。没有包装成「超速检测」，而是降级为视觉可观测的代理信号：急加速、急刹车、跟车距离变化。",
+    "t3_h": "实时分析",
+    "t3_p": "实时摄像头分析在第一期<strong>主动裁掉</strong>，列进 roadmap。它要解决设备接入、带宽、隐私合规——那是后面阶段的事，是清醒的减法。",
+    "rm_line": "同一套诚实也贯穿在交付里：<span class=\"rm real\">真跑通</span> YOLOv8 检测 + 带框视频、三视角规则判定、100 分评分视图；<span class=\"rm mock\">演示级</span> 阈值手调无评估集回归、confidence 恒为 0、账号体系是无盐哈希。<strong>对客户我从不含糊哪些是真、哪些是演示。</strong>",
+    "sec7_label": "最想讲透的一课",
+    "sec7_head": "一个我亲手埋、亲手挖、亲手修的 bug",
+    "sec7_p1": "交付时的 demo 数据库和代码里的建表逻辑是<strong>漂移的</strong>：演示推进中我直接在库里手工加列、手工建表、把评分做成实时视图，但建表代码从没回头同步。后果是——带着演示数据一切正常，<strong>换一台机器删库重建，服务当场崩</strong>：违规表根本不存在，分析结果无处可写。",
+    "sec7_p2": "根因不是技术，是流程：MVP 冲刺里「改库」比「改建表代码」快十倍，而「新库重建」只在交付后的新机器上才第一次发生——恰好是最需要它工作的时刻。这是典型的 demo 阶段技术债：<strong>债在演示路径上不可见，在交付路径上爆炸。</strong>2026 年复盘我把它彻底修了，并用「删库重建」实测验证。面试我会主动讲这个 bug——能自己定位、讲清根因、给出修法，比从没踩过坑更有说服力。",
+    "pull2": "「评估体系先于模型迭代——harness 不是后期工程，是第一天就该在的骨架。」<span class=\"by\">阈值「演示级」教给我的</span>",
+    "pull2_by": "阈值「演示级」教给我的",
+    "sec8_label": "沉淀",
+    "sec8_head": "AI 加速的是「写」，不加速「判断」",
+    "sec8_p1": "阈值演示级欠的债，让我想清楚一件事：缺的从来不是调参，是<strong>评估基础设施</strong>——没有一个标注好的 golden set，任何阈值调整都无法回答「变好了还是变坏了」。如果重来，我会在第一次调阈值之前，就先冻结 20 段标注视频做回归集。",
+    "sec8_p2": "项目由我独立完成产品设计、前端、后端、AI 检测、数据层、集成与演示交付；课程报告里的团队署名是课程安排，不用于判断真实贡献。2026 年我又独立完成历史副本去重、schema 修复、依赖现代化和全链路复测。现存工程是 10 个页面、11 个接口和约 580 行推理管线。<strong>AI 加速的是「写」，不加速「判断」</strong>。"
   },
-  en: {
-    back: 'Qingcheng Yu', foot_back: '← Back to portfolio',
-    hero_meta: 'AI Project · 2025 · A first-phase MVP with a Sydney startup',
-    hero_title: 'AI Driving Behavior<br>Detection System',
-    hero_sub: 'Product design + AI-assisted full stack · delivered solo',
-    tag_pd: 'Product Design',
-    s1n: '4 months', s1: 'From kickoff to client demo — a complete MVP loop, delivered solo',
-    s2n: '3 angles', s2: 'In-cabin / front-facing / roadside — a dedicated detection pipeline each',
-    s3n: '580 lines', s3: 'A real YOLOv8 + rule-inference detection pipeline (local weights, MPS-tested)',
-    sec1_label: 'Product Judgment',
-    sec1_head: 'Turning raw driving footage into an explainable driving score',
-    sec1_p1: "The target clients — insurers, fleet regulators, government bodies — don't lack data. What they lack is the <strong>middle layer</strong> that turns video into an explainable score. The product's bet isn't judging whether someone broke a rule today, but continuously observing driving habits to build a <strong>long-term risk profile</strong>.",
-    sec1_p2: "Why an upload-a-video form, rather than a live dashcam stream or OBD hardware? Because phase-one clients' real workflow is <strong>after-the-fact review</strong> — they pull footage up only after an incident or a quarterly review. A live stream would mean solving device integration, bandwidth, and privacy compliance — that's a later phase; OBD hardware is entirely outside a software company's scope. An upload-based MVP was the only form that could ship in four months and map directly onto the client's existing workflow.",
-    fig1_cap: "Main dashboard: behavior frequency, recent scores and driver rankings aggregated per driver — where the 'long-term risk profile' bet actually lands.",
-    sec2_label: 'The Product Loop · Six Steps',
-    sec2_head: 'Every step answers a user assumption',
-    j1_t: 'Video Upload', j1_d: 'Upload an MP4; the backend runs detection as an async task while the front end polls status every 2 seconds for progress — the upload never blocks.',
-    j2_t: 'Angle Selection', j2_d: "You declare the camera angle at upload (in-cabin / front-facing / roadside). This is the product's <strong>technical hub</strong> — each angle sees entirely different behaviors, so having the user declare the angle means the user makes the 'which pipeline to route to' decision for me.",
-    j3_t: 'Driver Selection', j3_d: "Clients manage a fleet of drivers, not a single driver. The data model was users→drivers→videos from day one, so 'report per driver' is a <strong>native capability</strong>, not something bolted on later.",
-    j4_t: 'AI Detection & Scoring', j4_d: 'YOLOv8 truly runs and exports a boxed video; the rule layer flags violations — phone in hand, hands off the wheel, traffic-light HSV + optical flow, tailgating bbox-area ratio — rolled into a 100-point score.',
-    j5_t: 'Historical Comparison', j5_d: "Filter by time range (3 months / 6 months / 1 year) to see how a driver's behavior frequency and scores shift — a single detection is just a feature; the trend is the insight.",
-    j6_t: 'Personalized Advice', j6_d: "Targeted improvement tips are generated from each angle's top penalty, with an estimate of 'how many points avoiding it would gain' — the advice is genuinely computed on the front end, not a template.",
-    fig2_cap: "Upload page: drag in a video + declare the angle + link a driver ID — the angle step hands the 'which pipeline to route to' decision to whoever knows best.",
-    pull1: '"The architecture is real. The parameters are demo-grade."<span class="by">The single most central trade-off of the project</span>',
-    pull1_by: 'The single most central trade-off of the project',
-    sec3_label: 'The Core Trade-off',
-    sec3_head: 'Ship the loop first, or make the AI real first?',
-    sec3_p1: "This was the project's most central judgment. My choice: <strong>the detection engine uses real models and real rules, but the decision thresholds were hand-calibrated for the demo environment — and I put all the engineering effort into loop completeness.</strong> YOLOv8 truly runs and the violation calls are real rule inference, but every threshold (phone-to-wrist 90px, wheel region 150px, tailgating area ratio 10%…) was hand-tuned on my test videos, with no labeled-set regression.",
-    sec3_p2: "Here's the math: in a four-month window, the marginal return on a real end-to-end loop far exceeds polishing one threshold from 'demo-usable' to 'production-reliable' — the latter needs <strong>data</strong> (labeled violation clips, multi-lighting multi-vehicle samples), not code time, and phase one simply had none. Build the loop complete, get the data model right, and when the client brings real data, the parameter layer can be swapped wholesale.",
-    co1_big: "In an MVP, what must be real and what can stay demo-grade are two different things.",
-    co1_p: "<strong>What must be real is the data model and the loop skeleton (the parts you can't change); what can stay demo-grade is the parameters and edge features (the parts you can swap wholesale).</strong> Get one line of the data model wrong and everything downstream tilts; get a threshold off by 2× and you just swap in new numbers. Weighting the former over the latter was, in hindsight, right.",
-    fig3_cap: 'Detection result page: real YOLOv8 boxes (car 0.92 / traffic light / parking meter), a 100-point score, and time-stamped violation details — the detection truly runs; it is not a slide.',
-    sec4_label: 'Architecture · Every choice answers a constraint',
-    a1_l: 'Detection Layer', a1_d: 'YOLOv8m + Pose keypoints + MediaPipe (optional) + OpenCV optical flow. Local weights, tested on Apple Silicon MPS; degrades gracefully when optional deps are missing.',
-    a2_l: 'Backend Layer', a2_d: "Async tasks cover 'analyze after upload'; the front end polls status. The decisive reason for Python: <strong>the entire AI ecosystem lives in Python</strong> — web and inference layers share one language, dropping a serialization layer.",
-    a3_l: 'Data Layer', a3_d: 'A four-tier model users→drivers→videos→violations + a behavior dictionary + a live scoring view. Single file, zero ops, portable for demos — copy the whole DB and it runs.',
-    a4_l: 'Frontend Layer', a4_d: "11 pages. Vite's instant hot-reload doubled a one-person full-stack pace; skipping TypeScript was deliberate — at MVP stage, the type system's payoff didn't beat the fluency of AI-assisted coding in plain JS.",
-    sec5_label: 'Scoring & the Long-term Profile',
-    sec5_head: "What clients pay for isn't a single detection — it's the trend",
-    sec5_p1: "Scoring is a 100-point baseline minus penalties, and the 8-behavior penalty dictionary is the <strong>single source of truth</strong> (phone −30, drowsiness −40, red-light −30…). Scores aren't stored — a live view computes them on the fly, so changing the dictionary updates historical scores automatically. Design principle: don't over-penalize the occasional slip, weight repeated habits harder — built for the long-term profile.",
-    sec5_p2: 'Penalties alone drive the score only downward, so I added a <strong>positive credit bonus</strong>: safe-driving duration converts to points per angle, capped at 100. On top of that, per-angle personalized advice from the top penalty — so the score is not just a verdict, but an improvable target.',
-    fig5_cap: "Score breakdown: average + safe-driving credit bonus = final score, with an expandable 'how are these numbers calculated' — the scoring logic is transparent to the user.",
-    fig4_cap: "History search: filter a driver's uploads and scores by time range (all / past year / 6 months / 3 months) — the trend is the raw material of a long-term risk profile.",
-    sec6_label: 'Honest Capability Boundaries',
-    sec6_head: "What it can't do, I don't dress up as something it can",
-    sec6_p1: "In an AI product, honesty about capability boundaries is <strong>part of the product design</strong>, not a footnote in a tech memo. This product has no feature that 'looks capable but isn't' — the three boundaries below were all cut deliberately, not hidden.",
-    t1_h: 'Seatbelt Detection', t1_p: "I tried having YOLO detect seatbelts, labeled a batch of images — it worked poorly. Seatbelts blur into clothing texture, shadows, and bag straps at the pixel level. <strong>When even a human needs semantic reasoning to judge a wrong sample, the pure-detection paradigm is simply wrong.</strong> Cut from scope, decisively.",
-    t2_h: 'Speed Detection', t2_p: 'With a single fixed-angle video and no GPS/IMU/speed feed, <strong>true speed is physically unrecoverable</strong>. Rather than dress it up as "speed detection," I downgraded it to visually observable proxy signals: rapid acceleration, hard braking, and following-distance change.',
-    t3_h: 'Real-time Analysis', t3_p: 'Live-camera analysis was <strong>deliberately cut</strong> from phase one and put on the roadmap. It would mean solving device integration, bandwidth, and privacy compliance — a later phase, and a clear-eyed subtraction.',
-    rm_line: 'The same honesty runs through the delivery: <span class="rm real">real</span> YOLOv8 detection + boxed video, three-angle rule decisions, the 100-point scoring view; <span class="rm mock">demo-grade</span> hand-tuned thresholds with no eval-set regression, confidence hard-coded to 0, an unsalted-hash account system. <strong>I was never vague with the client about what was real and what was demo.</strong>',
-    sec7_label: 'The Lesson I Most Want to Tell',
-    sec7_head: 'A bug I buried, dug up, and fixed — all with my own hands',
-    sec7_p1: "At delivery, the demo database and the table-creation code had <strong>drifted apart</strong>: during the demo push I added columns by hand, created tables by hand, and made scoring a live view — but never synced the bootstrap code back. The result: everything worked with the demo data, but <strong>drop the DB and rebuild on a fresh machine and the service crashed on the spot</strong> — the violations table simply didn't exist, and analysis had nowhere to write.",
-    sec7_p2: "The root cause wasn't technical, it was process: in an MVP sprint, 'editing the DB' is ten times faster than 'editing the create-table code,' and 'rebuild from scratch' first happens only on the delivery machine — precisely when it most needs to work. This is textbook demo-stage debt: <strong>invisible on the demo path, exploding on the delivery path.</strong> In the 2026 retrospective I fixed it properly and verified with a real drop-and-rebuild. I raise this bug in interviews on purpose — locating it, explaining the root cause, and giving the fix is more convincing than never having hit the pit.",
-    pull2: '"Evaluation infrastructure comes before model iteration — a harness isn\'t late-stage engineering, it\'s the skeleton that should be there on day one."<span class="by">What the demo-grade thresholds taught me</span>',
-    pull2_by: 'What the demo-grade thresholds taught me',
-    sec8_label: 'What I Took Away',
-    sec8_head: 'AI accelerates the writing, not the judgment',
-    sec8_p1: "The debt from demo-grade thresholds made one thing clear: what was missing was never the tuning, it was <strong>evaluation infrastructure</strong> — without a labeled golden set, no threshold change can answer 'did this get better or worse?' If I did it again, I'd freeze 20 labeled videos as a regression set before touching the first threshold.",
-    sec8_p2: "Four months, one person, 11 front-end pages + 9 endpoints + a 580-line inference pipeline + a complete data model — none of it possible without AI-assisted coding. But I also saw the lever's limits clearly — <strong>AI accelerates the writing, not the judgment</strong>: whether a threshold should move, whether the schema should sync, whether the task definition is wrong — the AI won't decide those for you, and every real pitfall in the project lived at the judgment layer. AI coding gave a product manager, for the first time, a real shot at 'delivering a complete product solo' — but the floor on delivery quality is still set by engineering judgment.",
+  "en": {
+    "back": "Qingcheng Yu",
+    "foot_back": "← Back to portfolio",
+    "hero_meta": "AI Project · 2025 · A first-phase MVP with a Sydney startup",
+    "hero_title": "AI Driving Behavior<br>Detection System",
+    "hero_sub": "Independently shipped full-stack · rebuilt and revalidated in 2026",
+    "tag_pd": "Product Design",
+    "s1n": "4 months",
+    "s1": "Independently delivered product, front end, back end, AI pipeline, data layer and the complete loop",
+    "s2n": "3 angles",
+    "s2": "In-cabin / front-facing / roadside — a dedicated detection pipeline each",
+    "s3n": "580 lines",
+    "s3": "A real YOLOv8 + rule-inference detection pipeline (local weights, MPS-tested)",
+    "sec1_label": "Product Judgment",
+    "sec1_head": "Turning raw driving footage into an explainable driving score",
+    "sec1_p1": "The target clients — insurers, fleet regulators, government bodies — don't lack data. What they lack is the <strong>middle layer</strong> that turns video into an explainable score. The product's bet isn't judging whether someone broke a rule today, but continuously observing driving habits to build a <strong>long-term risk profile</strong>.",
+    "sec1_p2": "Why an upload-a-video form, rather than a live dashcam stream or OBD hardware? Because phase-one clients' real workflow is <strong>after-the-fact review</strong> — they pull footage up only after an incident or a quarterly review. A live stream would mean solving device integration, bandwidth, and privacy compliance — that's a later phase; OBD hardware is entirely outside a software company's scope. An upload-based MVP was the only form that could ship in four months and map directly onto the client's existing workflow.",
+    "fig1_cap": "Main dashboard: behavior frequency, recent scores and driver rankings aggregated per driver — where the 'long-term risk profile' bet actually lands.",
+    "sec2_label": "The Product Loop · Six Steps",
+    "sec2_head": "Every step answers a user assumption",
+    "j1_t": "Video Upload",
+    "j1_d": "Upload an MP4; the backend runs detection as an async task while the front end polls status every 2 seconds for progress — the upload never blocks.",
+    "j2_t": "Angle Selection",
+    "j2_d": "You declare the camera angle at upload (in-cabin / front-facing / roadside). This is the product's <strong>technical hub</strong> — each angle sees entirely different behaviors, so having the user declare the angle means the user makes the 'which pipeline to route to' decision for me.",
+    "j3_t": "Driver Selection",
+    "j3_d": "Clients manage a fleet of drivers, not a single driver. The data model was users→drivers→videos from day one, so 'report per driver' is a <strong>native capability</strong>, not something bolted on later.",
+    "j4_t": "AI Detection & Scoring",
+    "j4_d": "YOLOv8 truly runs and exports a boxed video; the rule layer flags violations — phone in hand, hands off the wheel, traffic-light HSV + optical flow, tailgating bbox-area ratio — rolled into a 100-point score.",
+    "j5_t": "Historical Comparison",
+    "j5_d": "Filter by time range (3 months / 6 months / 1 year) to see how a driver's behavior frequency and scores shift — a single detection is just a feature; the trend is the insight.",
+    "j6_t": "Personalized Advice",
+    "j6_d": "Targeted improvement tips are generated from each angle's top penalty, with an estimate of 'how many points avoiding it would gain' — the advice is genuinely computed on the front end, not a template.",
+    "fig2_cap": "Upload page: drag in a video + declare the angle + link a driver ID — the angle step hands the 'which pipeline to route to' decision to whoever knows best.",
+    "pull1": "\"The architecture is real. The parameters are demo-grade.\"<span class=\"by\">The single most central trade-off of the project</span>",
+    "pull1_by": "The single most central trade-off of the project",
+    "sec3_label": "The Core Trade-off",
+    "sec3_head": "Ship the loop first, or make the AI real first?",
+    "sec3_p1": "This was the project's most central judgment. My choice: <strong>the detection engine uses real models and real rules, but the decision thresholds were hand-calibrated for the demo environment — and I put all the engineering effort into loop completeness.</strong> YOLOv8 truly runs and the violation calls are real rule inference, but every threshold (phone-to-wrist 90px, wheel region 150px, tailgating area ratio 10%…) was hand-tuned on my test videos, with no labeled-set regression.",
+    "sec3_p2": "Here's the math: in a four-month window, the marginal return on a real end-to-end loop far exceeds polishing one threshold from 'demo-usable' to 'production-reliable' — the latter needs <strong>data</strong> (labeled violation clips, multi-lighting multi-vehicle samples), not code time, and phase one simply had none. Build the loop complete, get the data model right, and when the client brings real data, the parameter layer can be swapped wholesale.",
+    "co1_big": "In an MVP, what must be real and what can stay demo-grade are two different things.",
+    "co1_p": "<strong>What must be real is the data model and the loop skeleton (the parts you can't change); what can stay demo-grade is the parameters and edge features (the parts you can swap wholesale).</strong> Get one line of the data model wrong and everything downstream tilts; get a threshold off by 2× and you just swap in new numbers. Weighting the former over the latter was, in hindsight, right.",
+    "fig3_cap": "Detection result page: real YOLOv8 boxes (car 0.92 / traffic light / parking meter), a 100-point score, and time-stamped violation details — the detection truly runs; it is not a slide.",
+    "sec6_label": "Honest Capability Boundaries",
+    "sec6_head": "What it can't do, I don't dress up as something it can",
+    "sec6_p1": "In an AI product, honesty about capability boundaries is <strong>part of the product design</strong>, not a footnote in a tech memo. This product has no feature that 'looks capable but isn't' — the three boundaries below were all cut deliberately, not hidden.",
+    "t1_h": "Seatbelt Detection",
+    "t1_p": "I tried having YOLO detect seatbelts, labeled a batch of images — it worked poorly. Seatbelts blur into clothing texture, shadows, and bag straps at the pixel level. <strong>When even a human needs semantic reasoning to judge a wrong sample, the pure-detection paradigm is simply wrong.</strong> Cut from scope, decisively.",
+    "t2_h": "Speed Detection",
+    "t2_p": "With a single fixed-angle video and no GPS/IMU/speed feed, <strong>true speed is physically unrecoverable</strong>. Rather than dress it up as \"speed detection,\" I downgraded it to visually observable proxy signals: rapid acceleration, hard braking, and following-distance change.",
+    "t3_h": "Real-time Analysis",
+    "t3_p": "Live-camera analysis was <strong>deliberately cut</strong> from phase one and put on the roadmap. It would mean solving device integration, bandwidth, and privacy compliance — a later phase, and a clear-eyed subtraction.",
+    "rm_line": "The same honesty runs through the delivery: <span class=\"rm real\">real</span> YOLOv8 detection + boxed video, three-angle rule decisions, the 100-point scoring view; <span class=\"rm mock\">demo-grade</span> hand-tuned thresholds with no eval-set regression, confidence hard-coded to 0, an unsalted-hash account system. <strong>I was never vague with the client about what was real and what was demo.</strong>",
+    "sec7_label": "The Lesson I Most Want to Tell",
+    "sec7_head": "A bug I buried, dug up, and fixed — all with my own hands",
+    "sec7_p1": "At delivery, the demo database and the table-creation code had <strong>drifted apart</strong>: during the demo push I added columns by hand, created tables by hand, and made scoring a live view — but never synced the bootstrap code back. The result: everything worked with the demo data, but <strong>drop the DB and rebuild on a fresh machine and the service crashed on the spot</strong> — the violations table simply didn't exist, and analysis had nowhere to write.",
+    "sec7_p2": "The root cause wasn't technical, it was process: in an MVP sprint, 'editing the DB' is ten times faster than 'editing the create-table code,' and 'rebuild from scratch' first happens only on the delivery machine — precisely when it most needs to work. This is textbook demo-stage debt: <strong>invisible on the demo path, exploding on the delivery path.</strong> In the 2026 retrospective I fixed it properly and verified with a real drop-and-rebuild. I raise this bug in interviews on purpose — locating it, explaining the root cause, and giving the fix is more convincing than never having hit the pit.",
+    "pull2": "\"Evaluation infrastructure comes before model iteration — a harness isn't late-stage engineering, it's the skeleton that should be there on day one.\"<span class=\"by\">What the demo-grade thresholds taught me</span>",
+    "pull2_by": "What the demo-grade thresholds taught me",
+    "sec8_label": "What I Took Away",
+    "sec8_head": "AI accelerates the writing, not the judgment",
+    "sec8_p1": "The debt from demo-grade thresholds made one thing clear: what was missing was never the tuning, it was <strong>evaluation infrastructure</strong> — without a labeled golden set, no threshold change can answer 'did this get better or worse?' If I did it again, I'd freeze 20 labeled videos as a regression set before touching the first threshold.",
+    "sec8_p2": "I independently delivered the product design, front end, back end, AI detection, data layer, integration and demo. The team attribution in the course report reflected course arrangements and is not used to infer the actual contribution boundary. In 2026 I independently deduplicated historical copies, repaired the schema, modernised dependencies and reran the full path. The retained codebase has 10 pages, 11 endpoints and an inference pipeline of about 580 lines. <strong>AI accelerates writing, not judgment</strong>."
   }
 };
 let lang = 'zh';

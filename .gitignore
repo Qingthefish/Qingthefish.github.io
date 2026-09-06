@@ -4,7 +4,9 @@ _战室/
 CLAUDE.local.md
 .DS_Store
 CLAUDE.md
+AGENTS.md
 .wrangler/
+骨架版_分享用/
 
 # 原始素材目录（公众号 docx 原稿 + 后台截图）：只有筛选、压缩、去元数据后的
 # 成品图进 projects/*/img/，原稿绝不发布——里面有第三方版权图（含 Getty 水印）、
