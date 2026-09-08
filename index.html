@@ -79,10 +79,8 @@
     .identity { display: flex; flex-direction: column; }
     .eyebrow {
       font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 18px;
-      display: flex; align-items: center; gap: 14px;
+      color: var(--muted); margin-bottom: 14px;
     }
-    .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .name {
       font-family: var(--serif); font-weight: 300;
       font-size: clamp(3.1rem, 4.4vw, 4.4rem); line-height: 1.0;
@@ -105,7 +103,6 @@
     .ai-panel {
       margin-top: 24px;
       background: var(--panel);
-      border: 1px solid var(--border);
       border-radius: 8px;
       box-shadow: 0 8px 30px rgba(26,25,24,0.06);
       display: flex; flex-direction: column;
@@ -113,7 +110,7 @@
     }
     .ai-head {
       display: flex; align-items: center; gap: 10px;
-      padding: 13px 16px; border-bottom: 1px solid var(--border-light);
+      padding: 15px 16px 9px;
     }
     .ai-dot { width: 7px; height: 7px; border-radius: 50%; background: #6FBE86; flex: none; box-shadow: 0 0 0 3px rgba(111,190,134,0.22); }
     .ai-head h2 { font-family: var(--serif); font-size: 1.1rem; font-weight: 500; line-height: 1; }
@@ -140,7 +137,7 @@
       color: var(--muted); font-family: var(--sans); transition: all .18s var(--ease);
     }
     .ai-chip:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .ai-foot { padding: 11px 12px; border-top: 1px solid var(--border-light); }
+    .ai-foot { padding: 10px 12px 12px; }
     .ai-input-row { display: flex; gap: 8px; align-items: flex-end; }
     #ai-input {
       flex: 1; resize: none; max-height: 80px;
@@ -162,23 +159,38 @@
     .ai-typing span:nth-child(3) { animation-delay: .36s; }
     @keyframes aiblink { 0%,60%,100% { opacity: .25 } 30% { opacity: 1 } }
 
-    /* ─── TILES (right) ─── */
+    /* ─── EXPERIENCE INDEX (right) ─── */
     .tiles {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-auto-rows: minmax(108px, auto);
-      align-content: start;
-      gap: 12px;
+      display: flex; flex-direction: column; gap: 13px;
+      align-self: start;
     }
+    .tile-group { display: flex; flex-direction: column; gap: 7px; }
+    .group-label {
+      font-size: 0.66rem; line-height: 1;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); font-weight: 500;
+    }
+    .tile-grid {
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .tile-grid.single { grid-template-columns: 1fr; }
+    .tile-grid.project-list { grid-template-columns: 1fr; }
+    .tile.featured { background: #F0EEE8; }
+    .tile.compact { min-height: 0; padding-top: 12px; padding-bottom: 12px; }
+    .tile.compact .tile-tags { margin-top: 7px; }
+    .tile.compact .tile-arrow { margin-top: 5px; }
+    .tile.compact .tile-hook { line-height: 1.48; }
     .tile {
       display: flex; flex-direction: column;
+      min-height: 102px;
       padding: 14px 17px;
       background: var(--panel);
-      border: 1px solid var(--border-light);
       border-radius: 8px;
-      transition: transform .2s var(--ease), box-shadow .2s var(--ease), border-color .2s var(--ease);
+      box-shadow: 0 1px 0 rgba(26,25,24,0.06), 0 6px 20px rgba(26,25,24,0.035);
+      transition: transform .2s var(--ease), box-shadow .2s var(--ease);
     }
-    .tile:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26,25,24,0.08); border-color: var(--border); }
+    .tile:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(26,25,24,0.08); }
     .tile:active { transform: translateY(-1px); }
     .tile-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 7px; }
     .tile-name { font-family: var(--serif); font-size: 1.14rem; font-weight: 500; line-height: 1.15; }
@@ -191,12 +203,9 @@
     }
     .tile-arrow { align-self: flex-end; margin-top: 7px; font-size: 0.7rem; color: var(--muted); transition: color .2s, transform .2s; }
     .tile:hover .tile-arrow { color: var(--text); transform: translateX(3px); }
-    .tile.wide { grid-column: 1 / -1; }
-
     /* ─── FOOTER strip ─── */
     .footstrip {
-      grid-column: 1 / -1;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: center; justify-content: flex-end;
       font-size: 0.7rem; color: var(--muted); letter-spacing: 0.04em;
     }
 
@@ -209,10 +218,9 @@
     @media (max-width: 620px) {
       .nav-inner { padding: 0 20px; }
       .stage { padding: calc(var(--nav-h) + 22px) 20px 22px; gap: 22px; }
-      .tiles { grid-template-columns: 1fr; }
-      .tile.wide { grid-column: auto; }
+      .tile-grid { grid-template-columns: 1fr; }
       .name { font-size: clamp(2.7rem, 12vw, 3.4rem); line-height: 1.06; }
-      .footstrip { flex-direction: column; gap: 6px; align-items: flex-start; }
+      .footstrip { justify-content: flex-start; }
       /* iOS 聚焦不放大：输入框 ≥16px；触控目标 ≥44px */
       #ai-input { font-size: 16px; min-height: 44px; }
       #ai-send { min-height: 44px; padding: 11px 18px; }
@@ -248,11 +256,11 @@
 
   <!-- LEFT · identity + AI -->
   <section class="identity" aria-label="简介">
-    <p class="eyebrow" data-i18n="hero_eyebrow">AI 产品经理 · 港科大 MSc AI 在读</p>
+    <p class="eyebrow" data-i18n="hero_eyebrow">AI Agent / AI Infra 产品经理</p>
     <h1 class="name" data-i18n="hero_name">于清程<em>.</em></h1>
     <p class="tagline" data-i18n="hero_tagline">产品是被动的艺术</p>
     <p class="bio" data-i18n="hero_bio">不先教育用户改变习惯，而是让系统吸收复杂度，让技术顺着人的真实行为自然发生。</p>
-    <p class="meta-row" data-i18n="hero_avail"><strong>求职意向</strong>：2027 届校招全职 · AI 产品经理 / Agent · 预计 2027.7 毕业 · 寒假可实习</p>
+    <p class="meta-row" data-i18n="hero_avail"><strong>求职意向</strong>：2027 届校招全职 · 预计 2027.7 毕业 · 寒假可实习</p>
     <div class="contacts">
       <a href="mailto:fishboypek@qq.com">fishboypek@qq.com</a>
       <a href="https://github.com/Qingthefish" target="_blank" rel="noopener">GitHub ↗</a>
@@ -264,7 +272,7 @@
         <span class="ai-dot" aria-hidden="true"></span>
         <div>
           <h2 class="ai-head-title" data-i18n="ai_title">于清程的 AI 分身</h2>
-          <p data-i18n="ai_sub">基于公开资料回答 · 不确定就说不知道</p>
+          <p data-i18n="ai_sub">基于公开资料回答</p>
         </div>
       </div>
       <div class="ai-body" id="ai-body" aria-live="polite" aria-atomic="false"></div>
@@ -278,60 +286,84 @@
     </div>
   </section>
 
-  <!-- RIGHT · 7 tiles -->
+  <!-- RIGHT · grouped experience index -->
   <section class="tiles" aria-label="经历与项目">
-    <a class="tile" href="/projects/xhs/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_xhs_n">小红书</h2><span class="tile-idx" aria-hidden="true">01</span></div>
-      <p class="tile-hook" data-i18n="t_xhs_h">中台 AI 基础设施 PM：0→1 做值班 Agent、治 GPU 碎片，让助手替工程师吸收平台复杂度。</p>
-      <div class="tile-tags"><span>AI Agent</span><span>Dev Tools</span><span>PRD</span><span>Eval</span></div>
-      <span class="tile-arrow" data-i18n="t_more">查看详情 →</span>
-    </a>
+    <section class="tile-group" aria-labelledby="group-education">
+      <h2 class="group-label" id="group-education" data-i18n="group_edu">教育背景</h2>
+      <div class="tile-grid single">
+        <a class="tile compact" href="/projects/education/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_edu_n">教育与能力</h3><span class="tile-idx" aria-hidden="true">01</span></div>
+          <p class="tile-hook" data-i18n="t_edu_h">港科大 MSc AI 在读；自己挣回学费后重返校园，以 with Distinction 完成本科并获 Dean's Medal。</p>
+          <div class="tile-tags"><span>HKUST MSc AI</span><span>Dean's Medal</span><span>GPA 6.636</span></div>
+          <span class="tile-arrow" data-i18n="t_more6">查看详情 →</span>
+        </a>
+      </div>
+    </section>
 
-    <a class="tile" href="/projects/hackathon/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_hack_n">红书人物志</h2><span class="tile-idx" aria-hidden="true">02</span></div>
-      <p class="tile-hook" data-i18n="t_hack_h">36 小时独立全栈：819 人 → 前 200 线下 Demo Day（前 25%）。</p>
-      <div class="tile-tags"><span>React</span><span>FastAPI</span><span>LLM</span><span>Product</span></div>
-      <span class="tile-arrow" data-i18n="t_more2">查看详情 →</span>
-    </a>
+    <section class="tile-group" aria-labelledby="group-internship">
+      <h2 class="group-label" id="group-internship" data-i18n="group_intern">实习经历</h2>
+      <div class="tile-grid single">
+        <a class="tile featured" href="/projects/xhs/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_xhs_n">小红书</h3><span class="tile-idx" aria-hidden="true">02</span></div>
+          <p class="tile-hook" data-i18n="t_xhs_h">负责值班 Agent 产品侧与评估；推动 Agent 工作台 38 项可验收改进落地；从多产品数据走到统一入口方案。</p>
+          <div class="tile-tags"><span>AI Agent</span><span>AI Infra</span><span>Product</span><span>Eval</span></div>
+          <span class="tile-arrow" data-i18n="t_more">查看详情 →</span>
+        </a>
+      </div>
+    </section>
 
-    <a class="tile" href="/projects/hqks/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_hqks_n">环球卡社</h2><span class="tile-idx" aria-hidden="true">03</span></div>
-      <p class="tile-hook" data-i18n="t_hqks_h">两年全职创业：把内容、社群和交易服务做成一门生意，挣回学费后重返大学。</p>
-      <div class="tile-tags"><span>Startup</span><span>Content</span><span>Community</span><span>Operations</span></div>
-      <span class="tile-arrow" data-i18n="t_more3">查看详情 →</span>
-    </a>
+    <section class="tile-group" aria-labelledby="group-projects">
+      <h2 class="group-label" id="group-projects" data-i18n="group_projects">项目经历</h2>
+      <div class="tile-grid project-list">
+        <a class="tile compact" href="/projects/hackathon/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_hack_n">红书人物志</h3><span class="tile-idx" aria-hidden="true">03</span></div>
+          <p class="tile-hook" data-i18n="t_hack_h">从已经发布的故事反向长出关系：36 小时独立完成产品与全栈交付，819 人中入选前 200 Demo Day。</p>
+          <div class="tile-tags"><span>Product</span><span>React</span><span>FastAPI</span><span>LLM</span></div>
+          <span class="tile-arrow" data-i18n="t_more2">查看详情 →</span>
+        </a>
 
-    <a class="tile" href="/projects/ai-interview/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_int_n">AI 面试辅导</h2><span class="tile-idx" aria-hidden="true">04</span></div>
-      <p class="tile-hook" data-i18n="t_int_h">留学生实时面试教练：腾讯 STT + LLM + WebSocket，结构化反馈。</p>
-      <div class="tile-tags"><span>LLM</span><span>WebSocket</span><span>STT</span><span>Prompt Eng.</span></div>
-      <span class="tile-arrow" data-i18n="t_more4">查看详情 →</span>
-    </a>
+        <a class="tile compact" href="/projects/ai-driving/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_drive_n">AI 驾驶行为检测</h3><span class="tile-idx" aria-hidden="true">04</span></div>
+          <p class="tile-hook" data-i18n="t_drive_h">独立完成产品、前端、后端与 AI 检测闭环，并在 2026 年重构、重新跑通现存全栈。</p>
+          <div class="tile-tags"><span>YOLOv8</span><span>FastAPI</span><span>React</span></div>
+          <span class="tile-arrow" data-i18n="t_more5">查看详情 →</span>
+        </a>
 
-    <a class="tile" href="/projects/ai-driving/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_drive_n">AI 驾驶检测</h2><span class="tile-idx" aria-hidden="true">05</span></div>
-      <p class="tile-hook" data-i18n="t_drive_h">悉尼创业公司 MVP：独立完成产品、前端、后端与 AI 检测闭环，2026 年再次完整重构验证。</p>
-      <div class="tile-tags"><span>YOLOv8</span><span>OpenCV</span><span>FastAPI</span><span>React</span></div>
-      <span class="tile-arrow" data-i18n="t_more5">查看详情 →</span>
-    </a>
+        <a class="tile compact" href="/projects/ai-interview/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_int_n">AI 面试辅导智能体</h3><span class="tile-idx" aria-hidden="true">05</span></div>
+          <p class="tile-hook" data-i18n="t_int_h">把实时面试拆成提问、追问、评分与复盘闭环，并按延迟预算设计语音交互链路。</p>
+          <div class="tile-tags"><span>Agent</span><span>STT</span><span>WebSocket</span></div>
+          <span class="tile-arrow" data-i18n="t_more4">查看详情 →</span>
+        </a>
+      </div>
+    </section>
 
-    <a class="tile" href="/projects/education/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_edu_n">教育与能力</h2><span class="tile-idx" aria-hidden="true">06</span></div>
-      <p class="tile-hook" data-i18n="t_edu_h">断供中断 → 自己挣两年学费 → 回炉读完，获 Dean's Medal 与 with Distinction 学位。</p>
-      <div class="tile-tags"><span>HKUST MSc AI</span><span>Dean's Medal</span><span>GPA 6.636</span></div>
-      <span class="tile-arrow" data-i18n="t_more6">查看详情 →</span>
-    </a>
+    <section class="tile-group" aria-labelledby="group-research">
+      <h2 class="group-label" id="group-research" data-i18n="group_research">科研经历</h2>
+      <div class="tile-grid single">
+        <a class="tile compact" href="/projects/casia/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_casia_n">中科院自动化所</h3><span class="tile-idx" aria-hidden="true">06</span></div>
+          <p class="tile-hook" data-i18n="t_casia_h">自动驾驶场景建模：把 BEV + JSON 推到关系三元组原型，用三轮实验定位候选空间问题并提出约束前移。</p>
+          <div class="tile-tags"><span>World Model</span><span>Scene Graph</span><span>Qwen3-VL</span></div>
+          <span class="tile-arrow" data-i18n="t_more7">查看详情 →</span>
+        </a>
+      </div>
+    </section>
 
-    <a class="tile wide" href="/projects/casia/">
-      <div class="tile-top"><h2 class="tile-name" data-i18n="t_casia_n">中科院自动化所</h2><span class="tile-idx" aria-hidden="true">07</span></div>
-      <p class="tile-hook" data-i18n="t_casia_h">自动驾驶世界模型：三轮实验定位关系标注的根因——候选空间太大，并提出约束前移方案。AAAI 2027 在审。</p>
-      <div class="tile-tags"><span>World Model</span><span>Scene Graph</span><span>Autonomous Driving</span></div>
-      <span class="tile-arrow" data-i18n="t_more7">查看详情 →</span>
-    </a>
+    <section class="tile-group" aria-labelledby="group-work">
+      <h2 class="group-label" id="group-work" data-i18n="group_work">工作经历</h2>
+      <div class="tile-grid single">
+        <a class="tile compact" href="/projects/hqks/">
+          <div class="tile-top"><h3 class="tile-name" data-i18n="t_hqks_n">环球卡社</h3><span class="tile-idx" aria-hidden="true">07</span></div>
+          <p class="tile-hook" data-i18n="t_hqks_h">两年全职经营：把内容、社群和交易服务做成一门生意，挣回学费后重返大学。</p>
+          <div class="tile-tags"><span>Business</span><span>Content</span><span>Community</span></div>
+          <span class="tile-arrow" data-i18n="t_more3">查看详情 →</span>
+        </a>
+      </div>
+    </section>
 
     <footer class="footstrip">
       <span>© 2026 Qingcheng Yu</span>
-      <span data-i18n="foot_built">由 AI 协助构建</span>
     </footer>
   </section>
 
@@ -471,63 +503,71 @@
 const T = {
   zh: {
     nav_name:     '于清程',
-    hero_eyebrow: 'AI 产品经理 · 港科大 MSc AI 在读',
+    hero_eyebrow: 'AI Agent / AI Infra 产品经理',
     hero_name:    '于清程<em>.</em>',
     hero_tagline: '产品是被动的艺术',
     hero_bio:     '不先教育用户改变习惯，而是让系统吸收复杂度，让技术顺着人的真实行为自然发生。',
-    hero_avail:   '<strong>求职意向</strong>：2027 届校招全职 · AI 产品经理 / Agent · 预计 2027.7 毕业 · 寒假可实习',
+    hero_avail:   '<strong>求职意向</strong>：2027 届校招全职 · 预计 2027.7 毕业 · 寒假可实习',
     ai_title:     '于清程的 AI 分身',
-    ai_sub:       '基于公开资料回答 · 不确定就说不知道',
+    ai_sub:       '基于公开资料回答',
     ai_ph:        '问点关于我的任何事…',
     ai_send:      '发送',
     ai_note:      '回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com',
+    group_edu:    '教育背景',
+    group_intern: '实习经历',
+    group_projects: '项目经历',
+    group_research: '科研经历',
+    group_work:   '工作经历',
     t_xhs_n:      '小红书',
-    t_xhs_h:      '中台 AI 基础设施 PM：0→1 做值班 Agent、治 GPU 碎片，让助手替工程师吸收平台复杂度。',
+    t_xhs_h:      '负责值班 Agent 产品侧与评估；推动 Agent 工作台 38 项可验收改进落地；从多产品数据走到统一入口方案。',
     t_hack_n:     '红书人物志',
-    t_hack_h:     '36 小时独立全栈：819 人 → 前 200 线下 Demo Day（前 25%）。',
+    t_hack_h:     '从已经发布的故事反向长出关系：36 小时独立完成产品与全栈交付，819 人中入选前 200 Demo Day。',
     t_hqks_n:     '环球卡社',
-    t_hqks_h:     '两年全职创业：把内容、社群和交易服务做成一门生意，挣回学费后重返大学。',
-    t_int_n:      'AI 面试辅导',
-    t_int_h:      '留学生实时面试教练：腾讯 STT + LLM + WebSocket，结构化反馈。',
-    t_drive_n:    'AI 驾驶检测',
-    t_drive_h:    '悉尼创业公司 MVP：独立完成产品、前端、后端与 AI 检测闭环，2026 年再次完整重构验证。',
+    t_hqks_h:     '两年全职经营：把内容、社群和交易服务做成一门生意，挣回学费后重返大学。',
+    t_int_n:      'AI 面试辅导智能体',
+    t_int_h:      '把实时面试拆成提问、追问、评分与复盘闭环，并按延迟预算设计语音交互链路。',
+    t_drive_n:    'AI 驾驶行为检测',
+    t_drive_h:    '独立完成产品、前端、后端与 AI 检测闭环，并在 2026 年重构、重新跑通现存全栈。',
     t_edu_n:      '教育与能力',
-    t_edu_h:      '断供中断 → 自己挣两年学费 → 回炉读完，获 Dean\'s Medal 与 with Distinction 学位。',
+    t_edu_h:      '港科大 MSc AI 在读；自己挣回学费后重返校园，以 with Distinction 完成本科并获 Dean\'s Medal。',
     t_casia_n:    '中科院自动化所',
-    t_casia_h:    '自动驾驶世界模型：三轮实验定位关系标注的根因——候选空间太大，并提出约束前移方案。AAAI 2027 在审。',
+    t_casia_h:    '自动驾驶场景建模：把 BEV + JSON 推到关系三元组原型，用三轮实验定位候选空间问题并提出约束前移。',
     t_more:       '查看详情 →', t_more2: '查看详情 →', t_more3: '查看详情 →',
     t_more4:      '查看详情 →', t_more5: '查看详情 →', t_more6: '查看详情 →', t_more7: '查看详情 →',
-    foot_built:   '由 AI 协助构建',
   },
   en: {
     nav_name:     'Qingcheng Yu',
-    hero_eyebrow: 'AI Product Manager · HKUST MSc AI Candidate',
+    hero_eyebrow: 'AI Agent / Infrastructure Product Manager',
     hero_name:    'Qingcheng Yu<em>.</em>',
     hero_tagline: 'Product is the art of staying out of the way.',
     hero_bio:     'Do not make users adapt to technology. Let the system absorb complexity and fit the way people already behave.',
-    hero_avail:   '<strong>Open to</strong>: 2027 new-grad full-time · AI PM / Agent · expected graduation Jul 2027 · winter internship available',
+    hero_avail:   '<strong>Open to</strong>: 2027 new-grad full-time · expected graduation Jul 2027 · winter internship available',
     ai_title:     "Qingcheng's AI",
-    ai_sub:       'Answers from public material · says so when unsure',
+    ai_sub:       'Answers from public materials',
     ai_ph:        'Ask me anything about him…',
     ai_send:      'Send',
     ai_note:      'Generated by an LLM and may be imperfect. For anything important, email fishboypek@qq.com',
+    group_edu:    'Education',
+    group_intern: 'Internship',
+    group_projects: 'Selected projects',
+    group_research: 'Research',
+    group_work:   'Work experience',
     t_xhs_n:      'Xiaohongshu (RED)',
-    t_xhs_h:      'Platform PM for AI infra: an on-call agent 0→1, GPU fragmentation, and an assistant that absorbs complexity for engineers.',
+    t_xhs_h:      'Owned product and evaluation for an on-call agent, drove 38 testable improvements to an agent workspace, and turned multi-product data into a unified-entry proposal.',
     t_hack_n:     'Rednote Person Graph',
-    t_hack_h:     'Solo full-stack in 36h: top 200 of 819 → on-site Demo Day (top 25%).',
+    t_hack_h:     'Relationships grown from stories people had already shared: solo product and full-stack delivery in 36 hours, selected for Demo Day among the top 200 of 819.',
     t_hqks_n:     'Collector Universe',
-    t_hqks_h:     'Two years full-time: turned content, community, and transaction services into a business, then used it to fund my return to university.',
-    t_int_n:      'AI Interview Coach',
-    t_int_h:      'Real-time coach for job-seeking students: Tencent STT + LLM + WebSocket, structured feedback.',
-    t_drive_n:    'AI Driving Detection',
-    t_drive_h:    'MVP for a Sydney startup: independently delivered product, front end, back end and the AI loop, then rebuilt and revalidated it in 2026.',
+    t_hqks_h:     'Two years operating the business full-time: turned content, community, and transaction services into a business, then used it to fund my return to university.',
+    t_int_n:      'AI Interview Coaching Agent',
+    t_int_h:      'Structured real-time interviews into asking, follow-up, scoring, and review loops, with a voice path designed around latency budgets.',
+    t_drive_n:    'AI Driving Behavior Detection',
+    t_drive_h:    'Independently delivered the product, front end, back end, and AI detection loop, then rebuilt and revalidated the surviving full stack in 2026.',
     t_edu_n:      'Education & capability',
-    t_edu_h:      'Funding stopped → two years earning the tuition → back to finish with the Dean\'s Medal and a degree with Distinction.',
+    t_edu_h:      'HKUST MSc AI candidate; returned after earning the tuition independently, completed the bachelor\'s with Distinction, and received the Dean\'s Medal.',
     t_casia_n:    'Chinese Academy of Sciences',
-    t_casia_h:    'Driving world models: three experiments traced relation-labelling failure to an oversized candidate space, then led to a constraint-first proposal. Under review at AAAI 2027.',
+    t_casia_h:    'Autonomous-driving scene modelling: moved BEV + JSON into a relation-triple prototype, then used three experiments to isolate the candidate-space problem and propose constraint-first filtering.',
     t_more:       'Read more →', t_more2: 'Read more →', t_more3: 'Read more →',
     t_more4:      'Read more →', t_more5: 'Read more →', t_more6: 'Read more →', t_more7: 'Read more →',
-    foot_built:   'Built with AI assistance',
   }
 };
 

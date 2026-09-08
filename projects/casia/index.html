@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>自动驾驶世界模型 · Qingcheng Yu</title>
+  <title>自动驾驶场景建模 · Qingcheng Yu</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -317,19 +317,19 @@ const T = {
     "dg_hint": "← 左右滑动看完整图 →",
     "back": "于清程",
     "foot_back": "← 返回主页",
-    "hero_meta": "学术研究 · 中科院自动化所 · AAAI 2027 投稿在审",
-    "hero_title": "自动驾驶世界模型",
+    "hero_meta": "学术研究 · 中科院自动化所 · 2026.02 — 2026.05",
+    "hero_title": "自动驾驶场景建模",
     "hero_sub": "把「谁和谁正在发生什么」变成模型的显式预测目标",
-    "s1n": "3 个月",
-    "s1": "2026 年 3 月至 5 月，本科毕业回国到入职之间，在中国科学院自动化研究所参与",
+    "s1n": "4 个月",
+    "s1": "2026 年 2 月至 5 月在中国科学院自动化研究所参与；2 月从论文阅读和选题讨论开始",
     "s2n": "3 轮",
     "s2": "让大模型直接标注场景关系的递进实验，另形成一个尚未验证的约束前移方案",
-    "s3n": "0.2%",
-    "s3": "一帧场景里，真正有效的关系只占全部候选组合的这么点。根因就在这",
+    "s3n": "1 个根因",
+    "s3": "问题不在提示词措辞，而在输入给模型的候选空间过大",
     "sec1_label": "研究方向",
     "sec1_head": "让驾驶模型理解「场景里发生了什么关系」",
     "sec1_p1": "端到端自动驾驶模型通常直接从传感器输入映射到控制输出，中间的场景理解是隐式的。这项工作的思路是引入<strong>显式的场景图</strong>——不只识别「这里有一辆车」，而是建模「这辆车正在切入我的车道」这类实体间关系，再把这层结构化理解喂给世界模型。",
-    "sec1_p2": "现有做法要么直接预测像素画面——把大量与驾驶决策无关的纹理和远景也一并当成预测目标；要么压进隐式特征——省了算力，但实体身份和它们之间的交互纠缠在一起，规划器拿不到能直接使用的关系证据。<strong>把关系本身变成显式的预测目标</strong>，是这项工作押的方向。论文已投稿 AAAI 2027，目前在审。",
+    "sec1_p2": "现有做法要么直接预测像素画面——把大量与驾驶决策无关的纹理和远景也一并当成预测目标；要么压进隐式特征——省了算力，但实体身份和它们之间的交互纠缠在一起，规划器拿不到能直接使用的关系证据。<strong>把关系本身变成显式的预测目标</strong>，是这项工作押的方向。",
     "dg_alt": "三种场景表示路线的对比示意图",
     "dg_a_t": "预测像素",
     "dg_a_c1": "靶子是整幅画面。纹理、远景、天空——",
@@ -365,9 +365,9 @@ const T = {
     "r3g": "<strong>显存直接炸了。</strong>信息量和上下文长度之间有硬兑换比，这一头也堵死了。",
     "r4d": "下一步方案（未执行）：用代码先筛候选，只留离自车最近的八到十二个参与者；每个参与者只给最近的一两条候选车道；每条车道只给首、中、尾三个点。",
     "r4g": "这是三轮实验后形成的<strong>约束前移假设</strong>。当时没有完成系统运行和量化评测，因此这里只写成提案，不能写成已经改善的结果。",
-    "fig1_cap": "当时真喂给模型的输入长这样：一帧路口场景里，上百条逐条标号的车道、二十余个交通参与者，标签密到糊成一团。这张图就是那个根因判断的来源——也是我为什么说「模型不枚举才是奇怪的」。（该场景可视化由项目方产出，我是使用者）",
+    "fig1_cap": "当时真喂给模型的输入长这样：一帧路口场景里，大量逐条标号的车道与交通参与者，标签密到糊成一团。这张图就是那个根因判断的来源——也是我为什么说「模型不枚举才是奇怪的」。（该场景可视化由项目方产出，我是使用者）",
     "sec5_co_big": "问题不在措辞，在我给它的候选空间太大。",
-    "sec5_co_p": "粗算一下：上百条车道、二十几个参与者，参与者与车道的组合约两千五百对，车道之间近万对，参与者之间数百对——<strong>一万三千多个候选组合里，我要求它精确挑出不到三十个，有效信号占比约 0.2%。</strong>我在提示词里写「不要枚举」，等于让它在一万三千个选项里靠自觉克制。这不是模型能力问题，<strong>是任务设计问题</strong>。正确的做法是把选择权收回来：在数据构造阶段就只给它该看的那几十对，让「乱枚举」这个动作在物理上不可能发生。我把这个认知叫<strong>「约束前移」</strong>——不要在输出端求模型自律，要在输入端让错误无法发生。",
+    "sec5_co_p": "车道与交通参与者之间的组合会快速膨胀，而真正有效的关系只占很小一部分。我在提示词里写「不要枚举」，等于要求模型在一个过大的候选空间里靠自觉克制。这不是模型能力问题，<strong>是任务设计问题</strong>。正确做法是把选择权收回来：在数据构造阶段先筛掉明显无关的组合，让模型只看真正值得判断的候选。我把这个认知叫<strong>「约束前移」</strong>——不要在输出端求模型自律，要在输入端让错误无法发生。",
     "sec6_label": "最想讲透的一课",
     "sec6_head": "我写下了正确的预判，然后没有用它",
     "sec6_p1": "三月，我在自己的笔记里写下「它强依赖训练分布，迁到自动驾驶数据是个问题」。五月，我做的事是<strong>把一个通用大模型直接拿去标驾驶场景的关系</strong>。同一个机理的第二次发作，而我提前两个月就写下了它。",
@@ -384,25 +384,25 @@ const T = {
     "b3k": "规模",
     "b3v": "三轮实验是<strong>链路验证级的小批量</strong>（每组十条以内），不是数据集构建；Filtered Prompt 也只是未验证方案。我不会把它说成「我构建了数据集」或「方案已验证」。",
     "b4k": "结果",
-    "b4v": "我 2026 年 5 月入职后交接，<strong>最终的实验与论文撰写我没有参与</strong>。我验证的那条路线在最终论文里已经不存在了——而论文采用的标注方式，正是我交接时给出的建议方向。"
+    "b4v": "我 2026 年 5 月入职后交接，<strong>后续实验与论文撰写我没有参与</strong>。公开页面只写我完成的调研、原型、三轮实验与失败诊断。"
   },
   "en": {
     "dg_hint": "← swipe to see the full diagram →",
     "back": "Qingcheng Yu",
     "foot_back": "← Back to portfolio",
-    "hero_meta": "Research · CASIA · Under review at AAAI 2027",
-    "hero_title": "Driving world models",
+    "hero_meta": "Research · CASIA · Feb — May 2026",
+    "hero_title": "Autonomous-driving scene modelling",
     "hero_sub": "Making \"who is doing what to whom\" an explicit prediction target",
-    "s1n": "3 months",
-    "s1": "March to May 2026, between finishing my bachelor's and starting work — at the Institute of Automation, Chinese Academy of Sciences",
+    "s1n": "4 months",
+    "s1": "February to May 2026 at the Institute of Automation, Chinese Academy of Sciences; February began with literature review and topic discussions",
     "s2n": "3 rounds",
     "s2": "of progressive experiments on direct scene-relation labelling, followed by one unvalidated constraint-first proposal.",
-    "s3n": "0.2%",
-    "s3": "the share of candidate pairs in a single frame that are genuinely valid relations. That is where the root cause was.",
+    "s3n": "1 root cause",
+    "s3": "the problem was not prompt wording but the oversized candidate space given to the model",
     "sec1_label": "The work",
     "sec1_head": "Teaching a driving model what is happening between the things it sees",
     "sec1_p1": "End-to-end driving models usually map sensor input straight to control output, leaving scene understanding implicit. This work introduces an <strong>explicit scene graph</strong> — not just \"there is a car here\" but relations between entities, such as \"that car is merging into my lane\" — and feeds that structured understanding into the world model.",
-    "sec1_p2": "Existing approaches either predict raw pixels — making textures and distant scenery, largely irrelevant to the driving decision, part of the prediction target — or compress everything into latent features, which is efficient but entangles entity identity with interaction, leaving the planner no relational evidence it can act on directly. <strong>Making relations themselves an explicit prediction target</strong> is the bet this work makes. The paper is under review at AAAI 2027.",
+    "sec1_p2": "Existing approaches either predict raw pixels — making textures and distant scenery, largely irrelevant to the driving decision, part of the prediction target — or compress everything into latent features, which is efficient but entangles entity identity with interaction, leaving the planner no relational evidence it can act on directly. <strong>Making relations themselves an explicit prediction target</strong> is the bet this work makes.",
     "dg_alt": "A comparison of three ways to represent a driving scene",
     "dg_a_t": "Predict pixels",
     "dg_a_c1": "The target is the whole frame — textures, distant",
@@ -438,9 +438,9 @@ const T = {
     "r3g": "<strong>It ran straight out of GPU memory.</strong> There is a hard exchange rate between how much you tell it and how long the context gets. That door was shut too.",
     "r4d": "Next-step proposal (not run): filter candidates in code first, keep only the eight to twelve agents nearest ego, offer each only its one or two closest candidate lanes, and describe each lane by its start, middle and end.",
     "r4g": "This was the <strong>constraint-first hypothesis</strong> formed after the three experiments. It was not implemented or quantitatively evaluated while I was there, so it is presented as a proposal, not a result.",
-    "fig1_cap": "This is what actually went into the model: one intersection, well over a hundred individually labelled lanes and twenty-odd traffic participants, with the labels packed so densely they blur together. This image is where the root-cause call came from — and why I say it would have been strange if the model had <em>not</em> enumerated. (Scene visualisation produced by the project; I was a consumer of it.)",
+    "fig1_cap": "This is what actually went into the model: one intersection with many individually labelled lanes and traffic participants, packed so densely the labels blur together. This image is where the root-cause call came from — and why I say it would have been strange if the model had <em>not</em> enumerated. (Scene visualisation produced by the project; I was a consumer of it.)",
     "sec5_co_big": "The problem was not the wording. It was the size of the candidate space I was handing over.",
-    "sec5_co_p": "Roughly: a hundred-odd lanes and twenty-odd participants gives about 2,500 agent–lane pairs, close to ten thousand lane–lane pairs, and several hundred agent–agent pairs. <strong>Out of some thirteen thousand candidates I was asking it to pick fewer than thirty — a valid-signal rate of about 0.2%.</strong> Writing \"do not enumerate\" into the prompt amounted to asking it to exercise restraint across thirteen thousand options. That is not a capability problem, <strong>it is a task-design problem</strong>. The right move is to take the choice back: construct the input so it only ever sees the few dozen pairs that matter, making runaway enumeration physically impossible. I call this <strong>moving the constraint upstream</strong> — do not ask the model for discipline at the output; make the error unreachable at the input.",
+    "sec5_co_p": "The number of lane and traffic-participant combinations grows rapidly, while genuinely useful relations make up only a small share. Writing \"do not enumerate\" into the prompt amounted to asking the model for restraint inside an oversized candidate space. That is not a capability problem, <strong>it is a task-design problem</strong>. The right move is to take the choice back: filter obviously irrelevant combinations during data construction so the model only sees candidates worth judging. I call this <strong>moving the constraint upstream</strong> — do not ask the model for discipline at the output; make the error unreachable at the input.",
     "sec6_label": "The lesson",
     "sec6_head": "I wrote down the right call, then failed to use it",
     "sec6_p1": "In March I wrote in my own notes that the model \"depends heavily on the training distribution — that will be a problem on driving data\". In May, what I did was <strong>take a general-purpose large model and point it straight at driving-scene relations</strong>. Same mechanism, second occurrence — and I had written it down two months in advance.",
@@ -457,7 +457,7 @@ const T = {
     "b3k": "Scale",
     "b3v": "The three experiments were <strong>pipeline-validation batches</strong> — ten samples or fewer each — not dataset construction. The Filtered Prompt remained an unvalidated proposal; I will claim neither \"I built a dataset\" nor \"the proposal was validated\".",
     "b4k": "Outcome",
-    "b4v": "I handed the work over when I started at my current role in May 2026; <strong>the final experiments and the paper itself are not mine</strong>. The route I validated no longer exists in the final paper — and the annotation approach it did adopt is the direction I recommended in my handover."
+    "b4v": "I handed over in May 2026 when I started my internship. <strong>I did not take part in later experiments or paper writing.</strong> The public page therefore covers only the research, prototype, three experiments and failure diagnosis that I completed."
   }
 };
 let lang = 'zh';

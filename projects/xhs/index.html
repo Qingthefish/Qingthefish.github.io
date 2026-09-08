@@ -107,6 +107,8 @@
       .dg-hint { display: block; }
       .container { padding: 0 24px; }
       .two-col, .stats, .bounds { grid-template-columns: 1fr; }
+      .two-col { gap: 32px; }
+      .stats { padding: 0 24px; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
       .round { grid-template-columns: 1fr; gap: 8px; }
       .round-n { font-size: 1.2rem; }
@@ -147,7 +149,62 @@
   <div class="stat"><div class="stat-num" data-i18n="s3n"></div><div class="stat-label" data-i18n="s3"></div></div>
 </div>
 
-<!-- ① 入场盘面 -->
+<!-- ① Agent 工作台产品化 -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec3_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec3_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec3_p1"></p>
+        <p data-i18n="sec3_p2"></p>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
+      <svg viewBox="0 0 1200 360" role="img" aria-labelledby="dg2Title">
+        <title id="dg2Title" data-i18n="dg2_alt"></title>
+        <text x="20" y="26" class="dg-serif" font-size="15" fill="#B8B4AE">(a)</text>
+        <text x="56" y="26" font-size="14" fill="#1A1918" data-i18n="dg2_scope"></text>
+
+        <text x="20" y="73" font-size="12.5" fill="#635F5A" data-i18n="dg2_d1"></text>
+        <rect x="180" y="58" width="220" height="20" fill="#1A1918"/>
+        <text x="20" y="110" font-size="12.5" fill="#635F5A" data-i18n="dg2_d2"></text>
+        <rect x="180" y="95" width="220" height="20" fill="#1A1918"/>
+        <text x="20" y="147" font-size="12.5" fill="#635F5A" data-i18n="dg2_d3"></text>
+        <rect x="180" y="132" width="176" height="20" fill="#635F5A"/>
+        <text x="20" y="184" font-size="12.5" fill="#635F5A" data-i18n="dg2_d4"></text>
+        <rect x="180" y="169" width="396" height="20" fill="#1A1918"/>
+        <text x="20" y="221" font-size="12.5" fill="#635F5A" data-i18n="dg2_d5"></text>
+        <rect x="180" y="206" width="132" height="20" fill="#8C8880"/>
+        <text x="20" y="258" font-size="12.5" fill="#635F5A" data-i18n="dg2_d6"></text>
+        <rect x="180" y="243" width="220" height="20" fill="#1A1918"/>
+        <text x="20" y="295" font-size="12.5" fill="#635F5A" data-i18n="dg2_d7"></text>
+        <rect x="180" y="280" width="220" height="20" fill="#1A1918"/>
+        <text x="20" y="332" font-size="12.5" fill="#635F5A" data-i18n="dg2_d8"></text>
+        <rect x="180" y="317" width="88" height="20" fill="#B8B4AE"/>
+
+        <line x1="630" y1="10" x2="630" y2="348" stroke="#EDEAE4" stroke-width="1"/>
+        <text x="674" y="26" class="dg-serif" font-size="15" fill="#B8B4AE">(b)</text>
+        <text x="710" y="26" font-size="14" fill="#1A1918" data-i18n="dg2_roles"></text>
+        <rect x="674" y="58" width="486" height="76" fill="#FFFDFA" stroke="#1A1918" stroke-width="1.4"/>
+        <text x="696" y="84" font-size="12" fill="#8C8880" data-i18n="dg2_me_k"></text>
+        <text x="696" y="111" font-size="13" fill="#1A1918" data-i18n="dg2_me_v"></text>
+        <line x1="917" y1="134" x2="917" y2="162" stroke="#B8B4AE" stroke-width="1.1"/>
+        <rect x="674" y="162" width="486" height="58" fill="#FFFDFA" stroke="#E0DDD6" stroke-width="1"/>
+        <text x="696" y="187" font-size="12" fill="#8C8880" data-i18n="dg2_ai_k"></text>
+        <text x="824" y="187" font-size="13" fill="#635F5A" data-i18n="dg2_ai_v"></text>
+        <line x1="917" y1="220" x2="917" y2="248" stroke="#B8B4AE" stroke-width="1.1"/>
+        <rect x="674" y="248" width="486" height="58" fill="#FFFDFA" stroke="#E0DDD6" stroke-width="1"/>
+        <text x="696" y="273" font-size="12" fill="#8C8880" data-i18n="dg2_eng_k"></text>
+        <text x="824" y="273" font-size="13" fill="#635F5A" data-i18n="dg2_eng_v"></text>
+        <text x="674" y="336" font-size="12.5" fill="#8C8880" data-i18n="dg2_foot"></text>
+      </svg>
+      <p class="dg-cap" data-i18n="dg2_cap"></p>
+    </div>
+  </div>
+</section>
 
 <!-- ② CLI 与助手的上下分层 -->
 <section>
@@ -250,6 +307,63 @@
 </section>
 
 <!-- ⑦ 统一入口 ≠ 统一 Runtime -->
+<section>
+  <div class="container">
+    <p class="sec-label" data-i18n="sec7_label"></p>
+    <div class="two-col">
+      <h2 class="col-head" data-i18n="sec7_head"></h2>
+      <div class="col-body">
+        <p data-i18n="sec7_p1"></p>
+        <p data-i18n="sec7_p2"></p>
+      </div>
+    </div>
+
+    <div class="diagram">
+      <p class="dg-hint" data-i18n="dg_hint"></p>
+      <svg viewBox="0 0 1200 360" role="img" aria-labelledby="dg3Title">
+        <title id="dg3Title" data-i18n="dg3_alt"></title>
+        <defs>
+          <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9" fill="none" stroke="#1A1918" stroke-width="1.4"/>
+          </marker>
+        </defs>
+        <text x="20" y="26" font-size="14" fill="#8C8880" data-i18n="dg3_inputs"></text>
+        <rect x="20" y="54" width="230" height="48" fill="#FFFDFA" stroke="#E0DDD6"/>
+        <text x="135" y="83" text-anchor="middle" font-size="13" fill="#635F5A" data-i18n="dg3_i1"></text>
+        <rect x="20" y="126" width="230" height="48" fill="#FFFDFA" stroke="#E0DDD6"/>
+        <text x="135" y="155" text-anchor="middle" font-size="13" fill="#635F5A" data-i18n="dg3_i2"></text>
+        <rect x="20" y="198" width="230" height="48" fill="#FFFDFA" stroke="#E0DDD6"/>
+        <text x="135" y="227" text-anchor="middle" font-size="13" fill="#635F5A" data-i18n="dg3_i3"></text>
+
+        <line x1="250" y1="78" x2="370" y2="134" stroke="#B8B4AE" marker-end="url(#ar3)"/>
+        <line x1="250" y1="150" x2="370" y2="150" stroke="#B8B4AE" marker-end="url(#ar3)"/>
+        <line x1="250" y1="222" x2="370" y2="166" stroke="#B8B4AE" marker-end="url(#ar3)"/>
+        <rect x="372" y="105" width="220" height="90" fill="#FFFDFA" stroke="#1A1918" stroke-width="1.4"/>
+        <text x="482" y="136" text-anchor="middle" font-size="12" fill="#8C8880" data-i18n="dg3_data_k"></text>
+        <text x="482" y="165" text-anchor="middle" font-size="14" fill="#1A1918" data-i18n="dg3_data_v"></text>
+        <line x1="592" y1="150" x2="688" y2="150" stroke="#1A1918" stroke-width="1.2" marker-end="url(#ar3)"/>
+
+        <rect x="690" y="68" width="250" height="164" fill="#FFFDFA" stroke="#1A1918" stroke-width="1.6"/>
+        <text x="815" y="100" text-anchor="middle" font-size="12" fill="#8C8880" data-i18n="dg3_one_k"></text>
+        <text x="815" y="130" text-anchor="middle" class="dg-serif" font-size="21" fill="#1A1918" data-i18n="dg3_one_v"></text>
+        <line x1="722" y1="151" x2="908" y2="151" stroke="#E0DDD6"/>
+        <text x="815" y="178" text-anchor="middle" font-size="12.5" fill="#635F5A" data-i18n="dg3_modes"></text>
+        <text x="815" y="207" text-anchor="middle" font-size="12.5" fill="#635F5A" data-i18n="dg3_channels"></text>
+
+        <line x1="940" y1="150" x2="1012" y2="150" stroke="#1A1918" stroke-width="1.2" marker-end="url(#ar3)"/>
+        <rect x="1014" y="92" width="166" height="44" fill="#FFFDFA" stroke="#E0DDD6"/>
+        <text x="1097" y="119" text-anchor="middle" font-size="12.5" fill="#635F5A" data-i18n="dg3_r1"></text>
+        <rect x="1014" y="164" width="166" height="44" fill="#FFFDFA" stroke="#E0DDD6"/>
+        <text x="1097" y="191" text-anchor="middle" font-size="12.5" fill="#635F5A" data-i18n="dg3_r2"></text>
+
+        <line x1="20" y1="284" x2="1180" y2="284" stroke="#EDEAE4"/>
+        <text x="20" y="318" class="dg-serif" font-size="18" fill="#1A1918" data-i18n="dg3_foot1"></text>
+        <text x="20" y="342" font-size="12.5" fill="#8C8880" data-i18n="dg3_foot2"></text>
+      </svg>
+      <p class="dg-cap" data-i18n="dg3_cap"></p>
+    </div>
+  </div>
+</section>
 
 <!-- ⑧ GPU 碎片治理 -->
 <section>
@@ -309,10 +423,6 @@
       <p class="dg-cap" data-i18n="dg4_cap"></p>
     </div>
 
-    <div class="callout">
-      <p class="big" data-i18n="sec8_co_big"></p>
-      <p data-i18n="sec8_co_p"></p>
-    </div>
   </div>
 </section>
 
@@ -365,6 +475,49 @@
 const T = {
   "zh": {
     "dg_hint": "← 左右滑动看完整图 →",
+    "sec3_label": "第一层 · 产品化落地",
+    "sec3_head": "38 项不是功能堆砌，是把半成品 Agent 工作台变成日常可用的产品",
+    "sec3_p1": "我接手时，用户面对的是一个需要自己组织大量平台信息的空白输入框。问题不只是少几个按钮，而是<strong>任务启动、长会话导航、工具反馈和历史一致性</strong>都还没有形成稳定体验。我把走查和日常使用里发现的问题拆成八个可验收域，逐项写清状态、影响面和回归路径。",
+    "sec3_p2": "最终口径是<strong>36 项有逐条需求文档，另有 2 项来自走查会跟进，共 38 项独立验收单元</strong>。我的责任是发现问题、写需求与 AI coding 提示、判断影响面、检查 Diff、自测回归、提交与合入；AI 负责生成代码，研发同学负责 Code Review。",
+    "dg2_alt": "38 项 Agent 工作台产品化改进的八类分布，以及产品、AI 与研发之间的交付边界",
+    "dg2_scope": "38 项改进分布 · 数字是独立验收单元",
+    "dg2_d1": "任务启动 5",
+    "dg2_d2": "输入与 Prompt 5",
+    "dg2_d3": "复制链路 4",
+    "dg2_d4": "长会话导航 9",
+    "dg2_d5": "会话管理 3",
+    "dg2_d6": "工具状态反馈 5",
+    "dg2_d7": "历史与渲染一致性 5",
+    "dg2_d8": "走查跟进 2",
+    "dg2_roles": "同一条交付链上的责任边界",
+    "dg2_me_k": "我 · 产品与验收",
+    "dg2_me_v": "发现问题 → 写需求 / 提示 → 影响判断 → Diff 检查 → 回归 / 合入",
+    "dg2_ai_k": "AI · 工程杠杆",
+    "dg2_ai_v": "生成代码",
+    "dg2_eng_k": "研发同学 · 质量边界",
+    "dg2_eng_v": "Code Review",
+    "dg2_foot": "写清谁做了什么，比一句“我用 AI 写了”更接近真实交付。",
+    "dg2_cap": "38 项 = 36 项逐条文档 + 2 项走查跟进。图里每一项都能独立验收；<strong>它不等于 38 项代码都由我手写</strong>，也没有把未落地探索计入数字。",
+    "sec7_label": "第三层 · 融合判断",
+    "sec7_head": "不是再做第四个 Agent，是把三个入口收成一个品牌",
+    "sec7_p1": "我把 Agent 工作台、平台助手和值班 Agent 的使用场景和行为数据放在一起看，发现三者虽然入口不同，但用户要的都在<strong>问清问题、执行任务、修复异常</strong>之间流动。继续分别长功能，只会把选择成本重新推回用户。",
+    "sec7_p2": "因此我提出统一品牌、统一入口和连续会话，并设计全屏、侧边栏、文本选中与群聊等触点。<strong>统一入口不等于强行统一 Runtime</strong>：无需运行环境的平台任务留在轻量助手，需要代码或容器的任务进入开发环境，复杂情况再交给人；统一的是用户心智，执行层仍按约束分流。",
+    "dg3_alt": "三个 Agent 入口基于使用场景数据收敛为一个助手、三个工作模式和多个触点，同时保留不同执行环境",
+    "dg3_inputs": "原本分开的三个入口",
+    "dg3_i1": "Agent 工作台",
+    "dg3_i2": "平台助手",
+    "dg3_i3": "值班 Agent",
+    "dg3_data_k": "场景与行为数据",
+    "dg3_data_v": "能力重叠 · 会话断裂",
+    "dg3_one_k": "统一产品心智",
+    "dg3_one_v": "一个助手 · 一段会话",
+    "dg3_modes": "模式：Ask · Do · Fix",
+    "dg3_channels": "触点：全屏 · 侧栏 · 划词 · 群聊",
+    "dg3_r1": "轻量平台任务",
+    "dg3_r2": "代码 / 容器任务",
+    "dg3_foot1": "统一的是品牌、入口、会话，不是把所有执行环境揉成一块。",
+    "dg3_foot2": "助手吸收路由复杂度；用户只需要表达目标。",
+    "dg3_cap": "从数据看见重叠，再提出融合，再落到模式、入口与执行分流。<strong>这条线的产品价值不是多造一个 Agent，而是少让用户做一次选择。</strong>",
     "sec10_label": "诚实的边界",
     "sec10_head": "哪些我不写，哪些不是我做的",
     "sec10_p1": "这一页从头到尾没有内部规模数据，也没有产品代号。我把边界先讲清楚——<strong>前面那些判断才可信。</strong>",
@@ -378,11 +531,11 @@ const T = {
     "sec11_head": "从给半成品补功能，到用真实工单验证价值，再到主动提出收敛",
     "sec11_p1": "三个层次的变化：<strong>从给一个半成品补功能，到用真实工单验证 Agent 到底有没有价值，再到主动提出多 Agent 与多入口收敛；从看「有多少空闲资源」，到理解资源的连续性、池化与组织分配权；从用页面描述需求，到用状态、证据、口径与恢复路径定义产品。</strong>",
     "sec11_p2": "我最想留下的不是任何一个内部产品名，是一条判断：<strong>助手应该替工程师吸收平台复杂度，而不是把复杂的产品矩阵、入口选择和底层执行差异重新包装一遍，再交还给用户。</strong>",
-    "sec8_label": "另一条主线",
-    "sec8_head": "GPU 碎片治理：空闲、低利用率、碎片，是三个不同的词",
+    "sec8_label": "补充模块 · Infra",
+    "sec8_head": "GPU 碎片治理：把资源问题写成两端可执行的产品规则",
     "sec8_p1": "表面问题是一句抱怨：<strong>「集群明明有空闲卡，我的整机训练任务还是排不上。」</strong>",
     "sec8_p2": "根因不是利用率低，是<strong>资源形态不匹配</strong>：交互式开发任务和训练任务共用一个资源池，单卡、双卡、四卡这些小规格实例分散占住不同节点。集群总共空着的卡可能够好几台整机，<strong>但没有任何一个单节点拥有连续的整机容量。</strong>",
-    "sec8_p3": "所以我做这条线的第一件事，是把三个天天被混用的词分开：<strong>空闲 ≠ 低利用率 ≠ 碎片。</strong>「运行时长」只是一个治理用的代理指标，<strong>它不等于低利用率</strong>——一个跑了很久的开发环境完全可能一直在高负载。所以运行时长只能用来筛选机会，不能直接拿去回收。这一条我在方案里写得很重，因为它一旦被当成结论，受伤的是真在用资源的人。",
+    "sec8_p3": "我的产品工作是先拆清<strong>空闲、低利用率和碎片</strong>三套口径，再分别写出管理员的划入 / 观察 / 划回旅程与开发者的选择 / 创建 / 使用 / 备份 / 回收旅程，并把异步状态、失败原因和恢复路径补完整。它是传统 Infra 产品工作，也是整段实习的补充模块。",
     "dg4_alt": "对照图：共池时小规格任务把每个节点都切掉一部分，总空闲够整机却没有可调度的整机；独立池加紧凑放置后腾出完整节点",
     "dg4_a_t": "共池：训练任务与交互式开发任务混排",
     "dg4_n1": "节点 A",
@@ -397,9 +550,7 @@ const T = {
     "dg4_b_c2": "腾出两台完整节点，整机任务排得上了。",
     "dg4_foot1": "总量充足，不代表存在可调度的整机。",
     "dg4_foot2": "所以该动的不是平均利用率，是资源池的边界与池内的放置策略。",
-    "dg4_cap": "示意图，格子数是为了讲清结构而设的，<strong>不代表真实的集群规模</strong>。左右两边被占用的卡数完全一样——<strong>变的只有放在哪里。</strong>这也是这条线最反直觉的地方：不提升任何利用率、不回收任何一张卡，只改放置策略，就能让原本排不上的整机任务排上。",
-    "sec8_co_big": "页面上的「提交成功」，不等于资源已经可用。",
-    "sec8_co_p": "底层可以抽象成三步：管理面记录目标资源池，控制组件让节点的实际状态逐步收敛，调度器读最终状态做隔离。<strong>而我的产品责任是把这个异步过程写完整</strong>：来源和目标是否匹配、机器是否整机空闲、转换是不是还在处理中、最终有没有到账、部分占用为什么不能划回、失败之后怎么恢复。<strong>机器台数、卡数、配额，这三个也不能混为一谈。</strong>还有一点：这套治理同时影响两类人——只站管理员视角，治理会变成强限制；只站开发者视角，训练池会继续被切碎。<strong>所以我分别画了管理员的「划入—观察—划回」和开发者的「选择—创建—使用—备份—回收」两条旅程，再用隔离与调度把两端接起来。</strong>",
+    "dg4_cap": "示意图，格子数是为了讲清结构而设的，<strong>不代表真实的集群规模</strong>。左右两边被占用的卡数完全一样——<strong>变的只有放在哪里。</strong>不提升利用率、不回收任何一张卡，只改放置策略，就能让原本排不上的整机任务排上。",
     "sec6_label": "第二层 · 场景有效性",
     "sec6_head": "0 → 1 做值班 Agent：先把指标定义清楚，再开始分析",
     "sec6_p1": "我选值班场景，是因为它同时满足四个条件：<strong>真实、高频、可复盘、而且已经有一套人在跑的工作流。</strong>有人工基线，才谈得上评估——否则你只能证明它「能说话」。",
@@ -435,11 +586,11 @@ const T = {
     "sec2_co_p": "它几乎没有属于自己的专用工具——平台能力还是原来那些命令行工具，只是现在敲命令的是模型。<strong>让我确信这个方向对的，不是我想得多顺，是我看到它已经这么运行、并且我理解为什么要这么设计。</strong>（这份实现的架构现状梳理由工程侧完成。）",
     "back": "于清程",
     "foot_back": "← 返回主页",
-    "hero_meta": "实习 · 小红书 · 中台技术 · 2026.05 — 2026.08 · 北京",
+    "hero_meta": "实习 · 小红书 · 中台技术 · 2026.05 — 2026.09 · 北京",
     "hero_title": "AI 基础设施",
     "hero_sub": "复杂度不会消失——它只会换人承担",
-    "s1n": "20+ 项",
-    "s1": "由我提出并推动落地的产品需求与改进，覆盖 Agent 规划、体验、评估与资源治理；其中一部分前端由我亲手写代码完成。",
+    "s1n": "38 项",
+    "s1": "Agent 工作台产品化的可验收改进：我负责发现问题、写需求、判断影响面与回归；AI 生成代码，研发同学 Review。",
     "s2n": "3 个 Agent",
     "s2": "基础设施 Agent、值班 Agent、平台助手。当三者能力开始重叠时，我提的不是再做第四个，是把它们<strong>收敛到一个入口</strong>。",
     "s3n": "0 → 1",
@@ -447,6 +598,49 @@ const T = {
   },
   "en": {
     "dg_hint": "← swipe to see the full diagram →",
+    "sec3_label": "Layer one · productisation",
+    "sec3_head": "The 38 improvements were not a feature pile. They turned a half-built agent workspace into an everyday product.",
+    "sec3_p1": "When I joined, users faced a blank input box that expected them to assemble a great deal of platform context themselves. The gap was larger than a few missing buttons: <strong>task starts, long-session navigation, tool feedback, and history consistency</strong> had not yet become a dependable experience. I split issues from walkthroughs and daily use into eight testable domains, specifying state, impact and regression paths for each.",
+    "sec3_p2": "The final count is <strong>36 items with line-by-line requirement documents plus two walkthrough follow-ups: 38 independent acceptance units</strong>. I found the issues, wrote requirements and AI-coding prompts, judged impact, inspected diffs, ran regression, and handled submission and merge. AI generated code; engineers owned code review.",
+    "dg2_alt": "The eight-domain distribution of 38 agent-workspace productisation improvements and the delivery boundary between product, AI and engineering",
+    "dg2_scope": "38 improvements · each number is independently testable",
+    "dg2_d1": "Task starts 5",
+    "dg2_d2": "Input & prompts 5",
+    "dg2_d3": "Copy flow 4",
+    "dg2_d4": "Long-session navigation 9",
+    "dg2_d5": "Session management 3",
+    "dg2_d6": "Tool-state feedback 5",
+    "dg2_d7": "History & rendering 5",
+    "dg2_d8": "Walkthrough follow-ups 2",
+    "dg2_roles": "Responsibility along one delivery chain",
+    "dg2_me_k": "Me · product & acceptance",
+    "dg2_me_v": "Find issue → specify / prompt → assess impact → inspect diff → regress / merge",
+    "dg2_ai_k": "AI · engineering leverage",
+    "dg2_ai_v": "Generate code",
+    "dg2_eng_k": "Engineers · quality boundary",
+    "dg2_eng_v": "Code review",
+    "dg2_foot": "Naming who did what is closer to real delivery than saying only “I coded with AI.”",
+    "dg2_cap": "38 = 36 documented items + two walkthrough follow-ups. Every item in the chart can be accepted independently; <strong>it does not mean I hand-wrote 38 code changes</strong>, and unshipped explorations are excluded.",
+    "sec7_label": "Layer three · convergence",
+    "sec7_head": "The answer was not a fourth agent. It was one brand across three entry points.",
+    "sec7_p1": "I compared usage contexts and behaviour data across the agent workspace, the platform assistant, and the on-call agent. Despite different surfaces, user goals kept moving between <strong>asking, doing, and fixing</strong>. Letting each product keep growing separately would simply hand the choice back to users.",
+    "sec7_p2": "I proposed one brand, one entry point and continuous sessions, then designed full-screen, sidebar, text-selection and group-chat touchpoints. <strong>A unified entry point is not a forced single runtime</strong>: lightweight platform work stays with the assistant, code or container work enters the development environment, and hard cases hand off to a person. The user model converges; execution still routes by constraint.",
+    "dg3_alt": "Three agent entry points converge through usage data into one assistant with three modes and multiple touchpoints while preserving separate execution environments",
+    "dg3_inputs": "Three previously separate entry points",
+    "dg3_i1": "Agent workspace",
+    "dg3_i2": "Platform assistant",
+    "dg3_i3": "On-call agent",
+    "dg3_data_k": "Context & behaviour data",
+    "dg3_data_v": "Overlap · broken sessions",
+    "dg3_one_k": "One product model",
+    "dg3_one_v": "One assistant · one session",
+    "dg3_modes": "Modes: Ask · Do · Fix",
+    "dg3_channels": "Surfaces: full · side · selection · chat",
+    "dg3_r1": "Light platform tasks",
+    "dg3_r2": "Code / container tasks",
+    "dg3_foot1": "Brand, entry and session converge. Execution environments do not have to.",
+    "dg3_foot2": "The assistant absorbs routing complexity; users only state the goal.",
+    "dg3_cap": "Find the overlap in data, make the convergence call, then define modes, surfaces and execution routing. <strong>The product value here is not one more agent; it is one fewer choice for the user.</strong>",
     "sec10_label": "Honest boundary",
     "sec10_head": "What I leave out, and what wasn't mine",
     "sec10_p1": "There isn't a single internal scale figure or product code name anywhere on this page. The boundaries go first — <strong>that is what makes the judgements above worth reading.</strong>",
@@ -460,11 +654,11 @@ const T = {
     "sec11_head": "From patching a half-built product, to validating it against real tickets, to arguing for convergence",
     "sec11_p1": "Three shifts: <strong>from adding features to a half-built product, to using real support tickets to test whether an agent has any value at all, to proposing that multiple agents and entry points converge; from asking how much capacity is idle, to understanding contiguity, pooling and who holds allocation authority; and from describing requirements as screens, to defining products as state, evidence, definitions and recovery paths.</strong>",
     "sec11_p2": "What I most want to keep isn't any internal product name. It's one judgement: <strong>the assistant should absorb platform complexity on the engineer's behalf — not repackage the product matrix, the entry-point choice and the differences in execution environment and hand them all back.</strong>",
-    "sec8_label": "The other track",
-    "sec8_head": "GPU fragmentation: idle, under-utilised and fragmented are three different words",
+    "sec8_label": "Supporting module · infrastructure",
+    "sec8_head": "GPU fragmentation: turning a resource problem into executable rules for both sides",
     "sec8_p1": "On the surface it is one complaint: <strong>\"there are obviously free cards in the cluster, and my whole-node training job still can't get scheduled.\"</strong>",
     "sec8_p2": "The root cause isn't low utilisation. It is a <strong>shape mismatch</strong>: interactive development and training jobs share one pool, and one-, two- and four-card instances end up scattered across different nodes. The cluster may have enough free cards in total for several whole nodes, <strong>while no single node has contiguous whole-node capacity.</strong>",
-    "sec8_p3": "So the first thing I did on this track was pull apart three words that get used interchangeably every day: <strong>idle ≠ under-utilised ≠ fragmented.</strong> \"Time running\" is only a proxy indicator for governance; <strong>it is not the same as low utilisation</strong> — an environment that has been up for weeks may well be under constant load. So runtime can screen for opportunities and must not be used to reclaim directly. I pressed that point hard in the doc, because the moment it gets treated as a conclusion, the people who get hurt are the ones actually using their resources.",
+    "sec8_p3": "My product work was to separate <strong>idle, under-utilised, and fragmented</strong> into three definitions; write the administrator's move-in / observe / move-back journey and the developer's choose / create / use / back-up / reclaim journey; then specify asynchronous states, failure reasons and recovery paths. This is conventional infrastructure product work, and a supporting module in the internship story.",
     "dg4_alt": "Comparison: in a shared pool small jobs carve a slice out of every node, so total idle capacity exists but no schedulable whole node does; a dedicated pool with compact placement frees complete nodes",
     "dg4_a_t": "Shared pool: training and interactive dev jobs mixed",
     "dg4_n1": "Node A",
@@ -479,9 +673,7 @@ const T = {
     "dg4_b_c2": "free two whole nodes. Now the big job schedules.",
     "dg4_foot1": "Enough capacity in total does not mean a schedulable whole node exists.",
     "dg4_foot2": "So what has to change isn't average utilisation. It's pool boundaries and placement policy.",
-    "dg4_cap": "A schematic — the number of squares is chosen to make the structure legible and <strong>does not represent real cluster size</strong>. The number of occupied cards is identical on both sides; <strong>the only thing that changed is where they sit.</strong> That is the counter-intuitive part of this track: without improving any utilisation figure or reclaiming a single card, changing placement alone lets a previously unschedulable job schedule.",
-    "sec8_co_big": "\"Submitted successfully\" on a page does not mean the resource is usable.",
-    "sec8_co_p": "Underneath it abstracts into three steps: the management plane records the target pool, a controller converges the node's actual state, and the scheduler reads the final state to enforce isolation. <strong>My product responsibility is to write that asynchronous process out in full</strong>: do source and target match, is the machine wholly idle, is the conversion still in flight, did it actually land, why can a partially occupied node not move back, how do you recover after a failure. <strong>Machine count, card count and quota are three different things too.</strong> And one more: this governance touches two audiences — take only the administrator's view and it becomes a hard restriction; take only the developer's and the training pool keeps getting carved up. <strong>So I drew both journeys separately — the administrator's move-in / observe / move-back, and the developer's choose / create / use / back up / reclaim — and joined the two ends with isolation and scheduling.</strong>",
+    "dg4_cap": "A schematic — the number of squares is chosen to make the structure legible and <strong>does not represent real cluster size</strong>. The number of occupied cards is identical on both sides; <strong>the only thing that changed is where they sit.</strong> Without improving utilisation or reclaiming a single card, placement alone lets a previously unschedulable job schedule.",
     "sec6_label": "Layer two · does it work in the scenario",
     "sec6_head": "0 → 1 on an on-call agent: define the metrics first, then start analysing",
     "sec6_p1": "I picked on-call support because it satisfies four conditions at once: <strong>it is real, high-frequency, reviewable, and it already has a human workflow running.</strong> Without a human baseline there is nothing to evaluate against — you can only prove the thing can talk.",
@@ -517,11 +709,11 @@ const T = {
     "sec2_co_p": "It has almost no tools of its own — the platform capabilities are still the same command-line tools; it's just that a model is typing the commands now. <strong>What convinced me the direction was right wasn't how neatly it reasoned. It was seeing it already running that way, and understanding why it was designed that way.</strong> (The architectural write-up of that implementation was done by engineering.)",
     "back": "Qingcheng Yu",
     "foot_back": "← Back to portfolio",
-    "hero_meta": "Internship · Xiaohongshu (RED) · Platform Engineering · May – Aug 2026 · Beijing",
+    "hero_meta": "Internship · Xiaohongshu (RED) · Platform Engineering · May – Sep 2026 · Beijing",
     "hero_title": "AI Infrastructure",
     "hero_sub": "Complexity never disappears. It only changes who carries it.",
-    "s1n": "20+",
-    "s1": "product requirements and improvements I proposed and drove across agent planning, experience, evaluation and resource governance; I personally coded part of the front-end work.",
+    "s1n": "38",
+    "s1": "testable improvements that productised an agent workspace: I found the problems, wrote the requirements, assessed impact and ran regression; AI generated code and engineers reviewed it.",
     "s2n": "3 agents",
     "s2": "An infrastructure agent, an on-call agent, a platform assistant. Once their capabilities began to overlap, what I proposed was not a fourth one — it was <strong>collapsing them into a single entry point</strong>.",
     "s3n": "0 → 1",
