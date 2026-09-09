@@ -11,8 +11,7 @@ html {
 }
 
 .home-page .stage {
-  grid-template-columns: minmax(400px, 5fr) minmax(0, 7fr);
-  gap: clamp(48px, 4vw, 80px);
+  display: block;
 }
 
 .home-page .bio {
@@ -69,8 +68,7 @@ html {
 
 @media (max-width: 1120px) {
   .home-page .stage {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    display: block;
   }
 }
 
