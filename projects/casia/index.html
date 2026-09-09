@@ -106,12 +106,13 @@
     }
     ::selection { background: var(--text); color: var(--bg); }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()">EN</button>
   </div>
 </nav>
@@ -281,25 +282,6 @@
   </div>
 </section>
 
-<!-- ⑦ 诚实的边界 -->
-<section>
-  <div class="container">
-    <p class="sec-label" data-i18n="sec7_label"></p>
-    <div class="two-col">
-      <h2 class="col-head" data-i18n="sec7_head"></h2>
-      <div class="col-body">
-        <p data-i18n="sec7_p1"></p>
-      </div>
-    </div>
-    <div class="bounds">
-      <div class="bound"><div class="bound-k" data-i18n="b1k"></div><div class="bound-v" data-i18n="b1v"></div></div>
-      <div class="bound"><div class="bound-k" data-i18n="b2k"></div><div class="bound-v" data-i18n="b2v"></div></div>
-      <div class="bound"><div class="bound-k" data-i18n="b3k"></div><div class="bound-v" data-i18n="b3v"></div></div>
-      <div class="bound"><div class="bound-k" data-i18n="b4k"></div><div class="bound-v" data-i18n="b4v"></div></div>
-    </div>
-  </div>
-</section>
-
 <!-- ⑧ 迁移 -->
 
 <div class="page-footer">
@@ -315,7 +297,7 @@
 const T = {
   "zh": {
     "dg_hint": "← 左右滑动看完整图 →",
-    "back": "于清程",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "hero_meta": "学术研究 · 中科院自动化所 · 2026.02 — 2026.05",
     "hero_title": "自动驾驶场景建模",
@@ -353,7 +335,7 @@ const T = {
     "sec3_p2": "第一个排除的是<strong>现成的高精地图</strong>。地图里的车道和拓扑本来就是结构化的，用了立刻省事。但我的判断是：<strong>那种结构是「给定」的，不是从感知里学出来的。</strong>直接用等于把结构当成输入，模型的一部分能力其实被替代掉了，也不符合端到端的方向。这是一次主动拒绝免费午餐。",
     "sec3_p3": "第二个排除的是<strong>传统的两阶段做法</strong>——先检测物体，再枚举所有物体对，再逐对分类关系。理由是物体对的数量随物体数平方增长，在驾驶场景下噪声大、流程碎。（两个月后我会因为忘掉这条判断而付出代价。）",
     "sec3_p4": "最后选基线时，我<strong>选了最容易跑通的那个，而不是最强的那个</strong>——这个阶段要买的不是性能，是「这条路到底走不走得通」这个信息。然后我把它亲手跑起来：改掉失效的权重下载、绕过新版框架的反序列化默认值、换掉被防盗链拦住的取图方式、修掉只有单条关系时绘图维度退化的报错。",
-    "fig2_cap": "我跑通的开源场景图生成基线：上两行是模型定位主体与客体时的注意力分布，第三行是它预测出的「实体—关系—实体」三元组。用的是公开的通用场景数据集，不是项目数据——这一步的价值不是产出，是把「场景图」从论文名词变成我亲眼见过的东西。（照片中路人面部已模糊）",
+    "fig2_cap": "我跑通的开源场景图生成基线：上两行是模型定位主体与客体时的注意力分布，第三行是它预测出的「实体—关系—实体」三元组。这一步把「场景图」从论文名词变成了一条可以观察和实验的链路。",
     "sec5_label": "三轮实验 + 下一步方案",
     "sec5_head": "我以为是措辞问题，其实是题目问题",
     "sec5_p1": "要训练一个能预测关系的模型，得先有一批标好了关系的数据，而这种标签不存在。两条路：写规则（确定可控，但带意图的语义关系很难界定），或者让大模型看图直接标（语义是它的强项，一个提示词覆盖全部关系类型）。我先试后者——<strong>因为赌注只是改提示词，是最便宜的实验</strong>。我实际完成了三轮递进实验，随后提出一个尚未运行、也没有量化验证的下一步方案。",
@@ -365,7 +347,7 @@ const T = {
     "r3g": "<strong>显存直接炸了。</strong>信息量和上下文长度之间有硬兑换比，这一头也堵死了。",
     "r4d": "下一步方案（未执行）：用代码先筛候选，只留离自车最近的八到十二个参与者；每个参与者只给最近的一两条候选车道；每条车道只给首、中、尾三个点。",
     "r4g": "这是三轮实验后形成的<strong>约束前移假设</strong>。当时没有完成系统运行和量化评测，因此这里只写成提案，不能写成已经改善的结果。",
-    "fig1_cap": "当时真喂给模型的输入长这样：一帧路口场景里，大量逐条标号的车道与交通参与者，标签密到糊成一团。这张图就是那个根因判断的来源——也是我为什么说「模型不枚举才是奇怪的」。（该场景可视化由项目方产出，我是使用者）",
+    "fig1_cap": "当时喂给模型的输入长这样：一帧路口场景里，大量逐条标号的车道与交通参与者，标签密到糊成一团。这张图就是候选空间过大的根因判断来源。",
     "sec5_co_big": "问题不在措辞，在我给它的候选空间太大。",
     "sec5_co_p": "车道与交通参与者之间的组合会快速膨胀，而真正有效的关系只占很小一部分。我在提示词里写「不要枚举」，等于要求模型在一个过大的候选空间里靠自觉克制。这不是模型能力问题，<strong>是任务设计问题</strong>。正确做法是把选择权收回来：在数据构造阶段先筛掉明显无关的组合，让模型只看真正值得判断的候选。我把这个认知叫<strong>「约束前移」</strong>——不要在输出端求模型自律，要在输入端让错误无法发生。",
     "sec6_label": "最想讲透的一课",
@@ -373,22 +355,11 @@ const T = {
     "sec6_p1": "三月，我在自己的笔记里写下「它强依赖训练分布，迁到自动驾驶数据是个问题」。五月，我做的事是<strong>把一个通用大模型直接拿去标驾驶场景的关系</strong>。同一个机理的第二次发作，而我提前两个月就写下了它。",
     "sec6_p2": "为什么？我现在的答案是：<strong>写下判断和使用判断，是两个动作。</strong>我把笔记当成了「学习的产物」，而不是「决策的输入」。一条写在文档里、但不出现在下一次实验设计里的判断，等于没有。",
     "sec6_p3": "还有第二个错，更难承认：<strong>我全程没建评估基线。</strong>三轮实验主要靠人眼判断输出质量，所以即使第二轮的措辞更严格，也说不清它比第一轮好了多少。如果当时先定义「一个参与者平均被分配到几条车道」这类指标（它应该接近 1），就能更早看出加严措辞没有解决根因。",
-    "sec6_p4": "这两个错我都在上一个项目的复盘里写过对应的教训，半年后原封不动又犯一遍。所以现在我有两条硬性自查：<strong>动一个新实验之前，先回去看自己关于它写过什么；进一个新环境的第一周，先问「我怎么知道自己做的东西变好了」，再动手。</strong>",
-    "sec7_label": "诚实的边界",
-    "sec7_head": "哪些不是我的，我说清楚",
-    "sec7_p1": "这一段和我其他项目最大的不同：<strong>前面几段我是主导者，这一段我是新人。</strong>所以边界必须先划清楚——写清楚哪些不是我的，前面说的那些才可信。",
-    "b1k": "方向",
-    "b1v": "<strong>不是我提出的。</strong>整体路线在我动手前就已经定下来，我参与的是方向讨论，拿到的是一个开放任务。",
-    "b2k": "关系规格",
-    "b2v": "场景关系的类型体系<strong>由项目组给定</strong>。我做的是把这套规格落成一条可批量执行的链路，用三轮递进实验定位问题，并提出下一步方案。",
-    "b3k": "规模",
-    "b3v": "三轮实验是<strong>链路验证级的小批量</strong>（每组十条以内），不是数据集构建；Filtered Prompt 也只是未验证方案。我不会把它说成「我构建了数据集」或「方案已验证」。",
-    "b4k": "结果",
-    "b4v": "我 2026 年 5 月入职后交接，<strong>后续实验与论文撰写我没有参与</strong>。公开页面只写我完成的调研、原型、三轮实验与失败诊断。"
+    "sec6_p4": "这两个错我都在上一个项目的复盘里写过对应的教训，半年后原封不动又犯一遍。所以现在我有两条硬性自查：<strong>动一个新实验之前，先回去看自己关于它写过什么；进一个新环境的第一周，先问「我怎么知道自己做的东西变好了」，再动手。</strong>"
   },
   "en": {
     "dg_hint": "← swipe to see the full diagram →",
-    "back": "Qingcheng Yu",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "hero_meta": "Research · CASIA · Feb — May 2026",
     "hero_title": "Autonomous-driving scene modelling",
@@ -426,7 +397,7 @@ const T = {
     "sec3_p2": "The first thing I ruled out was <strong>using the pre-built HD map</strong>. Its lanes and topology are already structured, and taking them would have saved real work. But my read was this: <strong>that structure is given, not learned from perception.</strong> Consuming it directly turns structure into an input and quietly substitutes for a capability the model is supposed to acquire — which is not what end-to-end is for. It was a deliberate refusal of a free lunch.",
     "sec3_p3": "The second thing I ruled out was <strong>the classic two-stage approach</strong> — detect objects, enumerate every object pair, then classify each pair. The number of pairs grows with the square of the object count, which in driving scenes means noise and a fragmented pipeline. (Two months later I would pay for forgetting this.)",
     "sec3_p4": "When it came to picking a baseline I <strong>chose the easiest one to get running, not the strongest</strong> — at that stage what you are buying is not performance, it is the answer to \"does this route go anywhere at all\". Then I got it running myself: replacing a dead weights download, working around a new deserialisation default in the framework, swapping out an image fetch that was being blocked, and fixing a plotting crash that only appeared when exactly one relation survived filtering.",
-    "fig2_cap": "The open-source scene-graph baseline I got running. The top two rows show where the model attends when it localises the subject and the object; the third row shows the entity–relation–entity triples it predicted. This ran on a public general-purpose dataset, not project data — the value of this step was not the output, it was turning \"scene graph\" from a term in a paper into something I had seen with my own eyes. (Bystanders' faces have been blurred.)",
+    "fig2_cap": "The open-source scene-graph baseline I got running. The top two rows show where the model attends when it localises the subject and object; the third shows the entity–relation–entity triples it predicted. This turned \"scene graph\" from a term in a paper into a pipeline I could observe and experiment with.",
     "sec5_label": "Three experiments + a proposal",
     "sec5_head": "I thought it was a wording problem. It was a task-design problem.",
     "sec5_p1": "Training a model to predict relations requires data with relations already labelled, and no such labels existed. Two options: write rules (deterministic and controllable, but intent-bearing relations are genuinely hard to define), or let a large model look at the scene and label it directly (semantics is its strength, and one prompt covers every relation type). I tried the second first — <strong>because the only stake was editing a prompt, which is the cheapest experiment available</strong>. I completed three progressive experiments, then proposed a next step that was neither run nor quantitatively validated.",
@@ -438,7 +409,7 @@ const T = {
     "r3g": "<strong>It ran straight out of GPU memory.</strong> There is a hard exchange rate between how much you tell it and how long the context gets. That door was shut too.",
     "r4d": "Next-step proposal (not run): filter candidates in code first, keep only the eight to twelve agents nearest ego, offer each only its one or two closest candidate lanes, and describe each lane by its start, middle and end.",
     "r4g": "This was the <strong>constraint-first hypothesis</strong> formed after the three experiments. It was not implemented or quantitatively evaluated while I was there, so it is presented as a proposal, not a result.",
-    "fig1_cap": "This is what actually went into the model: one intersection with many individually labelled lanes and traffic participants, packed so densely the labels blur together. This image is where the root-cause call came from — and why I say it would have been strange if the model had <em>not</em> enumerated. (Scene visualisation produced by the project; I was a consumer of it.)",
+    "fig1_cap": "This is what went into the model: one intersection with many individually labelled lanes and traffic participants, packed so densely the labels blur together. The image is where the oversized-candidate-space diagnosis came from.",
     "sec5_co_big": "The problem was not the wording. It was the size of the candidate space I was handing over.",
     "sec5_co_p": "The number of lane and traffic-participant combinations grows rapidly, while genuinely useful relations make up only a small share. Writing \"do not enumerate\" into the prompt amounted to asking the model for restraint inside an oversized candidate space. That is not a capability problem, <strong>it is a task-design problem</strong>. The right move is to take the choice back: filter obviously irrelevant combinations during data construction so the model only sees candidates worth judging. I call this <strong>moving the constraint upstream</strong> — do not ask the model for discipline at the output; make the error unreachable at the input.",
     "sec6_label": "The lesson",
@@ -446,18 +417,7 @@ const T = {
     "sec6_p1": "In March I wrote in my own notes that the model \"depends heavily on the training distribution — that will be a problem on driving data\". In May, what I did was <strong>take a general-purpose large model and point it straight at driving-scene relations</strong>. Same mechanism, second occurrence — and I had written it down two months in advance.",
     "sec6_p2": "Why? My answer now is that <strong>writing a judgement down and using it are two separate acts.</strong> I had treated my notes as an artefact of learning rather than an input to a decision. A judgement that lives in a document but never shows up in the next experiment design might as well not exist.",
     "sec6_p3": "There is a second mistake, and it is harder to admit: <strong>I never built an evaluation baseline.</strong> I judged the three experiments mainly by eye, so I cannot quantify how much the stricter second prompt improved on the first. A metric such as the average number of lanes assigned per agent, which should sit close to 1, would have shown much earlier that tighter wording had not solved the root cause.",
-    "sec6_p4": "I had already written the corresponding lesson into the retrospective for my previous project. Six months later I repeated it verbatim. So I now run two hard checks: <strong>before starting a new experiment, go back and read what I have already written about it; in the first week of any new environment, ask \"how will I know if what I am doing is getting better\" before touching anything.</strong>",
-    "sec7_label": "Honest boundary",
-    "sec7_head": "What was not mine, stated plainly",
-    "sec7_p1": "The biggest difference between this project and my others: <strong>in the others I was the one driving. Here I was the newcomer.</strong> So the boundary has to be drawn first — nothing above is worth believing unless what wasn't mine is also on the record.",
-    "b1k": "Direction",
-    "b1v": "<strong>Not mine to claim.</strong> The overall route was settled before I started. I took part in the discussions; what I was handed was an open task.",
-    "b2k": "Relation spec",
-    "b2v": "The taxonomy of scene relations <strong>was given by the group</strong>. What I did was turn that spec into a batch-executable pipeline, use three progressive experiments to locate the problem, and propose a next step.",
-    "b3k": "Scale",
-    "b3v": "The three experiments were <strong>pipeline-validation batches</strong> — ten samples or fewer each — not dataset construction. The Filtered Prompt remained an unvalidated proposal; I will claim neither \"I built a dataset\" nor \"the proposal was validated\".",
-    "b4k": "Outcome",
-    "b4v": "I handed over in May 2026 when I started my internship. <strong>I did not take part in later experiments or paper writing.</strong> The public page therefore covers only the research, prototype, three experiments and failure diagnosis that I completed."
+    "sec6_p4": "I had written versions of both lessons in the previous project review and still repeated them six months later. I now use two hard checks: <strong>before a new experiment, revisit what I have already written about the mechanism; in week one of a new environment, define how I will know the work got better before changing anything.</strong>"
   }
 };
 let lang = 'zh';

@@ -124,12 +124,13 @@
       .reveal { opacity: 1; transform: none; }
     }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
@@ -239,27 +240,20 @@
   </div>
 </section>
 
-<!-- Agent 角色拆分的完整表格保留在私密复盘；公开页集中讲延迟约束与商业判断。 -->
-
-
-
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="sec8_label">诚实的结果，与那一课</p>
+    <p class="sec-label" data-i18n="sec8_label">商业结果</p>
     <div class="two-col">
       <h2 class="col-head" data-i18n="sec8_head">痛点强 ≠ 需求强 ≠ 付费意愿强</h2>
       <div class="col-body">
-        <p data-i18n="sec8_p1"><strong>产品真上线了</strong>：能输入简历与 JD、能语音交互、能实时转写、能多轮追问、能给结构化反馈；支持面试/笔试/双栏模式、模型可选、触发可设、转写可纠错。<strong>但商业化没跑通，产品后来下线了。</strong>当前整理过的原始材料没有稳定的用户量、留存或转化证据，因此公开页不报这些数字。</p>
+        <p data-i18n="sec8_p1">产品完成上线：能输入简历与 JD、语音交互、实时转写、多轮追问与结构化反馈；支持面试 / 笔试 / 双栏模式，模型可选、触发可设、转写可纠错。<strong>商业化没有跑通，产品后来下线。</strong></p>
         <p data-i18n="sec8_p2">事后复盘：不是技术不行，是<strong>我们对「需求强度」和「付费意愿」判断过于乐观</strong>。「求职焦虑」是真痛点，但它<strong>低频</strong>（只在面试前那几天焦虑，用完就走，订阅制天然错配）、<strong>信任门槛极高</strong>（把面试成败托付给一个工具，还有被发现的风险）、<strong>极度同质化</strong>（核心就是大模型 + 转写 + 悬浮窗，谁都能做）。三者叠加的结果是：<strong>这个品类极容易转化成注意力，极难转化成经常性收入。</strong></p>
-        <p data-i18n="sec8_p3">所以真正的解法不是「再优化产品」，而是<strong>换买家、换场景</strong>——往「有人愿意报销、且高频复用」的方向迁移。这个赛道后来最出名的玩家，最终也正是靠离开面试场景才活下来的。<strong>这堂课我记到今天</strong>：痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每条都得单独验证，而不是停在「这个痛点很真」就冲进去。这是我现在看任何 AI 产品机会时第一个会问的问题。</p>
+        <p data-i18n="sec8_p3">所以真正的解法不是继续堆功能，而是<strong>换买家、换场景</strong>——去找有人愿意报销、且能高频复用的工作流。痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每一条都要单独验证。</p>
       </div>
     </div>
     <div class="callout">
       <p class="big" data-i18n="co3_big">它是我用 Agent 的方式理解世界的起点。</p>
-      <p data-i18n="co3_p">当年很多设计是靠产品直觉摸出来的，但回头看，这些直觉踩中的恰恰是今天 AI Agent 领域最核心的问题：<strong>怎么切 Agent 的职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。所以这段经历的意义不是「我做了个成功产品」（它没成），而是它成了我 AI 产品认知的地基——后来我做 AI 驾驶行为检测全栈、深入 AI 辅助编程，都是在补齐和印证这里第一次撞见的那些问题。</p>
-    </div>
-    <div class="col-body" style="margin-top:30px">
-      <p data-i18n="sec8_p4"><strong>一条我会主动讲清的边界：</strong>我在这个项目里做的是产品调研、需求定义、产品方案、技术选型论证，以及交互链路 / Prompt / 评分体系的设计与推动。<strong>后端实现不作为我的个人贡献。</strong>我主导并想清楚的，是这条链路怎么串、每个环节解决什么问题。</p>
+      <p data-i18n="co3_p">这段经历第一次把一组 Agent 产品问题连在一起：<strong>怎么切职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。后来做 AI 驾驶行为检测与 AI 基础设施产品时，我一直沿着这组问题继续往下走。</p>
     </div>
   </div>
 </section>
@@ -276,7 +270,7 @@
 <script>
 const T = {
   "zh": {
-    "back": "于清程",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "hero_meta": "AI Agent 项目 · 2024.08 – 2025.05 · 北京中科智传孵化 · Job Thanos",
     "hero_title": "AI 面试辅导<br>智能体",
@@ -321,17 +315,16 @@ const T = {
     "sec4_p2": "所以解法是：<strong>一个极轻量的 Windows 桌面件专职采集，再用一个「房间号」把音频桥回网页端</strong>。这一笔我特别想讲——它证明我们看懂了这个硬约束，并且清楚<strong>产品主体该在网页，桌面端只做它非做不可的那一件事</strong>。而且「本机 / 对方」是两条物理声道，天然就是说话人身份，比事后做声纹分离更稳也更快。",
     "fig2_cap": "实盘辅助界面：左侧「本机 / 对方」双路音频采集，右侧实时转写出面试官问题并给出「极速辅助回答」；可选模型、可设触发方式、转写可手动纠错。",
     "fig3_cap": "那个桌面件的全部界面：只有「麦克风（捕获用户声音）」「系统音频（捕获对方声音）」和一个房间号——填号连回网页端，此外什么都不做。",
-    "sec8_label": "诚实的结果，与那一课",
+    "sec8_label": "商业结果",
     "sec8_head": "痛点强 ≠ 需求强 ≠ 付费意愿强",
-    "sec8_p1": "<strong>产品真上线了</strong>：能输入简历与 JD、能语音交互、能实时转写、能多轮追问、能给结构化反馈；支持面试/笔试/双栏模式、模型可选、触发可设、转写可纠错。<strong>但商业化没跑通，产品后来下线了。</strong>当前整理过的原始材料没有稳定的用户量、留存或转化证据，因此公开页不报这些数字。",
+    "sec8_p1": "产品完成上线：能输入简历与 JD、语音交互、实时转写、多轮追问与结构化反馈；支持面试 / 笔试 / 双栏模式，模型可选、触发可设、转写可纠错。<strong>商业化没有跑通，产品后来下线。</strong>",
     "sec8_p2": "事后复盘：不是技术不行，是<strong>我们对「需求强度」和「付费意愿」判断过于乐观</strong>。「求职焦虑」是真痛点，但它<strong>低频</strong>（只在面试前那几天焦虑，用完就走，订阅制天然错配）、<strong>信任门槛极高</strong>（把面试成败托付给一个工具，还有被发现的风险）、<strong>极度同质化</strong>（核心就是大模型 + 转写 + 悬浮窗，谁都能做）。三者叠加的结果是：<strong>这个品类极容易转化成注意力，极难转化成经常性收入。</strong>",
-    "sec8_p3": "所以真正的解法不是「再优化产品」，而是<strong>换买家、换场景</strong>——往「有人愿意报销、且高频复用」的方向迁移。这个赛道后来最出名的玩家，最终也正是靠离开面试场景才活下来的。<strong>这堂课我记到今天</strong>：痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每条都得单独验证，而不是停在「这个痛点很真」就冲进去。这是我现在看任何 AI 产品机会时第一个会问的问题。",
+    "sec8_p3": "所以真正的解法不是继续堆功能，而是<strong>换买家、换场景</strong>——去找有人愿意报销、且能高频复用的工作流。痛点强、需求强、付费意愿强，三者之间隔着两条鸿沟，每一条都要单独验证。",
     "co3_big": "它是我用 Agent 的方式理解世界的起点。",
-    "co3_p": "当年很多设计是靠产品直觉摸出来的，但回头看，这些直觉踩中的恰恰是今天 AI Agent 领域最核心的问题：<strong>怎么切 Agent 的职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。所以这段经历的意义不是「我做了个成功产品」（它没成），而是它成了我 AI 产品认知的地基——后来我做 AI 驾驶行为检测全栈、深入 AI 辅助编程，都是在补齐和印证这里第一次撞见的那些问题。",
-    "sec8_p4": "<strong>一条我会主动讲清的边界：</strong>我在这个项目里做的是产品调研、需求定义、产品方案、技术选型论证，以及交互链路 / Prompt / 评分体系的设计与推动。<strong>后端实现不作为我的个人贡献。</strong>我主导并想清楚的，是这条链路怎么串、每个环节解决什么问题。"
+    "co3_p": "这段经历第一次把一组 Agent 产品问题连在一起：<strong>怎么切职责、怎么管上下文、怎么让输出可控、怎么把主观评价标准化、怎么在延迟约束下做架构取舍</strong>。后来做 AI 驾驶行为检测与 AI 基础设施产品时，我一直沿着这组问题继续往下走。"
   },
   "en": {
-    "back": "Qingcheng Yu",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "hero_meta": "AI Agent Project · Aug 2024 – May 2025 · Incubated at Zhongke Zhichuan, Beijing · Job Thanos",
     "hero_title": "AI Interview<br>Coaching Agent",
@@ -376,14 +369,13 @@ const T = {
     "sec4_p2": "Hence the answer: <strong>one extremely thin Windows helper dedicated to capture, bridging the audio back to the web app via a \"room number\"</strong>. I especially want to talk about this one, because it shows we understood the hard constraint — and understood that <strong>the product belongs in the browser while the desktop piece should do only the one thing it alone can do</strong>. It also means \"yours\" and \"theirs\" arrive as two physical channels, so channel identity is speaker identity — steadier and faster than inferring it from voice prints afterwards.",
     "fig2_cap": "The live-assist screen: dual audio capture (\"yours\" / \"theirs\") on the left; on the right, the interviewer's question transcribed live with a rapid answer draft beside it — model selectable, trigger configurable, transcript manually correctable.",
     "fig3_cap": "The desktop helper in its entirety: a microphone input (capture the user), a system-audio input (capture the other side), and a room number to connect back to the web app. Nothing else.",
-    "sec8_label": "The Honest Outcome, and the Lesson",
+    "sec8_label": "Commercial outcome",
     "sec8_head": "Strong pain ≠ strong demand ≠ willingness to pay",
-    "sec8_p1": "<strong>The product did ship</strong>: résumé and JD input, voice interaction, live transcription, multi-turn probing, structured feedback; interview / written-test / two-column modes, selectable model, configurable trigger, correctable transcript. <strong>But commercialization never worked, and the product was later shut down.</strong> The source materials retained today do not support stable user-count, retention or conversion figures, so the public page does not quote them.",
+    "sec8_p1": "The product shipped with résumé and JD input, voice interaction, live transcription, multi-turn probing, and structured feedback; interview, written-test, and two-column modes; selectable models, configurable triggers, and correctable transcripts. <strong>Commercialization did not work, and the product was later shut down.</strong>",
     "sec8_p2": "In hindsight the problem wasn't the technology — <strong>we were too optimistic about demand intensity and willingness to pay</strong>. Job-hunting anxiety is real pain, but it is <strong>low-frequency</strong> (it spikes for a few days before an interview, then the user leaves — a structural mismatch with subscriptions), <strong>high-trust</strong> (you're handing a high-stakes outcome to a tool, with the risk of being caught), and <strong>heavily commoditized</strong> (the core is an LLM plus transcription plus an overlay; anyone can ship it). Stack those three and the result is this: <strong>the category converts easily into attention and very poorly into recurring revenue.</strong>",
-    "sec8_p3": "So the real fix isn't \"polish the product\" — it's <strong>change the buyer and change the setting</strong>: move toward something someone will expense and use often. The most famous player in this space ultimately survived precisely by leaving the interview use case behind. <strong>The lesson stuck with me</strong>: strong pain, strong demand and willingness to pay are separated by two distinct chasms, and each has to be validated on its own instead of charging in on \"this pain is real\". It's the first question I now ask of any AI product opportunity.",
+    "sec8_p3": "The answer was not to keep stacking features, but to <strong>change the buyer and the setting</strong> — find a workflow someone will expense and reuse frequently. Strong pain, strong demand, and willingness to pay have two gaps between them, and each has to be validated separately.",
     "co3_big": "It was where I started understanding the world in terms of agents.",
-    "co3_p": "Back then a lot of the design came from product instinct. But looking back, what that instinct landed on is exactly what matters most in AI agents today: <strong>how to divide agent responsibilities, how to manage context, how to keep output controllable, how to standardize subjective evaluation, and how to make architectural trade-offs under a latency constraint</strong>. So the meaning of this experience isn't \"I built a successful product\" (I didn't) — it's that it became the foundation of how I think about AI products. Everything after it, from shipping the AI driving-detection stack to going deep on AI-assisted coding, has been filling in and confirming the questions I first ran into here.",
-    "sec8_p4": "<strong>One boundary I always state plainly:</strong> on this project I did the product research, requirement definition, product design, technology-selection reasoning, and the design and driving-forward of the interaction chain, prompts and scoring system. <strong>Backend implementation is not claimed as my personal contribution.</strong> What I owned and thought through was how this chain fits together and what problem each link solves."
+    "co3_p": "This project first connected a set of agent-product questions for me: <strong>how to divide responsibilities, manage context, control outputs, standardize subjective evaluation, and make architectural trade-offs under latency pressure</strong>. I kept following the same questions in AI driving detection and AI infrastructure products."
   }
 };
 let lang = 'zh';

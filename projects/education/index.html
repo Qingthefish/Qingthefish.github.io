@@ -124,12 +124,13 @@
     }
     ::selection { background: var(--text); color: var(--bg); }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()">EN</button>
   </div>
 </nav>
@@ -259,16 +260,16 @@
 <script>
 const T = {
   "zh": {
-    "fig3_cap": "这是<strong>澳洲高等教育毕业证明（AHEGS）</strong>第四节的原件截取——澳洲高校随学位一并签发的官方文件。一张图里有三件事能被逐字核对：项目 GPA <strong>6.636</strong>；7 分制的评分对照（<strong>High Distinction = 85–100 分</strong>，所以上面那门 97 分是 High Distinction）；以及最下面 Special achievements 栏里的两行——<strong>Dean's Merit List 2024</strong> 与 <strong>Dean's Medal for outstanding scholarship 2026</strong>。<strong>页脚我裁掉了</strong>：这份文件每一页页脚都印着姓名加学号，学号不该出现在公开页上。",
+    "fig3_cap": "<strong>澳洲高等教育毕业证明（AHEGS）</strong>第四节：项目 GPA <strong>6.636 / 7.0</strong>，并记录 <strong>Dean's Merit List 2024</strong> 与 <strong>Dean's Medal for Outstanding Scholarship 2026</strong>。",
     "sec7_label": "硕士这一年",
-    "sec7_head": "在港科大要补什么，我很清楚",
-    "sec7_p1": "我现在就读于香港科技大学人工智能硕士，2026 年 9 月入学，预计 2027 年 7 月毕业。<strong>这一年不是去刷一个学历，我很清楚缺口在哪。</strong>",
-    "sec7_p2": "前面这些项目，我基本是<strong>站在模型外面调用它</strong>：定义任务、设计交互、建评估、做取舍。<a href=\"/projects/casia/\">中科院那四个月</a>是第一次进去看，但只看到了一部分。",
-    "sec7_p3": "缺口在<a href=\"/projects/xhs/\">小红书</a>那段暴露得最清楚：<strong>底层框架的那次选型评测不是我主导的，我跟完了全程——但我意识到，这类判断如果我自己不理解，我在产品侧就只能被动接受结论，没法参与讨论它对用户意味着什么。</strong>所以这一年我要补的不是再学一遍 Python，是把模型与框架层面的判断力，补到能参与讨论的程度。",
+    "sec7_head": "在港科大，把模型与框架判断力补深",
+    "sec7_p1": "我现在就读于香港科技大学人工智能硕士，2026 年 9 月入学，预计 2027 年 7 月毕业。",
+    "sec7_p2": "过往项目让我积累了<strong>任务定义、交互设计、评估方法和工程闭环</strong>；<a href=\"/projects/casia/\">中科院的研究</a>进一步把我带进模型输入、数据结构与实验设计。",
+    "sec7_p3": "这一年的重点，是把模型机制、评估方法和工程约束串起来：不仅能理解方案差异，也能把差异翻译成<strong>对用户体验、可靠性和产品边界的具体影响</strong>。",
     "sec7_q": "产品经理不需要自己训模型。但当有人说「这个方案更好」的时候，你得问得出下一个问题。",
-    "sec3_label": "成绩与证据",
-    "sec3_head": "这一节只放能被核验的东西",
-    "sec3_p1": "成绩这种事，说得再多不如把原件摆出来。下面四条都能在证书或成绩单上逐字对上。",
+    "sec3_label": "学位与荣誉",
+    "sec3_head": "从返校到完成学位",
+    "sec3_p1": "西悉尼大学计算机科学学士，<strong>with Distinction</strong>；项目 GPA 6.636 / 7.0，并获 Dean's Medal 与 Dean's Merit List。",
     "sec3_p2": "我挑那四门课放上来，不是因为分数最高，<strong>是因为它们和我现在做的事直接相关</strong>：分布式系统和系统编程解释了我为什么能读懂一个 Agent 的执行链路、能分清 WebSocket 和 SSE 各自约束什么；数据库设计解释了我为什么坚持<strong>先定数据模型再画界面</strong>——那门课教的东西，我在 <a href=\"/projects/ai-driving/\">AI 驾驶行为检测</a>里因为没做到而踩过一个真实的坑。",
     "e1k": "Dean's Medal",
     "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>，2026 年授予，记录在正式成绩单的「Special achievements, recognition and prizes」栏。这是西悉尼大学授予学业最卓越毕业生的荣誉。<strong>（原件见最下方那张图）</strong>",
@@ -278,15 +279,15 @@ const T = {
     "e3v": "<strong>Bachelor of Computer Science with Distinction</strong>，2026 年 1 月 21 日授予（左图）。项目 GPA <strong>6.636 / 7.0</strong>；西悉尼采用 7 分制，High Distinction 对应 85–100 分。",
     "e4k": "几门课的分数",
     "e4v": "分布式系统 <strong>97</strong>、专业实践 <strong>96</strong>、系统编程 <strong>92</strong>、数据库设计 <strong>89</strong>。",
-    "fig1_cap": "学位证书：<strong>Bachelor of Computer Science with Distinction</strong>，2026 年 1 月 21 日授予。<strong>下方那串证书验证编号我抹掉了</strong>——它是可以拿去做查询的唯一标识，没有必要出现在一个公开页面上。",
+    "fig1_cap": "学位证书：<strong>Bachelor of Computer Science with Distinction</strong>，2026 年 1 月 21 日授予。",
     "fig2_cap": "2024 年 <strong>Dean's Merit List</strong> 证书，由计算机、数据与数学科学学院院长签发。这一年是我回学校后的第一个完整学年。",
     "sec1_label": "这条路",
     "sec1_head": "四个地方，两段本科，一个学位",
-    "sec1_p1": "我的简历上有两段本科经历，<strong>但只有一个学位</strong>——中间空掉的那两年，我在西安全职做生意。这件事面试官一定会问，所以我把它放在这一页的最前面，而不是等着被追问。",
-    "sec1_p2": "下面这条线里，<strong>中间那一段没有校名、也没有成绩</strong>。但如果把它抽掉，后面两段都不会发生。",
+    "sec1_p1": "我的学习路径横跨澳大利亚国立大学、两年全职创业、西悉尼大学和香港科技大学。已经取得的本科学位只有一个：<strong>西悉尼大学计算机科学学士（with Distinction）</strong>。",
+    "sec1_p2": "中间两年，我在西安全职经营环球卡社，用这段收入筹回学费，再回到大学完成本科。",
     "t1l": "2018.02 — 2019.11",
     "t1t": "澳大利亚国立大学 · 计算机科学 <em>（未完成）</em>",
-    "t1d": "完整读完大一、大二。<strong>2020 年初，疫情叠加家里经济断供，学业中止。</strong>这一段我不隐去——它是后面所有事的起点。",
+    "t1d": "完整读完大一、大二。<strong>2020 年初，疫情叠加家庭停止资助，学业中止。</strong>",
     "t2l": "2021.08 — 2023.07",
     "t2t": "环球卡社 · 全职创业（西安）<em>· 这一段是学费</em>",
     "t2d": "<strong>不是间隔年，是去把学费挣回来。</strong>球星卡生意，合伙人出资、我负责经营，两年全职。这两年挣的钱，就是我后来回学校读完本科的学费。<a href=\"/projects/hqks/\">→ 这段做了什么</a>",
@@ -296,7 +297,7 @@ const T = {
     "t4l": "2026.09 — 2027.07",
     "t4t": "香港科技大学 · 人工智能 理学硕士（MSc AI）<em>（在读）</em>",
     "t4d": "2026 年 9 月入学，预计 2027 年 7 月毕业——<strong>对应 2027 届秋招。</strong>",
-    "back": "于清程",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "tag5": "自费完成",
     "hero_meta": "教育背景与能力 · 2018 — 2027 · 堪培拉 / 西安 / 悉尼 / 香港",
@@ -310,16 +311,16 @@ const T = {
     "s3": "我全职挣学费的时间。<strong>这两年不出现在任何一份成绩单上，但它是我能读完本科的唯一原因。</strong>"
   },
   "en": {
-    "fig3_cap": "Section 4 of the <strong>Australian Higher Education Graduation Statement (AHEGS)</strong> — the official document Australian universities issue alongside the degree. Three things in one image, all checkable word for word: program GPA <strong>6.636</strong>; the 7-point scale (<strong>High Distinction = 85–100</strong>, which is why the 97 above is a High Distinction); and, at the bottom, the two lines under Special achievements — <strong>Dean's Merit List 2024</strong> and <strong>Dean's Medal for outstanding scholarship 2026</strong>. <strong>I cropped the footer out</strong>: every page of this document carries the graduate's name and student number in the footer, and a student number has no business on a public page.",
+    "fig3_cap": "Section 4 of the <strong>Australian Higher Education Graduation Statement (AHEGS)</strong>: program GPA <strong>6.636 / 7.0</strong>, with <strong>Dean's Merit List 2024</strong> and <strong>Dean's Medal for Outstanding Scholarship 2026</strong> recorded under Special achievements.",
     "sec7_label": "My year at HKUST",
-    "sec7_head": "I know exactly what I am at HKUST to strengthen",
-    "sec7_p1": "I am currently studying for an MSc in Artificial Intelligence at HKUST. I started in September 2026 and expect to graduate in July 2027. <strong>The year isn't about collecting a credential; I know where the gap is.</strong>",
-    "sec7_p2": "Across the projects above I have mostly been <strong>outside the model, calling it</strong>: defining the task, designing the interaction, building the evaluation, making the trade-offs. <a href=\"/projects/casia/\">The four months at CASIA</a> were the first time I went inside, and I only saw part of it.",
-    "sec7_p3": "The gap showed itself most clearly at <a href=\"/projects/xhs/\">Xiaohongshu</a>: <strong>the framework selection wasn't led by me. I followed it end to end — and I realised that if I don't understand judgements of that kind myself, all I can do on the product side is accept the conclusion and stay out of the discussion about what it means for users.</strong> So what I'm closing this year isn't another pass at Python. It's getting my judgement at the model and framework level up to the point where I can take part in that discussion.",
+    "sec7_head": "At HKUST, deepening model and framework judgment",
+    "sec7_p1": "I am currently studying for an MSc in Artificial Intelligence at HKUST. I started in September 2026 and expect to graduate in July 2027.",
+    "sec7_p2": "My earlier projects built experience in <strong>task definition, interaction design, evaluation, and end-to-end engineering</strong>; <a href=\"/projects/casia/\">the CASIA research</a> then took me deeper into model inputs, data structures, and experiment design.",
+    "sec7_p3": "This year is about connecting model mechanics, evaluation methods, and engineering constraints — understanding not only how approaches differ, but how those differences change <strong>user experience, reliability, and product scope</strong>.",
     "sec7_q": "A product manager doesn't need to train the model. But when someone says \"this approach is better\", you need to be able to ask the next question.",
-    "sec3_label": "Results and evidence",
-    "sec3_head": "This section only carries things you can check",
-    "sec3_p1": "With grades, describing them matters less than putting the documents up. All four lines below can be matched word for word against a certificate or the official transcript.",
+    "sec3_label": "Degree and honours",
+    "sec3_head": "From returning to completing the degree",
+    "sec3_p1": "BSc Computer Science at Western Sydney University, <strong>with Distinction</strong>; program GPA 6.636 / 7.0, Dean's Medal, and Dean's Merit List.",
     "sec3_p2": "I picked those four units not because they were my highest marks but <strong>because they map directly onto what I do now</strong>: Distributed Systems and Systems Programming are why I can read an agent's execution path and tell you what WebSocket versus SSE each constrain; Database Design is why I insist on <strong>settling the data model before drawing any screen</strong> — and on <a href=\"/projects/ai-driving/\">the AI driving project</a> I hit a real bug precisely because I failed to do that.",
     "e1k": "Dean's Medal",
     "e1v": "<strong>Dean's Medal for Outstanding Scholarship</strong>, awarded 2026, recorded under \"Special achievements, recognition and prizes\" on the official transcript. It is Western Sydney University's recognition for its most outstanding graduates. <strong>(The document itself is the bottom image.)</strong>",
@@ -329,15 +330,15 @@ const T = {
     "e3v": "<strong>Bachelor of Computer Science with Distinction</strong>, conferred 21 January 2026 (left). Program GPA <strong>6.636 / 7.0</strong>; Western Sydney uses a 7-point scale, where High Distinction is 85–100.",
     "e4k": "Selected unit marks",
     "e4v": "Distributed Systems <strong>97</strong>, Professional Experience <strong>96</strong>, Systems Programming <strong>92</strong>, Database Design <strong>89</strong>.",
-    "fig1_cap": "The testamur: <strong>Bachelor of Computer Science with Distinction</strong>, conferred 21 January 2026. <strong>I have removed the credential verification number</strong> that sat bottom-centre — it is a unique identifier you can run lookups against, and it has no business being on a public page.",
+    "fig1_cap": "The testamur: <strong>Bachelor of Computer Science with Distinction</strong>, conferred 21 January 2026.",
     "fig2_cap": "The 2024 <strong>Dean's Merit List</strong> certificate, signed by the Dean of the School of Computer, Data and Mathematical Sciences. 2024 was my first full year back at university.",
     "sec1_label": "The path",
     "sec1_head": "Four places, two runs at a bachelor's degree, one degree",
-    "sec1_p1": "My CV shows two runs at an undergraduate degree <strong>and exactly one degree</strong> — the two years missing in between, I was running a business full-time in Xi'an. Any interviewer will ask about it, so it goes at the top of this page rather than waiting to be dug out.",
-    "sec1_p2": "In the timeline below, <strong>the middle entry has no institution and no grades</strong>. Remove it, though, and neither of the entries after it happens.",
+    "sec1_p1": "My education spans the Australian National University, two years of full-time entrepreneurship, Western Sydney University, and HKUST. I hold one bachelor's degree: <strong>BSc Computer Science from Western Sydney University, with Distinction</strong>.",
+    "sec1_p2": "For the two years in between, I ran Collector Universe full-time in Xi'an, earned the tuition, and then returned to finish the degree.",
     "t1l": "Feb 2018 — Nov 2019",
     "t1t": "Australian National University · Computer Science <em>(not completed)</em>",
-    "t1d": "Completed first and second year in full. <strong>In early 2020 the pandemic and the end of my family's funding arrived together, and I had to stop.</strong> I don't leave this out — it is where everything after it starts.",
+    "t1d": "Completed first and second year in full. <strong>In early 2020 the pandemic and the end of family funding arrived together, and the degree was interrupted.</strong>",
     "t2l": "Aug 2021 — Jul 2023",
     "t2t": "Collector Universe · full-time, Xi'an <em>· this entry is the tuition</em>",
     "t2d": "<strong>Not a gap year. I went to earn the tuition.</strong> A sports trading card business — my partner funded it, I ran it, full-time for two years. What those two years earned is what paid for the degree I went back to finish. <a href=\"/projects/hqks/\">→ what the work was</a>",
@@ -347,7 +348,7 @@ const T = {
     "t4l": "Sep 2026 — Jul 2027",
     "t4t": "HKUST · MSc Artificial Intelligence <em>(current student)</em>",
     "t4d": "Started in September 2026 and expected to graduate in July 2027 — <strong>the 2027 graduate hiring cycle.</strong>",
-    "back": "Qingcheng Yu",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "tag5": "Self-funded",
     "hero_meta": "Education & capability · 2018 — 2027 · Canberra / Xi'an / Sydney / Hong Kong",

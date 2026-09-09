@@ -105,12 +105,13 @@
     }
     ::selection { background: var(--text); color: var(--bg); }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()">EN</button>
   </div>
 </nav>
@@ -163,10 +164,16 @@
         <p data-i18n="sec2_p2"></p>
       </div>
     </div>
-    <figure class="fig">
-      <img src="img/grade-crosswalk.png" alt="四家评级公司分数档位对照表，带手绘标注" loading="lazy" />
-      <figcaption data-i18n="fig2_cap"></figcaption>
-    </figure>
+    <div class="fig-2">
+      <figure>
+        <img src="img/douyin-grid.jpg" alt="环球卡社抖音内容墙：球星卡知识、市场判断与开箱内容" loading="lazy" />
+        <figcaption data-i18n="fig2_cap"></figcaption>
+      </figure>
+      <figure>
+        <img src="img/xhs-notes.jpg" alt="环球卡社小红书内容墙：卡市行情与卡片鉴赏笔记" loading="lazy" />
+        <figcaption data-i18n="fig7b_cap"></figcaption>
+      </figure>
+    </div>
     <div class="callout">
       <p class="big" data-i18n="sec2_co_big"></p>
       <p data-i18n="sec2_co_p"></p>
@@ -228,22 +235,10 @@
         <figcaption data-i18n="fig6b_cap"></figcaption>
       </figure>
     </div>
-    <div class="fig-2">
-      <figure>
-        <img src="img/douyin-grid.jpg" alt="抖音作品墙：拆卡、卡片鉴赏与球员科普短视频封面" loading="lazy" />
-        <figcaption data-i18n="fig7a_cap"></figcaption>
-      </figure>
-      <figure>
-        <img src="img/xhs-notes.jpg" alt="小红书笔记墙：卡市行情与卡片鉴赏笔记" loading="lazy" />
-        <figcaption data-i18n="fig7b_cap"></figcaption>
-      </figure>
-    </div>
   </div>
 </section>
 
 <!-- 2023 年经营交接与返校原因在教育页统一交代，避免两页重复。 -->
-
-<!-- ⑧ 诚实的边界 -->
 
 <!-- ⑨ 迁移 -->
 <section>
@@ -272,7 +267,7 @@
 <script>
 const T = {
   "zh": {
-    "back": "于清程",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "hero_meta": "工作经历 · 联合创始人 · 2021.08 — 2023.07 · 西安",
     "hero_title": "环球卡社",
@@ -284,12 +279,12 @@ const T = {
     "s3n": "2 年",
     "s3": "全职。从西安粉巷的一间实体店做到规模化转线上——我回学校继续念书的学费，是这两年挣出来的。",
     "fig1a_cap": "小红书主页。简介那三行——「有入门指南，有好卡鉴赏，更有最新卡市动态」——就是我们内容分工的原话；下面一行写着坐标西安粉巷，那是线下店。",
-    "fig1b_cap": "我们经手的东西长这样：科比 National Treasures Logoman 签字卡，全球唯一一张（1/1）。一块从球衣上切下的 NBA Logo 加球员亲笔签名，是这个品类的天花板。（我拍的，右下角是我们公众号的水印）",
+    "fig1b_cap": "我们经手的东西长这样：科比 National Treasures Logoman 签字卡，全球唯一一张（1/1）。一块从球衣上切下的 NBA Logo 加球员亲笔签名，是这个品类的天花板。",
     "sec2_label": "我的判断",
     "sec2_head": "这个市场缺的不是货，是让新手敢下单的依据",
     "sec2_p1": "开店之后我很快发现，<strong>卡不难进，难的是让一个新人相信你</strong>。这个圈子里全是玩了十几年的老玩家，信息掌握在他们手里。一个新手想买一张卡，得同时判断七件事：这个球员未来怎么样、这个系列的搏点在哪、平行卡的稀有度怎么排、编号高低差多少、这张卡送评值不值、送哪家评级公司、评完了怎么卖出去——<strong>七件事，一件都不透明。</strong>",
     "sec2_p2": "同行大多把这种不透明当成利润来源——<strong>信息差就是差价</strong>。我的判断是反过来更划算：<strong>把定价逻辑摊开给新手看</strong>，他才敢下第一单；而下过第一单、并且发现你没骗他的人，会一直回来。所以从一开始，内容对我就不是营销，是<strong>消除交易摩擦</strong>。",
-    "fig2_cap": "举一个「不透明」的具体例子：不同第三方鉴定体系对同一品相使用不同档位，新人很难横向判断。我当时把多套标准整理成一张对照表，<strong>红色箭头是我自己标上去的</strong>。（右下角是我们公众号的水印）",
+    "fig2_cap": "抖音内容墙：从「一百万的卡长什么样」到球员签名、福包和版本区别，选题都从<strong>新手最想知道什么</strong>倒推。单条最高 1.5 万赞。",
     "sec2_co_big": "新手在这个圈子里最怕的不是买贵，是被当韭菜。",
     "sec2_co_p": "所以信任建立不在话术上，只能建立在「<strong>我先让你看懂，再让你买</strong>」。我后来做的全部内容——入门指南、评级说明书、成交价盘点、标准对照——本质上都是同一个动作：<strong>把老玩家垄断的信息，免费公开出去。</strong>",
     "sec4_label": "最想讲的一件事",
@@ -297,17 +292,16 @@ const T = {
     "sec4_p1": "二手卡交易里有个天天在用、但谁也没定义过的词：<strong>通行品</strong>——意思是「品相正常、可以正常流通的卡」。买卖双方都在用它，可每个人心里的线不一样，于是纠纷不断：卖家说这是通行品，买家收到觉得不是。",
     "sec4_p2": "我做的不是发表自己的看法，而是把三类证据叠起来：一份 <strong>230 人参与的社区投票</strong>、主流交易平台公开的品相说明，以及第三方鉴定标准的逐档对照。",
     "sec4_p3": "三份材料摆在一起，一个原本只能靠老玩家经验争论的词，第一次有了<strong>多数用户接受、外部标准支撑、交易双方都能执行</strong>的定义。",
-    "fig4a_cap": "那次公投的原始截图，收在我当时那篇文章里：230 人投票，分布一目了然。<strong>这是我手上关于「用户真实分歧」最直接的一份证据</strong>——不是我猜用户怎么想，是用户自己投出来的。（右下角是我们公众号的水印）",
+    "fig4a_cap": "230 人参与的社区投票，分布一目了然。<strong>不是猜用户怎么想，而是让用户直接把分歧投出来。</strong>",
     "fig4b_cap": "另一半材料：交易平台官方的品相分级口径，七个维度（边角、边缘、变色、折痕……）对应四档品相。<strong>把社区投票和官方口径并排放在一起，一个能执行的定义就出来了。</strong>",
     "sec4_co_big": "在一个没有权威定义的市场里，共识本身就是产品。",
     "sec4_co_p": "今天回头看，这件事就是一次<strong>用户研究加标准制定</strong>：先把用户的真实分歧量化出来（投票分布），再拿外部权威去锚定它（官方分级口径），最后给出一个双方都能接受、可执行的说法。<strong>我没有发明标准——我把一个已经存在、但没人写下来的标准写了下来。</strong>而写下来的那个人，就成了被引用的那一方。",
     "sec6_label": "结果",
     "sec6_head": "三个平台，一个人的选题与脚本",
     "sec6_p1": "公众号 <strong>214 篇原创、2,805 位关注者</strong>；抖音 <strong>8,891 粉丝、累计 7.9 万获赞，单条最高 1.5 万赞</strong>；小红书 <strong>2,793 粉丝、7,418 赞与收藏</strong>。三个平台分工不同：公众号写深度（评级方法、行业结构、拍卖数据），抖音和小红书做卡片鉴赏、开箱和热点解读。",
-    "sec6_p2": "选题、稿子、视频脚本都是我自己出，拍摄我协调团队完成。选题来源之一是后台私信——《球星卡新手入门指南》那篇的开篇第一句就是「最近后台收到了许多小伙伴的私信，十分想了解球星卡，但不知从何入手」。<strong>这一页引用的是这 214 篇里的代表作抽样，不是全量。</strong>",
+    "sec6_p2": "选题、稿子、视频脚本都是我自己出，拍摄我协调团队完成。选题来源之一是后台私信——《球星卡新手入门指南》就是从大量「想了解球星卡，但不知从何入手」的提问长出来的。",
     "fig6a_cap": "公众号后台的账号卡：原创内容 <strong>214</strong> 篇、总用户数 <strong>2,805</strong>。",
     "fig6b_cap": "抖音主页：<strong>7.9 万获赞、8,891 粉丝</strong>。简介里写着欢迎大家来线下实体店体验拆卡的乐趣——线上导线下，是这门生意的基本盘。",
-    "fig7a_cap": "抖音作品墙。单条最高 1.5 万赞的是「一百万的卡到底长什么样」；其余多在一千到六千赞之间。<strong>选题几乎都是从「新手最想知道什么」倒推出来的</strong>——不同球员的签名长什么样、黑心福包与良心福包的区别、Prizm 究竟有多少个版本。",
     "fig7b_cap": "小红书笔记墙，路线不同：更偏卡市行情与判断——「哈登魔力不再，卡价暴跌？」「三球和莫兰特有多大差距？」<strong>同一批素材，在不同平台要换一套讲法。</strong>",
     "sec9_label": "这两年留下什么",
     "sec9_head": "我对「内容影响决策」的理解，是在这里长出来的",
@@ -316,7 +310,7 @@ const T = {
     "sec9_p3": "第三条关于用户动机，也是我当年翻译海外行业报告时最受触动的一段：拆卡包的期望回报大多是负的，为什么还有人一直买？三个理由——<strong>可能一发抽中远超成本的卡、可能随时间升值、可能押中一个还没成名的球员</strong>。这解释了所有带随机奖励的产品为什么成立。<strong>今天我做任何带抽卡、激励、游戏化机制的设计，用的还是这套动机模型。</strong>"
   },
   "en": {
-    "back": "Qingcheng Yu",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "hero_meta": "Work experience · Co-founder · Aug 2021 — Jul 2023 · Xi'an, China",
     "hero_title": "Collector Universe",
@@ -328,12 +322,12 @@ const T = {
     "s3n": "2 years",
     "s3": "full-time. From one shop in Xi'an to a business that outgrew the shop — and this is what paid the tuition that took me back to school.",
     "fig1a_cap": "Our Xiaohongshu profile. Those three lines of bio — \"beginner guides, great cards to look at, and the latest market moves\" — are literally how we split our content; the line below places us in Xi'an, where the shop was.",
-    "fig1b_cap": "This is the kind of thing that passed through our hands: a Kobe Bryant National Treasures Logoman autograph — the only copy in the world (1/1). An NBA logo cut from a game-worn jersey plus the player's signature is the ceiling of this category. (My photo; our account's watermark is bottom right.)",
+    "fig1b_cap": "This is the kind of thing that passed through our hands: a Kobe Bryant National Treasures Logoman autograph — the only copy in the world (1/1). An NBA logo cut from a game-worn jersey plus the player's signature is the ceiling of this category.",
     "sec2_label": "My read on it",
     "sec2_head": "This market wasn't short of product. It was short of reasons for a beginner to buy.",
     "sec2_p1": "It became clear quickly that <strong>getting cards was easy; getting a newcomer to trust you was not</strong>. The scene was full of collectors who had been in it for a decade, and they held the information. To buy one card, a beginner has to judge seven things at once: how good this player will become, what makes this product line worth opening, how the parallels rank for scarcity, how much the serial number matters, whether the card is worth grading, which grading company to use, and how to sell it afterwards. <strong>Seven judgements, none of them transparent.</strong>",
     "sec2_p2": "Most of the trade treats that opacity as the margin — <strong>the information gap is the profit</strong>. My read was that the opposite pays better: <strong>show a beginner exactly how the pricing works</strong>, and he will place a first order; and someone who places a first order and finds out you didn't take him for a ride keeps coming back. So content was never marketing to me. It was <strong>removing friction from the transaction</strong>.",
-    "fig2_cap": "One concrete example of the opacity: different third-party authentication systems use different tiers for the same condition, making comparison difficult for a newcomer. I turned several systems into one crosswalk; <strong>the red arrows are mine</strong>. (Our account's watermark is bottom right.)",
+    "fig2_cap": "The Douyin content wall: from what a million-dollar card looks like to signatures, mystery packs, and parallel editions, topics were reverse-engineered from <strong>what beginners most wanted to understand</strong>. The top video reached 15,000 likes.",
     "sec2_co_big": "What a beginner in this scene fears most isn't overpaying. It's being taken for a mark.",
     "sec2_co_p": "Which means trust can't be built on sales talk. It can only be built on \"<strong>I'll make sure you understand it before I sell you anything</strong>\". Every piece of content I went on to make — beginner guides, grading explainers, sale-price round-ups, standards comparisons — was the same move: <strong>taking the information the veterans had cornered and giving it away.</strong>",
     "sec4_label": "The part I most want to explain",
@@ -341,17 +335,16 @@ const T = {
     "sec4_p1": "Second-hand card trading runs on a term everybody uses and nobody has defined: <strong>\"tradeable condition\"</strong> — a card whose condition is normal enough to change hands without argument. Both sides use it, and everybody's line sits somewhere different, so disputes never stop: the seller says it's tradeable, the buyer opens the package and disagrees.",
     "sec4_p2": "I did not simply publish my own opinion. I stacked three types of evidence: <strong>a poll of 230 collectors</strong>, a major marketplace's public condition guide, and a tier-by-tier comparison of third-party authentication standards.",
     "sec4_p3": "Put together, they gave a term that had lived only in veteran intuition a definition that was <strong>accepted by most users, anchored in external standards, and executable by both sides of a trade</strong>.",
-    "fig4a_cap": "The original screenshot of that poll, as it ran in my article: 230 votes, the spread visible at a glance. <strong>It is the most direct evidence I have of where users genuinely disagreed</strong> — not my guess at what they thought, but what they voted. (Our account's watermark is bottom right.)",
+    "fig4a_cap": "A community poll with 230 votes, the spread visible at a glance. <strong>Instead of guessing what users thought, I asked them to make the disagreement visible.</strong>",
     "fig4b_cap": "The other half of the material: the trading platform's own condition tiers, seven dimensions (corners, edges, discolouration, creases…) mapped onto four grades. <strong>Put the community's vote next to the official wording and a definition you can actually enforce appears.</strong>",
     "sec4_co_big": "In a market with no authoritative definition, consensus itself is the product.",
     "sec4_co_p": "Looking back, this was <strong>user research plus standard-setting</strong>: quantify where users actually disagree (the vote distribution), anchor it against outside authority (the official tiers), then state a version both sides can live with and act on. <strong>I didn't invent a standard — I wrote down one that already existed and that nobody had written down.</strong> And the person who writes it down becomes the one who gets cited.",
     "sec6_label": "Outcome",
     "sec6_head": "Three platforms, one person's topics and scripts",
     "sec6_p1": "WeChat: <strong>214 original pieces, 2,805 followers</strong>. Douyin: <strong>8,891 followers, 79,000 cumulative likes, top video 15,000</strong>. Xiaohongshu: <strong>2,793 followers, 7,418 likes and saves</strong>. Each channel had a job: WeChat carried depth (grading method, industry structure, auction data), while Douyin and Xiaohongshu did card appreciation, breaks, and reactions to whatever was happening.",
-    "sec6_p2": "Topics, copy and video scripts were mine; I coordinated the crew for filming. One source of topics was the inbox — the beginner's guide opens with the line \"we've had a lot of DMs from people who want to understand sports cards and have no idea where to start\". <strong>What this page cites is a representative sample of those 214 pieces, not all of them.</strong>",
+    "sec6_p2": "Topics, copy and video scripts were mine; I coordinated the crew for filming. One source was the inbox — the beginner's guide grew directly from repeated messages from people who wanted to understand sports cards and had no idea where to start.",
     "fig6a_cap": "The account card in the WeChat back end: <strong>214</strong> original pieces, <strong>2,805</strong> total users.",
     "fig6b_cap": "The Douyin profile: <strong>79,000 likes, 8,891 followers</strong>. The bio invites people to come and open packs at the shop — routing online attention to the physical room was the base of the whole business.",
-    "fig7a_cap": "The Douyin grid. The 15,000-like video was \"what does a million-dollar card actually look like\"; most of the rest sat between one and six thousand. <strong>Almost every topic was reverse-engineered from what a beginner most wants to know</strong> — what different players' autographs look like, how a fair mystery pack differs from a rigged one, how many versions of Prizm there really are.",
     "fig7b_cap": "The Xiaohongshu grid runs differently — more market read than showcase: \"Harden's lost his magic; are his cards crashing?\", \"How far apart are LaMelo and Morant really?\" <strong>The same material needs a different telling on a different platform.</strong>",
     "sec9_label": "What the two years left me",
     "sec9_head": "Where my sense of \"content drives decisions\" actually came from",

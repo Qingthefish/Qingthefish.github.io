@@ -129,12 +129,13 @@
       .reveal { opacity: 1; transform: none; }
     }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
@@ -234,35 +235,21 @@
   </div>
 </section>
 
-<!-- 如何落地 + 诚实边界 -->
+<!-- 如何落地 -->
 <section>
   <div class="container">
-    <p class="sec-label" data-i18n="c5_label">如何落地（以及诚实的边界）</p>
+    <p class="sec-label" data-i18n="c5_label">如何落地</p>
     <div class="two-col">
       <h2 class="col-head" data-i18n="c5_head">36 小时，一个人的全栈</h2>
       <div class="col-body">
-        <p data-i18n="c5_p1">前端 React + TypeScript，用一套状态机模拟作者 / 被提及者 / 旁观者三端联动；后端 Python FastAPI 接<strong>真实大模型</strong>做两项能力——人物抽取（强制 JSON schema、失败明确报错、绝不用假数据冒充成功）与节点记忆问答（硬约束：不扮演本人、无依据就说不知道、引用必须真实）。一路迭代到 v1.0.48。</p>
-        <p data-i18n="c5_p2">我坚持诚实区分「真做的」和「为 Demo 演示的」：<span class="rm real" data-i18n="rm_real">真跑通</span> AI 识别真调模型、三道门逻辑全部真实可点；<span class="rm mock" data-i18n="rm_mock">演示态</span> 三端联动是单机状态机模拟、数据不落库。<strong>对评委我从不说「闭环了」，只说「完整交互原型，核心 AI 是真的」。</strong>赛后我又花半天把它从公司内网脱敏迁到 Cloudflare，就为了让你现在能点开链接直接体验。</p>
+        <p data-i18n="c5_p1">前端 React + TypeScript，用一套状态机组织作者 / 被提及者 / 旁观者三种角色；后端 Python FastAPI 接大模型，完成人物抽取与节点记忆问答。一路迭代到 v1.0.48。</p>
+        <p data-i18n="c5_p2">人物识别直接调用模型，作者确认、人物认领、故事展示三道门全部可交互；多账号通知与关系图用单浏览器状态组织，在 36 小时里把核心判断做成完整体验。赛后迁移到 Cloudflare，现在可以直接打开体验。</p>
       </div>
     </div>
     <figure class="fig">
       <img src="img/product3.jpg" alt="节点记忆问答与三端联动界面" loading="lazy" />
-      <figcaption data-i18n="fig3_cap">节点记忆问答（真调模型）· 三端同屏联动（单机状态机模拟）——真做的和演示态，界面上分得清清楚楚。</figcaption>
+      <figcaption data-i18n="fig3_cap">节点记忆问答与三角色联动：从故事里识别人，再经过确认与认领，把关系长成可浏览的图谱。</figcaption>
     </figure>
-  </div>
-</section>
-
-<!-- 复盘沉淀 -->
-<section>
-  <div class="container">
-    <p class="sec-label" data-i18n="c6_label">复盘与沉淀</p>
-    <div class="two-col">
-      <h2 class="col-head" data-i18n="c6_head">我从没进前 10 里学到的</h2>
-      <div class="col-body">
-        <p data-i18n="c6_p1">评委说「很有落地价值」，有工程师专门来找我讨论落地细节——方向和差异化是被认可的。没进前 10，复盘下来最大的收获不是名次，是三个认知：<strong>产品逻辑 ≠ 产品完整性</strong>（完整性 = 逻辑 + 视觉 + 情绪 + 现场表达，缺一块别人就只看到你缺的那块）；<strong>做 demo 是讲一个故事，不是做一个产品</strong>（边界要收到小到评委 3 分钟能听完）；产品人的核心竞争力不是「想得全」，是「讲得清」。</p>
-        <p data-i18n="c6_p2">最能带走的一条方法论：确权闸门那套<strong>「AI 提建议 → 人做决定 → 拒绝无损原文」</strong>的三段式，可以迁移到一大类「AI 生成/建议 + 人确认」的场景——AI 辅助写作的引用确认、AI 辅助设计的素材确认、AI 辅助编程的代码确认。比「红书人物志」这个具体产品更值得带走。</p>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -286,7 +273,7 @@
 <script>
 const T = {
   "zh": {
-    "back": "于清程",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "hero_meta": "小红书首届全员黑客松 · 2026.07 · 36 小时封闭赛",
     "hero_title": "红书人物志",
@@ -317,24 +304,18 @@ const T = {
     "c4_head": "不改变用户既有的习惯",
     "c4_p1": "这条哲学是我所有细节判断的总开关，落在三处：<strong>① 发布不阻塞</strong>——新笔记先正常发出去，再弹一个可忽略的轻提示，AI 分析失败也不回滚发布；<strong>② 三端保持小红书原有的视觉与语言</strong>——被提及者收到的是「孩子写了关于你的故事」这种情感语言，不是冷冰冰的系统通知；<strong>③ 确认后才推</strong>——不是「AI 一识别到就推」，是「作者说『对，是这个人』之后才推」。",
     "c4_p2": "最大的一个「更炫但会打断习惯」的方案被我否掉了：<strong>「AI 装成人格跟你说话」</strong>。全场超 1/3 的人做这个方向，我刻意反着走——因为它同时打断两个习惯：破坏「笔记属于作者」的契约，也破坏信任（被写的人根本分不清那到底是不是本人的意思）。我把 AI 死死限定成「帮你读这个空间里<strong>已获授权</strong>的共同记忆」，而不是「替这个人活过一次」。",
-    "c5_label": "如何落地（以及诚实的边界）",
+    "c5_label": "如何落地",
     "c5_head": "36 小时，一个人的全栈",
-    "c5_p1": "前端 React + TypeScript，用一套状态机模拟作者 / 被提及者 / 旁观者三端联动；后端 Python FastAPI 接<strong>真实大模型</strong>做两项能力——人物抽取（强制 JSON schema、失败明确报错、绝不用假数据冒充成功）与节点记忆问答（硬约束：不扮演本人、无依据就说不知道、引用必须真实）。一路迭代到 v1.0.48。",
-    "c5_p2": "我坚持诚实区分「真做的」和「为 Demo 演示的」：<span class=\"rm real\">真跑通</span> AI 识别真调模型、三道门逻辑全部真实可点；<span class=\"rm mock\">演示态</span> 三端联动是单机状态机模拟、数据不落库。<strong>对评委我从不说「闭环了」，只说「完整交互原型，核心 AI 是真的」。</strong>赛后我又花半天把它从公司内网脱敏迁到 Cloudflare，就为了让你现在能点开链接直接体验。",
-    "rm_real": "真跑通",
-    "rm_mock": "演示态",
-    "c6_label": "复盘与沉淀",
-    "c6_head": "我从没进前 10 里学到的",
-    "c6_p1": "评委说「很有落地价值」，有工程师专门来找我讨论落地细节——方向和差异化是被认可的。没进前 10，复盘下来最大的收获不是名次，是三个认知：<strong>产品逻辑 ≠ 产品完整性</strong>（完整性 = 逻辑 + 视觉 + 情绪 + 现场表达，缺一块别人就只看到你缺的那块）；<strong>做 demo 是讲一个故事，不是做一个产品</strong>（边界要收到小到评委 3 分钟能听完）；产品人的核心竞争力不是「想得全」，是「讲得清」。",
-    "c6_p2": "最能带走的一条方法论：确权闸门那套<strong>「AI 提建议 → 人做决定 → 拒绝无损原文」</strong>的三段式，可以迁移到一大类「AI 生成/建议 + 人确认」的场景——AI 辅助写作的引用确认、AI 辅助设计的素材确认、AI 辅助编程的代码确认。比「红书人物志」这个具体产品更值得带走。",
+    "c5_p1": "前端 React + TypeScript，用一套状态机组织作者 / 被提及者 / 旁观者三种角色；后端 Python FastAPI 接大模型，完成人物抽取与节点记忆问答。一路迭代到 v1.0.48。",
+    "c5_p2": "人物识别直接调用模型，作者确认、人物认领、故事展示三道门全部可交互；多账号通知与关系图用单浏览器状态组织，在 36 小时里把核心判断做成完整体验。赛后迁移到 Cloudflare，现在可以直接打开体验。",
     "art_cap": "易拉宝主视觉「你想把谁，写进来？」· 外滩老市府大楼 Demo Day 现场，独自参赛",
     "fig1_cap": "手机 1 收到通知 → 手机 2 的 STORY CONSENT 同意门：作者点「确认」之前，AI 的候选不入图、不推送。",
-    "fig3_cap": "节点记忆问答（真调模型）· 三端同屏联动（单机状态机模拟）——真做的和演示态，界面上分得清清楚楚。",
+    "fig3_cap": "节点记忆问答与三角色联动：从故事里识别人，再经过确认与认领，把关系长成可浏览的图谱。",
     "demo_label": "脱敏迁到 Cloudflare · 现在就能点开体验",
     "demo_btn": "▶ 在线体验产品 →"
   },
   "en": {
-    "back": "Qingcheng Yu",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "hero_meta": "Xiaohongshu's First Company-Wide Hackathon · Jul 2026 · 36-hour sprint",
     "hero_title": "Rednote Person Graph",
@@ -365,19 +346,13 @@ const T = {
     "c4_head": "Don't change the user's existing habits",
     "c4_p1": "This philosophy is the master switch behind every detail, landing in three places: <strong>① Publishing never blocks</strong> — a new post goes out normally first, then a dismissible hint appears; AI failure never rolls back the publish. <strong>② The three screens keep Xiaohongshu's own visual language</strong> — a mentioned person gets \"your child wrote a story about you,\" warm, not a cold system alert. <strong>③ Push only after confirmation</strong> — not \"push the moment AI detects,\" but \"push after the author says 'yes, it's them.'\"",
     "c4_p2": "The flashiest habit-breaking option I rejected: <strong>\"an AI that talks in someone's persona.\"</strong> Over a third of the field went this way; I deliberately went the other. It breaks two habits at once — the contract that \"a post belongs to its author,\" and trust (the person written about can't tell whether it's really them talking). I confined the AI to \"help you read the <strong>authorized</strong> shared memories in this space,\" never \"live this person's life for them.\"",
-    "c5_label": "How it was built (and the honest boundaries)",
+    "c5_label": "How it was built",
     "c5_head": "A one-person full stack in 36 hours",
-    "c5_p1": "React + TypeScript on the front, one state machine simulating three linked roles (author / mentioned person / observer); Python FastAPI on the back calling a <strong>real LLM</strong> for two capabilities — person extraction (enforced JSON schema, explicit failure, never faking success with canned data) and node-memory Q&A (hard constraints: no impersonation, \"I don't know\" without grounds, citations must be real). Iterated to v1.0.48.",
-    "c5_p2": "I keep an honest line between real and demo: <span class=\"rm real\">real</span> the AI extraction truly calls the model, all three gates are truly clickable; <span class=\"rm mock\">demo</span> the three-way linkage is a single-machine state machine, data isn't persisted. <strong>I never told judges it was \"end-to-end\" — only \"a complete interactive prototype whose core AI is real.\"</strong> After the contest I spent half a day migrating it off the internal platform onto Cloudflare, just so you can open the link and try it now.",
-    "rm_real": "real",
-    "rm_mock": "demo",
-    "c6_label": "Retrospective",
-    "c6_head": "What not making the top 10 taught me",
-    "c6_p1": "Judges called it \"genuinely deployable\"; engineers came to discuss implementation details — the direction and differentiation were validated. Not making the top 10, the real takeaway isn't the ranking, it's three realizations: <strong>product logic ≠ product completeness</strong> (completeness = logic + visuals + emotion + live delivery; miss one and that's all people see); <strong>a demo tells one story, it doesn't build a product</strong> (shrink the scope until a judge can follow it in 3 minutes); a product person's edge isn't \"thinking of everything,\" it's \"making it clear.\"",
-    "c6_p2": "The most portable methodology: the consent gate's <strong>\"AI suggests → human decides → rejection leaves the original untouched\"</strong> pattern transfers to a whole class of \"AI generates/suggests + human confirms\" scenarios — citation confirmation in AI writing, asset confirmation in AI design, code confirmation in AI coding. Worth more than this one product.",
+    "c5_p1": "React + TypeScript on the front, with one state machine organising three roles — author, mentioned person, and observer. Python FastAPI on the back connects the model for person extraction and node-memory Q&A. The prototype reached v1.0.48.",
+    "c5_p2": "Person extraction calls the model directly; author confirmation, person claiming, and story display are all interactive. Multi-account notifications and the relationship graph are organised in a single-browser state model, enough to turn the core product judgment into a complete 36-hour experience. It was later moved to Cloudflare and remains directly explorable.",
     "art_cap": "Event banner \"Who would you write in?\" · Demo Day at the former Bund City Hall — entered solo",
     "fig1_cap": "Phone 1 gets the notification → Phone 2's STORY CONSENT gate: before the author taps \"confirm,\" the AI candidate is not graphed, not pushed.",
-    "fig3_cap": "Node memory Q&A (real model calls) · three screens in sync (single-machine state machine) — what's real and what's demo, told apart right on screen.",
+    "fig3_cap": "Node-memory Q&A and three-role interaction: identify a person from a story, confirm and claim them, then grow the relationship into a browsable graph.",
     "demo_label": "De-identified onto Cloudflare · open it and try it now",
     "demo_btn": "▶ Try it live →"
   }

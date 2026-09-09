@@ -240,13 +240,14 @@
     html[lang="en"] .name { letter-spacing: -0.02em; }
     html[lang="en"] .tagline { font-style: italic; }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="home-page">
 
 <!-- ══════════ NAV ══════════ -->
 <nav>
   <div class="nav-inner">
-    <a href="/" class="nav-logo" data-i18n="nav_name">于清程</a>
+    <a href="/" class="nav-logo" data-i18n="nav_name">作品集</a>
     <button id="lang-btn" onclick="toggleLang()" aria-label="Switch language">EN</button>
   </div>
 </nav>
@@ -263,15 +264,14 @@
     <p class="meta-row" data-i18n="hero_avail"><strong>求职意向</strong>：2027 届校招全职 · 预计 2027.7 毕业 · 寒假可实习</p>
     <div class="contacts">
       <a href="mailto:fishboypek@qq.com">fishboypek@qq.com</a>
-      <a href="https://github.com/Qingthefish" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
 
-    <!-- AI 分身 -->
-    <div class="ai-panel" role="region" aria-label="AI 分身问答">
+    <!-- AI 导览 -->
+    <div class="ai-panel" role="region" aria-label="AI 导览问答">
       <div class="ai-head">
         <span class="ai-dot" aria-hidden="true"></span>
         <div>
-          <h2 class="ai-head-title" data-i18n="ai_title">于清程的 AI 分身</h2>
+          <h2 class="ai-head-title" data-i18n="ai_title">AI 导览</h2>
           <p data-i18n="ai_sub">基于公开资料回答</p>
         </div>
       </div>
@@ -379,10 +379,10 @@
          'How technical is he really?', 'What role is he looking for?'],
   };
   const TXT = {
-    zh: { greet: '你好，我是于清程的 AI 分身。他的经历、项目、求职意向都可以问我 —— 想从哪儿聊起？',
+    zh: { greet: '你好，我是本站的 AI 导览。经历、项目和求职方向都可以问——想从哪儿聊起？',
           thinking: '思考中', neterr: '网络没连上，稍后再试，或直接邮件：fishboypek@qq.com',
           timeout: '响应有点慢，请稍后再试一次，或直接邮件：fishboypek@qq.com' },
-    en: { greet: "Hi, I'm Qingcheng's AI. Ask me about his background, projects, or what he's looking for — where shall we start?",
+    en: { greet: "Hi, I'm the portfolio's AI guide. Ask about the background, projects, or target roles — where shall we start?",
           thinking: 'Thinking', neterr: 'Network issue — please retry, or email fishboypek@qq.com',
           timeout: 'Taking too long — please retry, or email fishboypek@qq.com' },
   };
@@ -502,13 +502,13 @@
 <script>
 const T = {
   zh: {
-    nav_name:     '于清程',
+    nav_name:     '作品集',
     hero_eyebrow: 'AI Agent / AI Infra 产品经理',
     hero_name:    '于清程<em>.</em>',
     hero_tagline: '产品是被动的艺术',
     hero_bio:     '不先教育用户改变习惯，而是让系统吸收复杂度，让技术顺着人的真实行为自然发生。',
     hero_avail:   '<strong>求职意向</strong>：2027 届校招全职 · 预计 2027.7 毕业 · 寒假可实习',
-    ai_title:     '于清程的 AI 分身',
+    ai_title:     'AI 导览',
     ai_sub:       '基于公开资料回答',
     ai_ph:        '问点关于我的任何事…',
     ai_send:      '发送',
@@ -536,13 +536,13 @@ const T = {
     t_more4:      '查看详情 →', t_more5: '查看详情 →', t_more6: '查看详情 →', t_more7: '查看详情 →',
   },
   en: {
-    nav_name:     'Qingcheng Yu',
+    nav_name:     'Portfolio',
     hero_eyebrow: 'AI Agent / Infrastructure Product Manager',
     hero_name:    'Qingcheng Yu<em>.</em>',
     hero_tagline: 'Product is the art of staying out of the way.',
     hero_bio:     'Do not make users adapt to technology. Let the system absorb complexity and fit the way people already behave.',
     hero_avail:   '<strong>Open to</strong>: 2027 new-grad full-time · expected graduation Jul 2027 · winter internship available',
-    ai_title:     "Qingcheng's AI",
+    ai_title:     'AI guide',
     ai_sub:       'Answers from public materials',
     ai_ph:        'Ask me anything about him…',
     ai_send:      'Send',

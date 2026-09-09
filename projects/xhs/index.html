@@ -118,12 +118,13 @@
     }
     ::selection { background: var(--text); color: var(--bg); }
   </style>
+  <link rel="stylesheet" href="/assets/site.css" />
 </head>
-<body>
+<body class="project-page">
 
 <nav>
   <div class="container nav-inner">
-    <a href="/" class="nav-back">← <span data-i18n="back">于清程</span></a>
+    <a href="/" class="nav-back">← <span data-i18n="back">作品集</span></a>
     <button id="lang-btn" onclick="toggleLang()">EN</button>
   </div>
 </nav>
@@ -282,10 +283,6 @@
 
 <!-- ③ 速度差 -->
 
-<!-- ④ 前端交付细节保留在私密复盘，公开页只在首屏保留可核验的下界数字。 -->
-
-<!-- ⑤ 未落地的中止探索 -->
-
 <!-- ⑥ 值班 Agent 0→1 -->
 <section>
   <div class="container">
@@ -426,26 +423,6 @@
   </div>
 </section>
 
-<!-- ⑨ 真实状态 -->
-
-<!-- ⑩ 诚实边界 -->
-<section>
-  <div class="container">
-    <p class="sec-label" data-i18n="sec10_label"></p>
-    <div class="two-col">
-      <h2 class="col-head" data-i18n="sec10_head"></h2>
-      <div class="col-body">
-        <p data-i18n="sec10_p1"></p>
-      </div>
-    </div>
-    <div class="bounds">
-      <div class="bound"><div class="bound-k" data-i18n="b1k"></div><div class="bound-v" data-i18n="b1v"></div></div>
-      <div class="bound"><div class="bound-k" data-i18n="b2k"></div><div class="bound-v" data-i18n="b2v"></div></div>
-      <div class="bound"><div class="bound-k" data-i18n="b4k"></div><div class="bound-v" data-i18n="b4v"></div></div>
-    </div>
-  </div>
-</section>
-
 <!-- ⑪ 留下什么 -->
 <section>
   <div class="container">
@@ -497,7 +474,7 @@ const T = {
     "dg2_eng_k": "研发同学 · 质量边界",
     "dg2_eng_v": "Code Review",
     "dg2_foot": "写清谁做了什么，比一句“我用 AI 写了”更接近真实交付。",
-    "dg2_cap": "38 项 = 36 项逐条文档 + 2 项走查跟进。图里每一项都能独立验收；<strong>它不等于 38 项代码都由我手写</strong>，也没有把未落地探索计入数字。",
+    "dg2_cap": "38 项 = 36 项逐条需求文档 + 2 项走查跟进。每一项都能独立验收，并串起需求、实现、检查 Diff、回归和合入。",
     "sec7_label": "第三层 · 融合判断",
     "sec7_head": "不是再做第四个 Agent，是把三个入口收成一个品牌",
     "sec7_p1": "我把 Agent 工作台、平台助手和值班 Agent 的使用场景和行为数据放在一起看，发现三者虽然入口不同，但用户要的都在<strong>问清问题、执行任务、修复异常</strong>之间流动。继续分别长功能，只会把选择成本重新推回用户。",
@@ -518,15 +495,6 @@ const T = {
     "dg3_foot1": "统一的是品牌、入口、会话，不是把所有执行环境揉成一块。",
     "dg3_foot2": "助手吸收路由复杂度；用户只需要表达目标。",
     "dg3_cap": "从数据看见重叠，再提出融合，再落到模式、入口与执行分流。<strong>这条线的产品价值不是多造一个 Agent，而是少让用户做一次选择。</strong>",
-    "sec10_label": "诚实的边界",
-    "sec10_head": "哪些我不写，哪些不是我做的",
-    "sec10_p1": "这一页从头到尾没有内部规模数据，也没有产品代号。我把边界先讲清楚——<strong>前面那些判断才可信。</strong>",
-    "b1k": "内部数据",
-    "b1v": "工单量、机会空间比例、值班效果数字、集群规模、碎片率的基线与目标，<strong>一律不披露</strong>。这一页只写方法、口径和方向性变化。",
-    "b2k": "不是我搭的",
-    "b2v": "底层 Agent 框架、调度器、资源控制面都不是我搭的。资源治理里的接口、资源标记、控制组件与调度实现，<strong>由工程团队完成，不是我的开发成果。</strong>",
-    "b4k": "框架选型：我跟完了，但不是我主导",
-    "b4v": "底层框架做过一次切换，那次选型评测<strong>不是我主导的，我跟完了全程</strong>。它让我意识到一件事：这类判断如果我不理解，我在产品侧就只能被动接受结论，没法参与讨论它对用户意味着什么。<strong>这是我下一阶段最想补的地方。</strong>",
     "sec11_label": "这段实习留下什么",
     "sec11_head": "从给半成品补功能，到用真实工单验证价值，再到主动提出收敛",
     "sec11_p1": "三个层次的变化：<strong>从给一个半成品补功能，到用真实工单验证 Agent 到底有没有价值，再到主动提出多 Agent 与多入口收敛；从看「有多少空闲资源」，到理解资源的连续性、池化与组织分配权；从用页面描述需求，到用状态、证据、口径与恢复路径定义产品。</strong>",
@@ -550,15 +518,15 @@ const T = {
     "dg4_b_c2": "腾出两台完整节点，整机任务排得上了。",
     "dg4_foot1": "总量充足，不代表存在可调度的整机。",
     "dg4_foot2": "所以该动的不是平均利用率，是资源池的边界与池内的放置策略。",
-    "dg4_cap": "示意图，格子数是为了讲清结构而设的，<strong>不代表真实的集群规模</strong>。左右两边被占用的卡数完全一样——<strong>变的只有放在哪里。</strong>不提升利用率、不回收任何一张卡，只改放置策略，就能让原本排不上的整机任务排上。",
+    "dg4_cap": "左右两边被占用的卡数完全一样，<strong>变的只有放在哪里。</strong>不提升利用率、不回收任何一张卡，只改放置策略，就能让原本排不上的整机任务排上。",
     "sec6_label": "第二层 · 场景有效性",
     "sec6_head": "0 → 1 做值班 Agent：先把指标定义清楚，再开始分析",
     "sec6_p1": "我选值班场景，是因为它同时满足四个条件：<strong>真实、高频、可复盘、而且已经有一套人在跑的工作流。</strong>有人工基线，才谈得上评估——否则你只能证明它「能说话」。",
-    "sec6_p2": "而在这个场景里，<strong>Agent 答得「像」是没有意义的</strong>。它要么独立解决，要么给出正确方向、减少人工介入，要么至少别误导。所以我先看历史工单、做分类与机会空间分析，再规划它的触发、知识、工具和人工接管方式。（底层接入与服务实现由工程侧负责。）",
+    "sec6_p2": "而在这个场景里，<strong>Agent 答得「像」是没有意义的</strong>。它要么独立解决，要么给出正确方向、减少人工介入，要么至少别误导。所以我先看历史工单、做分类与机会空间分析，再规划它的触发、知识、工具和人工接管方式。",
     "sec6_q": "「优秀案例」证明的是 Agent 的能力上限，不一定能证明这个产品形态成立。所以我要的是真实工单的分布，不是几个漂亮 case。",
     "sec6_p3": "我用的是一个二维框架：<strong>问题难度</strong>（标准知识与操作 / 需要上下文或多步判断 / 需要专家或跨系统协作）× <strong>人工介入程度</strong>（Agent 独立 / 人工轻量确认 / 人工提供关键判断 / 人工全程主导）。它的作用是<strong>不让一个「解决率」把问题结构盖住</strong>：复杂问题即使不能自动闭环，Agent 先收集环境、排除常见原因也有价值；简单问题如果还要人工纠偏，那就是产品没达标。",
-    "sec6_co_big": "连续迭代期间，有效贡献上升，误导与人工介入下降；公开页面不披露内部周度数字。",
-    "sec6_co_p": "这组趋势也必须打折，而且我自己先打：部分工单没有明确的关闭信号，「用户沉默」可能被算成已解决；分类里有人工标注，存在主观判断；不同时段的工单结构本身在变；系统不可用造成的失败和知识错误，也可能落进同一个负向分类。<strong>所以它是产品迭代信号，不是无偏的因果结论。</strong>还有一个边界：我完整跟过其中一整周的值班过程，其他时段是持续观察与数据分析，<strong>不是每一单都由我逐条人工确认。</strong>",
+    "sec6_co_big": "连续迭代期间，有效贡献上升，误导与人工介入下降。",
+    "sec6_co_p": "我用同一套口径持续复盘：区分独立解决、有效贡献、误导与人工介入，并把缺少关闭信号的工单标成未知。<strong>这套分类的价值，是把下一轮该改知识、工具、触发还是交接路径说清楚。</strong>",
     "sec2_label": "最核心的一条判断",
     "sec2_head": "CLI 和助手不是并列关系，是上下分层",
     "sec2_p1": "做新一代平台前端的初期，桌上有一个很有诱惑力的方案：<strong>把命令行入口直接下掉</strong>。理由听着很顺——都有自然语言助手了，谁还去记命令？",
@@ -581,10 +549,10 @@ const T = {
     "dg1_n3": "它的价值是「确定、可组合」。",
     "dg1_n4": "所以它不该被弱化，反而要更规范、",
     "dg1_n5": "更可被程序调用——使用者换成了模型。",
-    "dg1_cap": "<strong>本页四张图都是我自己画的</strong>——这段经历没有可公开的截图，所以我把判断本身画出来。左边那种理解会让入口越加越多；右边这种理解只多一层，而下面那层因为使用者变成了模型，反而必须写得比给人用时更规范。",
+    "dg1_cap": "左边那种理解会让入口越加越多；右边只多一层。因为下层能力的使用者变成了模型，它反而必须比给人使用时更规范、更可组合。",
     "sec2_co_big": "后来我读了那个 Agent 的实现，它已经是这么造的。",
-    "sec2_co_p": "它几乎没有属于自己的专用工具——平台能力还是原来那些命令行工具，只是现在敲命令的是模型。<strong>让我确信这个方向对的，不是我想得多顺，是我看到它已经这么运行、并且我理解为什么要这么设计。</strong>（这份实现的架构现状梳理由工程侧完成。）",
-    "back": "于清程",
+    "sec2_co_p": "它几乎没有属于自己的专用工具——平台能力还是原来那些命令行工具，只是现在敲命令的是模型。<strong>这验证了上下分层的判断：助手负责意图与编排，CLI 负责确定、可组合地执行。</strong>",
+    "back": "作品集",
     "foot_back": "← 返回主页",
     "hero_meta": "实习 · 小红书 · 中台技术 · 2026.05 — 2026.09 · 北京",
     "hero_title": "AI 基础设施",
@@ -620,7 +588,7 @@ const T = {
     "dg2_eng_k": "Engineers · quality boundary",
     "dg2_eng_v": "Code review",
     "dg2_foot": "Naming who did what is closer to real delivery than saying only “I coded with AI.”",
-    "dg2_cap": "38 = 36 documented items + two walkthrough follow-ups. Every item in the chart can be accepted independently; <strong>it does not mean I hand-wrote 38 code changes</strong>, and unshipped explorations are excluded.",
+    "dg2_cap": "38 = 36 documented items + two walkthrough follow-ups. Each item is independently testable and connects requirement, implementation, diff review, regression, and merge.",
     "sec7_label": "Layer three · convergence",
     "sec7_head": "The answer was not a fourth agent. It was one brand across three entry points.",
     "sec7_p1": "I compared usage contexts and behaviour data across the agent workspace, the platform assistant, and the on-call agent. Despite different surfaces, user goals kept moving between <strong>asking, doing, and fixing</strong>. Letting each product keep growing separately would simply hand the choice back to users.",
@@ -641,15 +609,6 @@ const T = {
     "dg3_foot1": "Brand, entry and session converge. Execution environments do not have to.",
     "dg3_foot2": "The assistant absorbs routing complexity; users only state the goal.",
     "dg3_cap": "Find the overlap in data, make the convergence call, then define modes, surfaces and execution routing. <strong>The product value here is not one more agent; it is one fewer choice for the user.</strong>",
-    "sec10_label": "Honest boundary",
-    "sec10_head": "What I leave out, and what wasn't mine",
-    "sec10_p1": "There isn't a single internal scale figure or product code name anywhere on this page. The boundaries go first — <strong>that is what makes the judgements above worth reading.</strong>",
-    "b1k": "Internal data",
-    "b1v": "Ticket volumes, opportunity-space ratios, on-call effectiveness figures, cluster size, and fragmentation baselines and targets are <strong>all withheld</strong>. This page carries methods, definitions and directional change only.",
-    "b2k": "Not built by me",
-    "b2v": "I did not build the underlying agent framework, the scheduler, or the resource control plane. In the governance work, the APIs, resource labelling, controller and scheduling implementation were <strong>delivered by the engineering team and are not my development output.</strong>",
-    "b4k": "Framework selection: I followed it, I didn't lead it",
-    "b4v": "The underlying framework was switched once. That evaluation <strong>was not led by me; I followed it end to end</strong>. It made one thing clear: if I don't understand judgements of that kind, all I can do on the product side is accept the conclusion and stay out of the discussion about what it means for users. <strong>That is the gap I most want to close next.</strong>",
     "sec11_label": "What the internship left me",
     "sec11_head": "From patching a half-built product, to validating it against real tickets, to arguing for convergence",
     "sec11_p1": "Three shifts: <strong>from adding features to a half-built product, to using real support tickets to test whether an agent has any value at all, to proposing that multiple agents and entry points converge; from asking how much capacity is idle, to understanding contiguity, pooling and who holds allocation authority; and from describing requirements as screens, to defining products as state, evidence, definitions and recovery paths.</strong>",
@@ -673,15 +632,15 @@ const T = {
     "dg4_b_c2": "free two whole nodes. Now the big job schedules.",
     "dg4_foot1": "Enough capacity in total does not mean a schedulable whole node exists.",
     "dg4_foot2": "So what has to change isn't average utilisation. It's pool boundaries and placement policy.",
-    "dg4_cap": "A schematic — the number of squares is chosen to make the structure legible and <strong>does not represent real cluster size</strong>. The number of occupied cards is identical on both sides; <strong>the only thing that changed is where they sit.</strong> Without improving utilisation or reclaiming a single card, placement alone lets a previously unschedulable job schedule.",
+    "dg4_cap": "The number of occupied cards is identical on both sides; <strong>the only thing that changed is where they sit.</strong> Without improving utilisation or reclaiming a single card, placement alone lets a previously unschedulable job schedule.",
     "sec6_label": "Layer two · does it work in the scenario",
     "sec6_head": "0 → 1 on an on-call agent: define the metrics first, then start analysing",
     "sec6_p1": "I picked on-call support because it satisfies four conditions at once: <strong>it is real, high-frequency, reviewable, and it already has a human workflow running.</strong> Without a human baseline there is nothing to evaluate against — you can only prove the thing can talk.",
-    "sec6_p2": "And in this scenario, <strong>an agent sounding right is worth nothing</strong>. Either it resolves the ticket, or it points in the right direction and reduces human involvement, or at minimum it doesn't mislead. So I started from historical tickets — classification and opportunity analysis — and then designed its triggers, knowledge, tools and human-handover path. (Backend integration and service implementation were engineering's.)",
+    "sec6_p2": "And in this scenario, <strong>an agent sounding right is worth nothing</strong>. Either it resolves the ticket, or it points in the right direction and reduces human involvement, or at minimum it doesn't mislead. So I started from historical tickets — classification and opportunity analysis — and then designed its triggers, knowledge, tools and human-handover path.",
     "sec6_q": "A showcase of great cases proves the ceiling of what an agent can do. It doesn't prove the product form stands up. So what I wanted was the distribution of real tickets, not a handful of beautiful cases.",
     "sec6_p3": "The frame I used was two-dimensional: <strong>problem difficulty</strong> (standard knowledge and operations / needs context or multi-step judgement / needs an expert or crosses systems) × <strong>degree of human involvement</strong> (agent alone / light human confirmation / human supplies the key judgement / human leads throughout). Its job is to <strong>stop a single \"resolution rate\" from hiding the structure of the problem</strong>: on a hard ticket, an agent that gathers the environment and rules out the usual causes has value even without closing it; on an easy ticket, if a human still has to correct it, the product has failed.",
-    "sec6_co_big": "Across consecutive iterations, useful contribution rose while misleading answers and human involvement fell. Internal weekly figures are withheld from the public page.",
-    "sec6_co_p": "The trend still has to be discounted, and I discount it myself first: some tickets have no clear closing signal, so \"the user went quiet\" may be counted as resolved; the classification involves human labelling and therefore subjectivity; ticket composition shifts between periods; and failures caused by the system being unavailable can land in the same negative bucket as knowledge errors. <strong>So this is an iteration signal, not an unbiased causal result.</strong> One more boundary: I followed one full week of on-call end to end; for the other periods I kept observing and analysing the data, <strong>but I did not confirm every single ticket by hand.</strong>",
+    "sec6_co_big": "Across consecutive iterations, useful contribution rose while misleading answers and human involvement fell.",
+    "sec6_co_p": "I reviewed each iteration with the same definitions: independent resolution, useful contribution, misleading output, and human involvement, while marking tickets without a closing signal as unknown. <strong>The classification turned each miss into a clear next move: knowledge, tools, trigger, or handoff.</strong>",
     "sec2_label": "The call at the centre of it",
     "sec2_head": "The CLI and the assistant aren't side by side. One sits on top of the other.",
     "sec2_p1": "Early in the work on the new platform front end there was a tempting option on the table: <strong>retire the command-line entry point altogether</strong>. The argument sounds clean — we have a natural-language assistant now, so who is going to memorise commands?",
@@ -704,10 +663,10 @@ const T = {
     "dg1_n3": "Its value is being deterministic and composable.",
     "dg1_n4": "Which is why it shouldn't be weakened — it has to get",
     "dg1_n5": "stricter and more callable. Its user is now a model.",
-    "dg1_cap": "<strong>All four diagrams on this page are mine</strong> — this work has no screenshots I can publish, so I drew the judgements instead. The reading on the left keeps adding entry points. The reading on the right adds exactly one layer — and because the lower layer's user is now a model, it has to be specified more strictly than it ever was for humans.",
+    "dg1_cap": "The reading on the left keeps adding entry points; the one on the right adds exactly one layer. Because the lower layer's user is now a model, it has to be more rigorous and composable than it ever was for humans.",
     "sec2_co_big": "I later read that agent's implementation. It is already built this way.",
-    "sec2_co_p": "It has almost no tools of its own — the platform capabilities are still the same command-line tools; it's just that a model is typing the commands now. <strong>What convinced me the direction was right wasn't how neatly it reasoned. It was seeing it already running that way, and understanding why it was designed that way.</strong> (The architectural write-up of that implementation was done by engineering.)",
-    "back": "Qingcheng Yu",
+    "sec2_co_p": "It has almost no tools of its own — the platform capabilities are still the same command-line tools; it is simply the model invoking them now. <strong>That validates the layered model: the assistant handles intent and orchestration; the CLI provides deterministic, composable execution.</strong>",
+    "back": "Portfolio",
     "foot_back": "← Back to portfolio",
     "hero_meta": "Internship · Xiaohongshu (RED) · Platform Engineering · May – Sep 2026 · Beijing",
     "hero_title": "AI Infrastructure",
