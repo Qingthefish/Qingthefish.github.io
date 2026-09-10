@@ -39,7 +39,6 @@
       -moz-osx-font-smoothing: grayscale;
       -webkit-tap-highlight-color: transparent;
     }
-    body.ai-chat-full { overflow: hidden; }
     a { color: inherit; text-decoration: none; }
     ::selection { background: var(--text); color: var(--bg); }
     :focus-visible { outline: 2px solid var(--text); outline-offset: 2px; border-radius: 2px; }
@@ -103,155 +102,6 @@
     .contacts a { color: var(--text); border-bottom: 1px solid var(--border); padding: 4px 0; transition: border-color .2s; }
     .contacts a:hover { border-color: var(--text); }
 
-    /* ─── FLOATING AI GUIDE ─── */
-    .ai-float {
-      position: fixed; right: clamp(16px, 2.2vw, 34px); bottom: clamp(16px, 2.2vw, 30px);
-      z-index: 400;
-    }
-    .ai-launcher {
-      width: 72px; height: 72px; border: 1px solid rgba(26,25,24,.12); border-radius: 50%;
-      display: grid; place-items: center; cursor: pointer; color: var(--text);
-      background: var(--panel); box-shadow: 0 14px 38px rgba(26,25,24,.18);
-      position: relative; transition: transform .24s var(--ease), box-shadow .24s var(--ease), opacity .18s;
-      animation: ai-hop 6s var(--ease) infinite;
-    }
-    .ai-launcher:hover { animation: none; transform: translateY(-4px) scale(1.03); box-shadow: 0 18px 46px rgba(26,25,24,.22); }
-    .ai-launcher:active { transform: translateY(-1px) scale(.98); }
-    .ai-launcher svg { width: 42px; height: 42px; overflow: visible; }
-    .ai-launcher .bot-eye { transform-origin: center; animation: ai-blink 4.8s infinite; }
-    .ai-launcher-status {
-      position: absolute; right: 3px; bottom: 7px; width: 13px; height: 13px;
-      border-radius: 50%; background: #6FBE86; border: 3px solid var(--panel);
-    }
-    .ai-launcher-label {
-      position: absolute; right: 82px; top: 50%; transform: translateY(-50%);
-      white-space: nowrap; padding: 8px 12px; border: 1px solid var(--border-light);
-      border-radius: 999px; background: rgba(255,253,250,.96); color: var(--muted);
-      box-shadow: 0 8px 24px rgba(26,25,24,.08); font-size: .72rem;
-      transition: color .18s, border-color .18s;
-    }
-    .ai-launcher:hover + .ai-launcher-label { color: var(--text); border-color: var(--border); }
-    .ai-float.is-open .ai-launcher,
-    .ai-float.is-open .ai-launcher-label { opacity: 0; pointer-events: none; }
-    .ai-panel {
-      position: absolute; right: 0; bottom: 88px;
-      width: min(460px, calc(100vw - 32px));
-      height: min(640px, calc(100dvh - 118px)); min-height: 430px;
-      background: var(--panel); border: 1px solid rgba(26,25,24,.1); border-radius: 16px;
-      box-shadow: 0 22px 70px rgba(26,25,24,.22);
-      display: flex; flex-direction: column; overflow: hidden;
-      visibility: hidden; opacity: 0; pointer-events: none;
-      transform: translateY(16px) scale(.97); transform-origin: right bottom;
-      transition: opacity .2s var(--ease), transform .24s var(--ease), visibility .2s;
-    }
-    .ai-float.is-open .ai-panel {
-      visibility: visible; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1);
-    }
-    .ai-panel.is-fullscreen {
-      position: fixed; inset: 0; width: 100vw; height: 100dvh; min-height: 0;
-      border: 0; border-radius: 0; transform: none;
-    }
-    .ai-panel.is-fullscreen .ai-head,
-    .ai-panel.is-fullscreen .ai-foot {
-      padding-left: max(18px, calc((100vw - 820px) / 2));
-      padding-right: max(18px, calc((100vw - 820px) / 2));
-    }
-    .ai-panel.is-fullscreen .ai-body {
-      padding-left: max(18px, calc((100vw - 820px) / 2));
-      padding-right: max(18px, calc((100vw - 820px) / 2));
-    }
-    .ai-head {
-      display: flex; align-items: center; gap: 10px;
-      min-height: 68px; padding: 14px 16px 12px 18px;
-      border-bottom: 1px solid var(--border-light);
-    }
-    .ai-dot { width: 7px; height: 7px; border-radius: 50%; background: #6FBE86; flex: none; box-shadow: 0 0 0 3px rgba(111,190,134,0.22); }
-    .ai-head h2 { font-family: var(--serif); font-size: 1.1rem; font-weight: 500; line-height: 1; }
-    .ai-head p { font-size: 0.72rem; color: var(--muted); margin-top: 4px; }
-    .ai-head-copy { min-width: 0; }
-    .ai-head-actions { display: flex; align-items: center; gap: 6px; margin-left: auto; }
-    .ai-icon-btn {
-      width: 38px; height: 38px; display: grid; place-items: center; flex: none;
-      border: 1px solid transparent; border-radius: 8px; background: transparent;
-      color: var(--muted); cursor: pointer; transition: background .18s, color .18s, border-color .18s;
-    }
-    .ai-icon-btn:hover { background: #F3F1EC; color: var(--text); border-color: var(--border-light); }
-    .ai-icon-btn svg { width: 18px; height: 18px; }
-    .ai-body-wrap { position: relative; flex: 1; min-height: 0; background: #FBFAF7; }
-    .ai-body {
-      height: 100%; overflow-y: auto; overscroll-behavior: contain;
-      padding: 20px 18px 56px; scroll-behavior: smooth;
-      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-    }
-    .ai-msg { margin-bottom: 12px; font-size: 0.85rem; line-height: 1.75; }
-    .ai-msg:last-child { margin-bottom: 0; }
-    .ai-msg.me { text-align: right; }
-    .ai-msg .ai-bubble { white-space: pre-wrap; overflow-wrap: anywhere; }
-    .ai-msg.me .ai-bubble {
-      display: inline-block; max-width: 85%; text-align: left;
-      background: var(--text); color: var(--bg);
-      padding: 8px 13px; border-radius: 13px 13px 3px 13px;
-    }
-    .ai-msg.bot .ai-bubble {
-      display: inline-block; max-width: 94%;
-      background: #fff; border: 1px solid var(--border-light); color: #33302C;
-      padding: 10px 13px; border-radius: 13px 13px 13px 3px;
-    }
-    .ai-msg.err .ai-bubble { background: #FFF6F5; border-color: #F0D5D2; color: #8F443B; }
-    .ai-msg-actions { display: flex; align-items: center; margin-top: 5px; }
-    .ai-copy {
-      display: inline-flex; align-items: center; gap: 5px; padding: 3px 7px;
-      border: 0; border-radius: 6px; background: transparent; color: var(--light);
-      font: 500 .65rem/1 var(--sans); cursor: pointer; transition: color .18s, background .18s;
-    }
-    .ai-copy:hover { color: var(--text); background: #F0EEE8; }
-    .ai-copy svg { width: 13px; height: 13px; }
-    .ai-to-bottom {
-      position: absolute; right: 17px; bottom: 14px; width: 38px; height: 38px;
-      display: grid; place-items: center; border: 1px solid var(--border); border-radius: 50%;
-      background: rgba(255,253,250,.96); color: var(--text); cursor: pointer;
-      box-shadow: 0 6px 20px rgba(26,25,24,.13); opacity: 0; transform: translateY(8px);
-      pointer-events: none; transition: opacity .18s, transform .18s;
-    }
-    .ai-to-bottom.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .ai-to-bottom svg { width: 18px; height: 18px; }
-    .ai-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-    .ai-chip {
-      font-size: 0.74rem; padding: 8px 12px; cursor: pointer;
-      background: none; border: 1px solid var(--border); border-radius: 20px;
-      color: var(--muted); font-family: var(--sans); transition: all .18s var(--ease);
-    }
-    .ai-chip:hover { background: var(--text); color: var(--bg); border-color: var(--text); }
-    .ai-foot { padding: 12px 14px 14px; border-top: 1px solid var(--border-light); background: var(--panel); }
-    .ai-input-row { display: flex; gap: 8px; align-items: flex-end; }
-    #ai-input {
-      flex: 1; resize: none; max-height: 80px;
-      font-family: var(--sans); font-size: 1rem; line-height: 1.5; color: var(--text);
-      background: #fff; border: 1px solid var(--border); border-radius: 6px;
-      padding: 9px 11px; outline: none; transition: border-color .2s, box-shadow .2s;
-    }
-    #ai-input:focus { border-color: var(--text); box-shadow: 0 0 0 2px rgba(26,25,24,0.12); }
-    #ai-send {
-      flex: none; min-height: 40px; padding: 9px 16px; cursor: pointer;
-      background: var(--text); color: var(--bg); border: none; border-radius: 6px;
-      font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.06em; transition: opacity .2s;
-    }
-    #ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
-    #ai-paste { min-height: 40px; width: 40px; }
-    .ai-note { font-size: 0.72rem; color: var(--muted); margin-top: 8px; line-height: 1.55; }
-    .ai-note a { color: var(--text); border-bottom: 1px solid var(--border); }
-    .ai-typing span { display: inline-block; animation: aiblink 1.3s infinite; }
-    .ai-typing span:nth-child(2) { animation-delay: .18s; }
-    .ai-typing span:nth-child(3) { animation-delay: .36s; }
-    @keyframes aiblink { 0%,60%,100% { opacity: .25 } 30% { opacity: 1 } }
-    @keyframes ai-hop {
-      0%, 86%, 100% { transform: translateY(0) rotate(0); }
-      89% { transform: translateY(-8px) rotate(-3deg); }
-      92% { transform: translateY(0) rotate(2deg); }
-      95% { transform: translateY(-3px) rotate(0); }
-    }
-    @keyframes ai-blink { 0%, 44%, 48%, 100% { transform: scaleY(1); } 46% { transform: scaleY(.1); } }
-
     /* ─── EXPERIENCE INDEX (right) ─── */
     .tiles {
       display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -260,14 +110,13 @@
     .tile-group { display: flex; flex-direction: column; gap: 7px; }
     .tile-group > .tile-grid { flex: 1; }
     .tile-group > .tile-grid > .tile { height: 100%; }
-    .tile-group:nth-child(1) { grid-column: span 5; }
-    .tile-group:nth-child(2) { grid-column: span 7; }
+    .tile-group:nth-child(1), .tile-group:nth-child(2) { grid-column: span 6; }
     .tile-group:nth-child(3) { grid-column: 1 / -1; }
     .tile-group:nth-child(4), .tile-group:nth-child(5) { grid-column: span 6; }
     .group-label {
       font-size: 0.66rem; line-height: 1;
       letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--muted); font-weight: 500;
+      color: var(--muted); font-weight: 500; text-align: center;
     }
     .tile-grid {
       display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -275,7 +124,7 @@
     }
     .tile-grid.single { grid-template-columns: 1fr; }
     .tile-grid.project-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .tile.featured { background: #F0EEE8; }
+    .tile.featured { background: var(--panel); }
     .tile.compact { min-height: 0; padding-top: 12px; padding-bottom: 12px; }
     .tile.compact .tile-tags { margin-top: 7px; }
     .tile.compact .tile-arrow { margin-top: 5px; }
@@ -301,12 +150,13 @@
       padding: 2px 7px; border: 1px solid var(--border); color: var(--muted); border-radius: 2px;
     }
     .tile-arrow { align-self: flex-end; margin-top: 7px; font-size: 0.7rem; color: var(--muted); transition: color .2s, transform .2s; }
+    .tile-group:nth-child(5) .tile-arrow { margin-right: 82px; }
     .tile:hover .tile-arrow { color: var(--text); transform: translateX(3px); }
     /* ─── FOOTER strip ─── */
     .footstrip {
       grid-column: 1 / -1;
       display: flex; align-items: center; justify-content: flex-end;
-      font-size: 0.7rem; color: var(--muted); letter-spacing: 0.04em;
+      padding-right: 92px; font-size: 0.7rem; color: var(--muted); letter-spacing: 0.04em;
     }
 
     /* ─── RESPONSIVE ─── */
@@ -328,31 +178,43 @@
       .stage { padding: calc(var(--nav-h) + 22px) 20px 22px; gap: 22px; }
       .tile-grid { grid-template-columns: 1fr; }
       .name { font-size: clamp(2.7rem, 12vw, 3.4rem); line-height: 1.06; }
-      .footstrip { justify-content: flex-start; }
-      /* iOS 聚焦不放大：输入框 ≥16px；触控目标 ≥44px */
-      #ai-input { font-size: 16px; min-height: 44px; }
-      #ai-send { min-height: 44px; padding: 11px 18px; }
-      #ai-paste { min-height: 44px; width: 44px; }
-      .ai-chip { padding: 10px 14px; }
+      .footstrip { justify-content: flex-start; padding-right: 0; }
       #lang-btn { padding: 10px 16px; }
-      .ai-float { right: 14px; bottom: 14px; }
-      .ai-launcher { width: 64px; height: 64px; }
-      .ai-launcher svg { width: 38px; height: 38px; }
-      .ai-launcher-label { display: none; }
-      .ai-panel {
-        position: fixed; left: 10px; right: 10px; bottom: 88px;
-        width: auto; height: min(680px, calc(100dvh - 104px)); min-height: 0;
-      }
-      .ai-panel.is-fullscreen { inset: 0; width: 100vw; height: 100dvh; }
-      .ai-note { display: none; }
       .tile-arrow { color: var(--muted); }
+      .tile-group:nth-child(5) .tile-arrow { margin-right: 0; }
+    }
+
+    /* 常见的桌面短视口：保持完整首屏，同时不裁切更矮的设备。 */
+    @media (min-width: 861px) and (max-height: 900px) {
+      .stage { padding-top: calc(var(--nav-h) + 14px); padding-bottom: 12px; }
+      .identity { gap: 32px; padding: 6px 0 18px; }
+      .eyebrow { margin-bottom: 9px; }
+      .name { font-size: clamp(3rem, 4vw, 4rem); margin-bottom: 10px; }
+      .tagline { margin-bottom: 12px; }
+      .bio { margin-bottom: 11px; line-height: 1.62; }
+      .tiles { gap: 15px 18px; padding-top: 18px; }
+      .tile-group { gap: 5px; }
+      .tile.compact { padding-top: 10px; padding-bottom: 10px; }
+    }
+    @media (min-width: 861px) and (max-height: 800px) {
+      .stage { padding-top: calc(var(--nav-h) + 8px); padding-bottom: 8px; }
+      .identity { padding: 2px 0 10px; }
+      .eyebrow { margin-bottom: 6px; }
+      .name { font-size: clamp(2.75rem, 3.7vw, 3.6rem); margin-bottom: 7px; }
+      .tagline { margin-bottom: 8px; }
+      .bio { margin-bottom: 7px; line-height: 1.5; }
+      .meta-row { margin-bottom: 5px; }
+      .tiles { gap: 10px 18px; padding-top: 12px; }
+      .tile.compact { padding-top: 8px; padding-bottom: 8px; }
+      .tile.compact .tile-tags { margin-top: 5px; }
+      .tile.compact .tile-arrow { margin-top: 3px; }
+      .tile.compact .tile-hook { line-height: 1.4; }
     }
 
     /* ─── 尊重减弱动效偏好 ─── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
       .tile:hover { transform: none; }
-      .ai-body { scroll-behavior: auto; }
     }
 
     /* ─── 英文语境的排印微调（负字距/斜体只给拉丁）─── */
@@ -360,6 +222,7 @@
     html[lang="en"] .tagline { font-style: italic; }
   </style>
   <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/chat-widget.css" />
 </head>
 <body class="home-page">
 
@@ -473,57 +336,6 @@
 
 </main>
 
-<!-- ══════════ FLOATING AI GUIDE ══════════ -->
-<div class="ai-float" id="ai-float">
-  <section class="ai-panel" id="ai-panel" role="dialog" aria-labelledby="ai-title" aria-hidden="true">
-    <header class="ai-head">
-      <span class="ai-dot" aria-hidden="true"></span>
-      <div class="ai-head-copy">
-        <h2 class="ai-head-title" id="ai-title" data-i18n="ai_title">AI 导览</h2>
-        <p data-i18n="ai_sub">基于公开资料回答</p>
-      </div>
-      <div class="ai-head-actions">
-        <button class="ai-icon-btn" id="ai-expand" type="button" onclick="aiToggleFullscreen()" aria-label="全屏" title="全屏">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
-        </button>
-        <button class="ai-icon-btn" id="ai-close" type="button" onclick="aiToggle(false)" aria-label="缩小" title="缩小">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14"/></svg>
-        </button>
-      </div>
-    </header>
-    <div class="ai-body-wrap">
-      <div class="ai-body" id="ai-body" aria-live="polite" aria-atomic="false"></div>
-      <button class="ai-to-bottom" id="ai-to-bottom" type="button" onclick="aiScrollLatest()" aria-label="回到最新消息" title="回到最新消息">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-    </div>
-    <footer class="ai-foot">
-      <div class="ai-input-row">
-        <button class="ai-icon-btn" id="ai-paste" type="button" onclick="aiPaste()" aria-label="粘贴" title="粘贴">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 5h6M9 3h6v4H9z"/><path d="M7 5H5v16h14V5h-2"/></svg>
-        </button>
-        <textarea id="ai-input" rows="1" data-i18n-ph="ai_ph" placeholder="问点关于我的任何事…" aria-label="提问输入框"></textarea>
-        <button id="ai-send" onclick="aiSend()" data-i18n="ai_send">发送</button>
-      </div>
-      <p class="ai-note" data-i18n="ai_note">回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com</p>
-    </footer>
-  </section>
-
-  <button class="ai-launcher" id="ai-launcher" type="button" onclick="aiToggle(true)" aria-label="打开 AI 导览" aria-expanded="false" aria-controls="ai-panel">
-    <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
-      <path d="M24 7v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="24" cy="5" r="2.5" fill="#6FBE86"/>
-      <rect x="9" y="12" width="30" height="25" rx="9" fill="#F2F0EB" stroke="currentColor" stroke-width="1.5"/>
-      <circle class="bot-eye" cx="19" cy="24" r="2.2" fill="currentColor"/>
-      <circle class="bot-eye" cx="29" cy="24" r="2.2" fill="currentColor"/>
-      <path d="M18.5 30c2.8 2.3 8.2 2.3 11 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M9 21H6v7h3M39 21h3v7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-    </svg>
-    <span class="ai-launcher-status" aria-hidden="true"></span>
-  </button>
-  <span class="ai-launcher-label" data-i18n="ai_launcher">问问 AI 导览</span>
-</div>
-
 <!-- ══════════ CHAT LOGIC ══════════ -->
 <script src="/assets/chat-widget.js"></script>
 
@@ -537,12 +349,6 @@ const T = {
     hero_tagline: '产品是被动的艺术',
     hero_bio:     '不先教育用户改变习惯，而是让系统吸收复杂度，让技术顺着人的真实行为自然发生。',
     hero_avail:   '<strong>求职意向</strong>：2027 届校招全职 · 预计 2027.7 毕业 · 寒假可实习',
-    ai_title:     'AI 导览',
-    ai_sub:       '基于公开资料回答',
-    ai_launcher:  '问问 AI 导览',
-    ai_ph:        '问点关于我的任何事…',
-    ai_send:      '发送',
-    ai_note:      '回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com',
     group_edu:    '教育背景',
     group_intern: '实习经历',
     group_projects: '项目经历',
@@ -572,12 +378,6 @@ const T = {
     hero_tagline: 'Product is the art of staying out of the way.',
     hero_bio:     'Do not make users adapt to technology. Let the system absorb complexity and fit the way people already behave.',
     hero_avail:   '<strong>Open to</strong>: 2027 new-grad full-time · expected graduation Jul 2027 · winter internship available',
-    ai_title:     'AI guide',
-    ai_sub:       'Answers from public materials',
-    ai_launcher:  'Ask the AI guide',
-    ai_ph:        'Ask me anything about him…',
-    ai_send:      'Send',
-    ai_note:      'Generated by an LLM and may be imperfect. For anything important, email fishboypek@qq.com',
     group_edu:    'Education',
     group_intern: 'Internship',
     group_projects: 'Selected projects',
@@ -614,8 +414,6 @@ function applyLang(l) {
   document.getElementById('lang-btn').textContent = l === 'zh' ? 'EN' : '中文';
   document.documentElement.lang = l === 'zh' ? 'zh-CN' : 'en';
   try { localStorage.setItem('site_lang', l); } catch (e) {}
-  if (window.aiSeed) window.aiSeed();   // aiSeed 内部有守卫：有对话/流式中则不重置
-  if (window.aiSetLanguage) window.aiSetLanguage();
 }
 let lang = 'zh';
 try { const saved = localStorage.getItem('site_lang'); if (saved === 'en' || saved === 'zh') lang = saved; } catch (e) {}

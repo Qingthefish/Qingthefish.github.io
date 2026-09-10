@@ -57,10 +57,10 @@
     .two-col + .two-col { margin-top: 76px; }
 
     /* INLINE LINKS */
-    .col-body a, .round-got a, .round-did a, .bound-v a, .tl-desc a, .fig figcaption a, .fig-2 figcaption a {
+    .col-body a, .round-got a, .round-did a, .bound-v a, .tl-desc a, .fig figcaption a, .fig-2 figcaption a, .honor-grid figcaption a {
       border-bottom: 1px solid var(--border); transition: border-color 0.2s; }
     .col-body a:hover, .round-got a:hover, .round-did a:hover, .bound-v a:hover, .tl-desc a:hover,
-    .fig figcaption a:hover, .fig-2 figcaption a:hover { border-color: var(--text); }
+    .fig figcaption a:hover, .fig-2 figcaption a:hover, .honor-grid figcaption a:hover { border-color: var(--text); }
 
     /* CALLOUT */
     .callout { border-left: 2px solid var(--text); padding: 4px 0 4px 24px; margin-top: 40px; }
@@ -89,6 +89,12 @@
     .fig-2 img { width: 100%; display: block; border: 1px solid var(--border-light); background: #fff; }
     .fig-2 figcaption { margin-top: 13px; font-size: 0.75rem; color: var(--muted); line-height: 1.7; }
     .fig-2 figcaption strong { color: var(--text); font-weight: 500; }
+    .honor-grid { margin-top: 52px; display: grid; grid-template-columns: minmax(260px, 5fr) minmax(0, 7fr); gap: 34px; align-items: start; }
+    .honor-grid figure { margin: 0; }
+    .honor-grid img { width: 100%; display: block; border: 1px solid var(--border-light); background: #fff; }
+    .honor-grid figcaption { margin-top: 13px; font-size: 0.75rem; color: var(--muted); line-height: 1.7; }
+    .honor-grid figcaption strong { color: var(--text); font-weight: 500; }
+    .honor-docs { display: grid; gap: 34px; }
 
     /* ROUNDS */
     .rounds { margin-top: 44px; border-top: 1px solid var(--border-light); }
@@ -115,8 +121,9 @@
 
     @media (max-width: 840px) {
       .container { padding: 0 24px; }
-      .two-col, .stats, .bounds, .fig-2 { grid-template-columns: 1fr; }
+      .two-col, .stats, .bounds, .fig-2, .honor-grid { grid-template-columns: 1fr; }
       .fig-2 { gap: 30px; }
+      .honor-grid { gap: 30px; }
       .stat { border-right: none; border-bottom: 1px solid var(--border-light); padding: 36px 0; }
       .tl-item { grid-template-columns: 1fr; gap: 6px; }
       .round { grid-template-columns: 1fr; gap: 8px; }
@@ -126,6 +133,7 @@
     ::selection { background: var(--text); color: var(--bg); }
   </style>
   <link rel="stylesheet" href="/assets/site.css" />
+  <link rel="stylesheet" href="/assets/chat-widget.css" />
 </head>
 <body class="project-page">
 
@@ -208,15 +216,21 @@
       <div class="bound"><div class="bound-k" data-i18n="e3k"></div><div class="bound-v" data-i18n="e3v"></div></div>
       <div class="bound"><div class="bound-k" data-i18n="e4k"></div><div class="bound-v" data-i18n="e4v"></div></div>
     </div>
-    <div class="fig-2">
+    <div class="honor-grid">
       <figure>
-        <img src="img/wsu-testamur.jpg" alt="西悉尼大学学位证书：Bachelor of Computer Science with Distinction，2026 年 1 月 21 日授予" loading="lazy" />
-        <figcaption data-i18n="fig1_cap"></figcaption>
+        <img src="img/wsu-deans-medal-photo.jpg" alt="西悉尼大学 Dean's Medal for Academic Excellence 实物，奖章刻有 Qingcheng Yu 姓名" loading="lazy" />
+        <figcaption data-i18n="fig0_cap"></figcaption>
       </figure>
-      <figure>
-        <img src="img/wsu-deans-merit-2024.jpg" alt="西悉尼大学 2024 年 Dean's Merit List 证书，计算机、数据与数学科学学院院长签发" loading="lazy" />
-        <figcaption data-i18n="fig2_cap"></figcaption>
-      </figure>
+      <div class="honor-docs">
+        <figure>
+          <img src="img/wsu-testamur.jpg" alt="西悉尼大学学位证书：Bachelor of Computer Science with Distinction，2026 年 1 月 21 日授予" loading="lazy" />
+          <figcaption data-i18n="fig1_cap"></figcaption>
+        </figure>
+        <figure>
+          <img src="img/wsu-deans-merit-2024.jpg" alt="西悉尼大学 2024 年 Dean's Merit List 证书，计算机、数据与数学科学学院院长签发" loading="lazy" />
+          <figcaption data-i18n="fig2_cap"></figcaption>
+        </figure>
+      </div>
     </div>
     <figure class="fig">
       <img src="img/wsu-ahegs-medal.jpg" alt="西悉尼大学澳洲高等教育毕业证明（AHEGS）第四节：项目 GPA 6.636、7 分制评分对照表，以及 Special achievements 栏中的 Dean's Merit List 2024 与 Dean's Medal for outstanding scholarship 2026" loading="lazy" />
@@ -261,6 +275,7 @@
 <script>
 const T = {
   "zh": {
+    "fig0_cap": "<strong>Dean's Medal 实物</strong>：西悉尼大学 Academic Excellence 奖章，刻有本人姓名；正式授予记录见下方 AHEGS。",
     "fig3_cap": "<strong>澳洲高等教育毕业证明（AHEGS）</strong>第四节：项目 GPA <strong>6.636 / 7.0</strong>，并记录 <strong>Dean's Merit List 2024</strong> 与 <strong>Dean's Medal for Outstanding Scholarship 2026</strong>。",
     "sec7_label": "硕士这一年",
     "sec7_head": "在港科大，把模型与框架判断力补深",
@@ -312,6 +327,7 @@ const T = {
     "s3": "我全职挣学费的时间。<strong>这两年不出现在任何一份成绩单上，但它是我能读完本科的唯一原因。</strong>"
   },
   "en": {
+    "fig0_cap": "The physical <strong>Dean's Medal</strong> for Academic Excellence, engraved with my name; the formal award record appears in the AHEGS below.",
     "fig3_cap": "Section 4 of the <strong>Australian Higher Education Graduation Statement (AHEGS)</strong>: program GPA <strong>6.636 / 7.0</strong>, with <strong>Dean's Merit List 2024</strong> and <strong>Dean's Medal for Outstanding Scholarship 2026</strong> recorded under Special achievements.",
     "sec7_label": "My year at HKUST",
     "sec7_head": "At HKUST, deepening model and framework judgment",
@@ -381,5 +397,6 @@ lang = localStorage.getItem('site_lang') || 'zh';
 applyLang(lang);
 </script>
 
+<script src="/assets/chat-widget.js"></script>
 </body>
 </html>

@@ -1,26 +1,57 @@
 (function () {
   const AI_ENDPOINT = 'https://qingcheng-api.pages.dev/api/chat';
-  const CHIPS = {
-    zh: ['他黑客松拿了什么成绩？', '他创业做了什么？', '他技术能力到什么程度？', '他在找什么岗位？'],
-    en: ['What did he achieve at the hackathon?', 'Tell me about his startup.',
-         'How technical is he really?', 'What role is he looking for?'],
+  const PAGE_CONTEXT = {
+    home: {
+      zh: { focus: '整份作品集', title: 'AI 导览', sub: '基于公开资料回答', greet: '你好，我是本站的 AI 导览。经历、项目和求职方向都可以问——想从哪儿聊起？', chips: ['他黑客松拿了什么成绩？', '他创业做了什么？', '他技术能力到什么程度？', '他在找什么岗位？'] },
+      en: { focus: 'the full portfolio', title: 'AI guide', sub: 'Answers from public materials', greet: "Hi, I'm the portfolio's AI guide. Ask about the background, projects, or target roles — where shall we start?", chips: ['What did he achieve at the hackathon?', 'Tell me about his startup.', 'How technical is he really?', 'What role is he looking for?'] },
+    },
+    education: {
+      zh: { focus: '教育与能力', title: 'AI 导览 · 教育', sub: '你正在看教育与能力', greet: '这页讲的是一条不太直的学习路径：中断、创业筹学费、返校完成学位，再到港科大 MSc AI。你想先问哪一段？', chips: ['Dean\'s Medal 是什么成绩？', '为什么中断 ANU 学业？', '他如何挣回学费并返校？', '港科大这一年在补什么？'] },
+      en: { focus: 'Education & capability', title: 'AI guide · Education', sub: 'You are viewing Education & capability', greet: 'This page follows a non-linear path: an interrupted degree, a startup to fund the return, a completed bachelor\'s, and now HKUST MSc AI. Which part interests you?', chips: ["What does the Dean's Medal represent?", 'Why was his ANU study interrupted?', 'How did he fund his return?', 'What is he building at HKUST?'] },
+    },
+    xhs: {
+      zh: { focus: '小红书 AI 基础设施产品实习', title: 'AI 导览 · 小红书', sub: '你正在看 AI 基础设施实习', greet: '你现在看到的是小红书 AI 基础设施产品实习：工作台改造、值班 Agent 评估和统一入口判断。可以直接追问其中任何一条。', chips: ['38 项工作台改进怎么推进的？', '值班 Agent 里他负责什么？', '为什么要做统一入口？', 'GPU 治理在这段经历里是什么位置？'] },
+      en: { focus: 'the Xiaohongshu AI infrastructure internship', title: 'AI guide · Xiaohongshu', sub: 'You are viewing the AI infrastructure internship', greet: 'This page covers the Xiaohongshu AI infrastructure internship: workspace improvements, on-call agent evaluation, and the unified-entry decision. Ask about any of them.', chips: ['How were the 38 improvements delivered?', 'What did he own for the on-call agent?', 'Why propose a unified entry?', 'Where did GPU governance fit?'] },
+    },
+    hackathon: {
+      zh: { focus: '红书人物志', title: 'AI 导览 · 人物志', sub: '你正在看 36 小时黑客松项目', greet: '这页是红书人物志：36 小时里，从已经发布的故事反向长出人物关系。你可以问产品判断、AI 能力或 Demo 实现。', chips: ['人物志最核心的产品判断是什么？', '36 小时里他独立完成了什么？', '两个 AI 能力分别做什么？', '真实能力和 Demo 状态怎么区分？'] },
+      en: { focus: 'Rednote Person Graph', title: 'AI guide · Person Graph', sub: 'You are viewing the 36-hour hackathon project', greet: 'This is Rednote Person Graph: relationships grown from stories people had already shared, built in 36 hours. Ask about the product decision, AI, or demo implementation.', chips: ['What was the core product insight?', 'What did he deliver solo in 36 hours?', 'What did the two AI features do?', 'What was real versus demo state?'] },
+    },
+    driving: {
+      zh: { focus: 'AI 驾驶行为检测', title: 'AI 导览 · 驾驶检测', sub: '你正在看独立全栈 AI 项目', greet: '这页讲的是 AI 驾驶行为检测：用 AI coding 串起产品、前端、后端、模型和数据层，并按镜头可观测性选择检测行为。', chips: ['为什么保留这四类驾驶行为？', 'AI coding 的完整过程是什么？', '10 个页面和 11 个接口怎么组成闭环？', '2026 年为什么重新跑通？'] },
+      en: { focus: 'AI Driving Behavior Detection', title: 'AI guide · Driving', sub: 'You are viewing the independent full-stack AI project', greet: 'This page is about AI Driving Behavior Detection: using AI coding across product, front end, back end, model, and data, with behaviors chosen by camera observability.', chips: ['Why keep those four behaviors?', 'What was the AI-coding workflow?', 'How do 10 pages and 11 APIs form the loop?', 'Why rebuild it in 2026?'] },
+    },
+    interview: {
+      zh: { focus: 'AI 面试辅导智能体', title: 'AI 导览 · 面试智能体', sub: '你正在看实时语音 Agent', greet: '这页是 AI 面试辅导智能体：把实时面试拆成提问、追问、评分和复盘，并围绕延迟预算设计语音链路。', chips: ['为什么要拆分提问和评分？', '冷热路径分别解决什么？', '实时语音最难的约束是什么？', '他在这个项目中负责什么？'] },
+      en: { focus: 'AI Interview Coaching Agent', title: 'AI guide · Interview agent', sub: 'You are viewing the real-time voice agent', greet: 'This page covers an AI interview coaching agent: separating asking, follow-up, scoring, and review, with the voice path designed around latency.', chips: ['Why separate asking from scoring?', 'What did the hot and cold paths solve?', 'What constrained the real-time voice flow?', 'What did he own in this project?'] },
+    },
+    casia: {
+      zh: { focus: '中科院自动驾驶场景建模研究', title: 'AI 导览 · 科研', sub: '你正在看自动驾驶场景建模', greet: '这页是中科院自动化所的场景建模研究：从 BEV + JSON 到关系三元组原型，再用三轮实验定位候选空间问题。', chips: ['三轮实验分别发现了什么？', '为什么要把约束前移？', '他在研究中具体完成了什么？', '这段研究如何影响产品判断？'] },
+      en: { focus: 'CASIA autonomous-driving scene modelling research', title: 'AI guide · Research', sub: 'You are viewing autonomous-driving scene modelling', greet: 'This page covers scene-modelling research at CASIA: from BEV + JSON to relation triples, then three experiments that isolated a candidate-space problem.', chips: ['What did the three experiments reveal?', 'Why move constraints earlier?', 'What exactly did he complete?', 'How did this research shape product judgement?'] },
+    },
+    hqks: {
+      zh: { focus: '环球卡社创业经历', title: 'AI 导览 · 创业', sub: '你正在看两年全职经营', greet: '这页是环球卡社：两年全职经营，把内容、社群和交易服务做成一门生意，也用它挣回了返校学费。', chips: ['环球卡社具体做什么？', '214 篇内容带来了什么？', '他如何降低非标商品理解门槛？', '创业怎样支撑他重返大学？'] },
+      en: { focus: 'the Collector Universe startup', title: 'AI guide · Startup', sub: 'You are viewing two years of full-time operation', greet: 'This page is Collector Universe: two years turning content, community, and transaction services into a business that also funded his return to university.', chips: ['What did Collector Universe do?', 'What did 214 articles achieve?', 'How did he explain a non-standard product?', 'How did the startup fund his return?'] },
+    },
   };
   const TXT = {
     zh: {
-      greet: '你好，我是本站的 AI 导览。经历、项目和求职方向都可以问——想从哪儿聊起？',
       thinking: '思考中',
       neterr: '网络没连上，稍后再试，或直接邮件：fishboypek@qq.com',
       timeout: '响应有点慢，请稍后再试一次，或直接邮件：fishboypek@qq.com',
       open: '打开 AI 导览', close: '缩小', expand: '全屏', restore: '退出全屏',
       copy: '复制', copied: '已复制', paste: '粘贴', latest: '回到最新消息',
+      launcher: '问问 AI 导览', placeholder: '问点关于我的任何事…', send: '发送',
+      note: '回答由大模型生成，可能有疏漏。要紧的事请直接邮件：fishboypek@qq.com',
     },
     en: {
-      greet: "Hi, I'm the portfolio's AI guide. Ask about the background, projects, or target roles — where shall we start?",
       thinking: 'Thinking',
       neterr: 'Network issue — please retry, or email fishboypek@qq.com',
       timeout: 'Taking too long — please retry, or email fishboypek@qq.com',
       open: 'Open AI guide', close: 'Minimize', expand: 'Full screen', restore: 'Exit full screen',
       copy: 'Copy', copied: 'Copied', paste: 'Paste', latest: 'Jump to latest',
+      launcher: 'Ask the AI guide', placeholder: 'Ask me anything…', send: 'Send',
+      note: 'AI-generated answers may contain errors. For anything important: fishboypek@qq.com',
     },
   };
 
@@ -28,7 +59,58 @@
   window.aiHasHistory = false;
   const $ = (id) => document.getElementById(id);
   const cur = () => (document.documentElement.lang === 'en' ? 'en' : 'zh');
+  const pageKey = () => {
+    const path = window.location.pathname;
+    if (path.includes('/projects/education/')) return 'education';
+    if (path.includes('/projects/xhs/')) return 'xhs';
+    if (path.includes('/projects/hackathon/')) return 'hackathon';
+    if (path.includes('/projects/ai-driving/')) return 'driving';
+    if (path.includes('/projects/ai-interview/')) return 'interview';
+    if (path.includes('/projects/casia/')) return 'casia';
+    if (path.includes('/projects/hqks/')) return 'hqks';
+    return 'home';
+  };
+  const context = () => PAGE_CONTEXT[pageKey()][cur()];
   const nearBottom = (el) => el.scrollHeight - el.scrollTop - el.clientHeight < 72;
+
+  function mountWidget() {
+    if ($('ai-float')) return;
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="ai-float" id="ai-float">
+        <section class="ai-panel" id="ai-panel" role="dialog" aria-labelledby="ai-title" aria-hidden="true" aria-modal="false">
+          <header class="ai-head">
+            <span class="ai-dot" aria-hidden="true"></span>
+            <div class="ai-head-copy"><h2 id="ai-title"></h2><p id="ai-sub"></p></div>
+            <div class="ai-head-actions">
+              <button class="ai-icon-btn" id="ai-expand" type="button" onclick="aiToggleFullscreen()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+              <button class="ai-icon-btn" id="ai-close" type="button" onclick="aiToggle(false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+            </div>
+          </header>
+          <div class="ai-body-wrap">
+            <div class="ai-body" id="ai-body" aria-live="polite" aria-atomic="false"></div>
+            <button class="ai-to-bottom" id="ai-to-bottom" type="button" onclick="aiScrollLatest()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          </div>
+          <footer class="ai-foot">
+            <div class="ai-input-row">
+              <button class="ai-icon-btn" id="ai-paste" type="button" onclick="aiPaste()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 5h6M9 3h6v4H9z"/><path d="M7 5H5v16h14V5h-2"/></svg></button>
+              <textarea id="ai-input" rows="1" aria-label="提问输入框"></textarea>
+              <button id="ai-send" type="button" onclick="aiSend()"></button>
+            </div>
+            <p class="ai-note" id="ai-note"></p>
+          </footer>
+        </section>
+        <button class="ai-launcher" id="ai-launcher" type="button" onclick="aiToggle(true)" aria-expanded="false" aria-controls="ai-panel">
+          <svg viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path d="M24 7v5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="5" r="2.5" fill="#6FBE86"/>
+            <rect x="9" y="12" width="30" height="25" rx="9" fill="#F2F0EB" stroke="currentColor" stroke-width="1.5"/>
+            <circle class="bot-eye" cx="19" cy="24" r="2.2" fill="currentColor"/><circle class="bot-eye" cx="29" cy="24" r="2.2" fill="currentColor"/>
+            <path d="M18.5 30c2.8 2.3 8.2 2.3 11 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M9 21H6v7h3M39 21h3v7h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="ai-launcher-status" aria-hidden="true"></span>
+        </button>
+        <span class="ai-launcher-label" id="ai-launcher-label"></span>
+      </div>`);
+  }
 
   function updateScrollButton() {
     const el = $('ai-body');
@@ -85,6 +167,7 @@
 
   function updateChatLabels() {
     const text = TXT[cur()];
+    const page = context();
     const full = $('ai-panel')?.classList.contains('is-fullscreen');
     const labels = [
       [$('ai-launcher'), text.open],
@@ -101,6 +184,12 @@
     document.querySelectorAll('.ai-copy span').forEach((element) => {
       element.textContent = text.copy;
     });
+    $('ai-title').textContent = page.title;
+    $('ai-sub').textContent = page.sub;
+    $('ai-launcher-label').textContent = text.launcher;
+    $('ai-input').placeholder = text.placeholder;
+    $('ai-send').textContent = text.send;
+    $('ai-note').textContent = text.note;
   }
 
   function add(who, text, copyable = false) {
@@ -124,7 +213,7 @@
   function chips() {
     const wrap = document.createElement('div');
     wrap.className = 'ai-chips';
-    CHIPS[cur()].forEach((question) => {
+    context().chips.forEach((question) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'ai-chip';
@@ -142,7 +231,7 @@
   window.aiSeed = function () {
     if (window.aiHasHistory || busy) return;
     $('ai-body').innerHTML = '';
-    add('bot', TXT[cur()].greet);
+    add('bot', context().greet);
     chips();
   };
 
@@ -204,6 +293,10 @@
     const box = $('ai-input');
     const question = box.value.trim();
     if (!question) return;
+    const page = context();
+    const apiQuestion = pageKey() === 'home' ? question : (cur() === 'zh'
+      ? `访客当前正在浏览作品集的「${page.focus}」页面。请优先结合这段经历回答；如果问题中出现“这个项目”或“这段经历”，均指当前页面。访客问题：${question}`
+      : `The visitor is viewing the portfolio page about ${page.focus}. Answer primarily in that context; “this project” or “this experience” refers to the current page. Visitor question: ${question}`);
     document.querySelector('.ai-chips')?.remove();
     box.value = '';
     box.style.height = 'auto';
@@ -221,7 +314,7 @@
       const request = await fetch(AI_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question: apiQuestion }),
         signal: controller.signal,
       });
       const contentType = request.headers.get('Content-Type') || '';
@@ -261,7 +354,8 @@
     }
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function init() {
+    mountWidget();
     const box = $('ai-input');
     box.addEventListener('input', function () {
       this.style.height = 'auto';
@@ -282,5 +376,12 @@
     });
     window.aiSeed();
     updateChatLabels();
-  });
+    new MutationObserver(() => {
+      if (!window.aiHasHistory && !busy) window.aiSeed();
+      updateChatLabels();
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
