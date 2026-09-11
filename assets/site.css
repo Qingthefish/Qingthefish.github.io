@@ -62,18 +62,18 @@ html {
   position: relative;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: auto minmax(190px, auto) auto;
+  grid-template-rows: auto minmax(125px, auto) auto;
   column-gap: clamp(24px, 3.2vw, 52px);
-  min-height: clamp(540px, 64vh, 690px);
-  padding-top: 142px;
-  padding-bottom: 72px;
+  min-height: clamp(430px, 50vh, 540px);
+  padding-top: 112px;
+  padding-bottom: 54px;
   overflow: hidden;
 }
 
 .project-page .hero .container::after {
   content: var(--exhibit-no);
   position: absolute;
-  top: 88px;
+  top: 76px;
   right: clamp(28px, 4vw, 62px);
   font-family: var(--serif);
   font-size: clamp(5.5rem, 11vw, 10rem);
@@ -88,7 +88,7 @@ html {
   grid-column: 1 / 9;
   grid-row: 1;
   align-self: start;
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   color: var(--accent);
   font-size: 0.7rem;
 }
@@ -98,7 +98,7 @@ html {
   grid-row: 2;
   align-self: end;
   margin: 0;
-  font-size: clamp(4rem, 7vw, 7.4rem);
+  font-size: clamp(3.8rem, 5.6vw, 6.2rem);
   line-height: 0.98;
   letter-spacing: -0.025em;
   text-wrap: balance;
@@ -122,7 +122,7 @@ html {
   grid-column: 8 / -1;
   grid-row: 3;
   align-self: end;
-  margin-top: 30px;
+  margin-top: 22px;
 }
 
 .project-page .tag {
@@ -145,8 +145,8 @@ html {
 
 .project-page .stat {
   position: relative;
-  min-height: 220px;
-  padding: 54px clamp(28px, 3.3vw, 52px) 42px;
+  min-height: 184px;
+  padding: 46px clamp(28px, 3.3vw, 52px) 34px;
   background: var(--panel);
 }
 
@@ -179,10 +179,10 @@ html {
   gap: clamp(48px, 6vw, 96px);
 }
 
-.project-page section {
+body.project-page > section {
   position: relative;
-  padding-top: clamp(76px, 8vw, 112px);
-  padding-bottom: clamp(76px, 8vw, 112px);
+  padding-top: clamp(66px, 6vw, 88px);
+  padding-bottom: clamp(66px, 6vw, 88px);
 }
 
 .project-page .sec-label {
@@ -451,7 +451,7 @@ html {
     padding-right: 20px;
   }
 
-  .project-page section {
+  body.project-page > section {
     padding-top: 56px;
     padding-bottom: 56px;
   }
