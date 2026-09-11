@@ -78,8 +78,8 @@
 
     /* ─── IDENTITY (full-width opening) ─── */
     .identity {
-      display: grid; grid-template-columns: minmax(280px, 5fr) minmax(0, 7fr);
-      gap: clamp(44px, 7vw, 112px); align-items: end;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px; align-items: end;
       padding: 20px 0 36px; border-bottom: 1px solid var(--border);
     }
     .identity-primary, .identity-details { min-width: 0; }
@@ -139,7 +139,7 @@
     }
     .tile-grid.single { grid-template-columns: 1fr; }
     .tile-grid.project-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .tile.featured { background: var(--red); color: #FFF9F2; }
+    .tile.featured { background: var(--panel); color: var(--text); }
     .tile.compact { min-height: 0; }
     .tile {
       display: flex; flex-direction: column;
@@ -169,7 +169,7 @@
       font-family: var(--serif); font-size: 1rem; line-height: 1;
       color: currentColor; opacity: .42; font-variant-numeric: lining-nums tabular-nums;
     }
-    .tile-hook { max-width: 64ch; font-size: 0.82rem; color: #5C5852; line-height: 1.65; flex: 1; }
+    .tile-hook { max-width: 64ch; font-size: 0.9rem; color: #5C5852; line-height: 1.65; flex: 1; }
     .tile-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 17px; }
     .tile-tags span {
       font-size: 0.58rem; line-height: 1; letter-spacing: 0.09em; text-transform: uppercase;
@@ -185,8 +185,10 @@
     .tile-group:nth-child(1) .tile::before {
       content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--ochre);
     }
-    .tile-group:nth-child(2) .tile { border-color: var(--red); }
-    .tile-group:nth-child(2) .tile-hook { color: rgba(255,249,242,.8); }
+    .tile-group:nth-child(2) .tile { background: #EEE8DC; border-color: #EEE8DC; }
+    .tile-group:nth-child(2) .tile::before {
+      content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 5px; background: var(--ochre);
+    }
     .tile-group:nth-child(3) .tile { min-height: 224px; border-color: var(--border); padding-left: 22px; padding-right: 22px; }
     .tile-group:nth-child(3) .tile:nth-child(1) { color: var(--red); }
     .tile-group:nth-child(3) .tile:nth-child(2) { color: var(--blue); }
@@ -208,7 +210,7 @@
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1120px) {
       .stage { min-height: auto; }
-      .identity { gap: 42px; }
+      .identity { gap: 22px; }
       .tile-group:nth-child(1), .tile-group:nth-child(2),
       .tile-group:nth-child(4), .tile-group:nth-child(5) { grid-column: span 6; }
     }
